@@ -1,0 +1,7 @@
+{
+  "name": "Trackmenow",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
