@@ -1,9 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
-import { VehicleService } from './../../service/vehicle/vehicle.service';
-import { GoogleMapService } from "./../../service/google-map/google-map.service";
-import { LoaderService } from './../../../public/service/loader/loader.service';
+import { VehicleService } from './../../services/vehicle/vehicle.service';
+import { GoogleMapService } from "./../../services/google-map/google-map.service";
+import { LoaderService } from './../../../public/services/loader/loader.service';
 
 declare var google;
 

@@ -4,11 +4,11 @@ import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', loadChildren: './public/page/login/login.module#LoginPageModule' },
+  { path: 'login', loadChildren: './public/pages/login/login.module#LoginPageModule' },
   { 
     path: 'protected', 
     canActivate: [ AuthGuard ],
-    loadChildren: './protected/page/protected-routing.module#ProtectedRoutingModule'
+    loadChildren: './protected/pages/protected-routing.module#ProtectedRoutingModule'
   }
 ];
 

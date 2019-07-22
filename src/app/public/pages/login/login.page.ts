@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService } from './../../service/auth/auth.service';
-import { LoaderService } from './../../service/loader/loader.service';
-import { ToastService } from './../../service/toast/toast.service';
+import { AuthService } from './../../services/auth/auth.service';
+import { LoaderService } from './../../services/loader/loader.service';
+import { ToastService } from './../../services/toast/toast.service';
 
 import { environment } from "./../../../../environments/environment"
 
