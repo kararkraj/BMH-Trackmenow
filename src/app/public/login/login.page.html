@@ -1,0 +1,33 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-title>LOGIN</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<div class="login-logo">
+		<ion-icon name="contact"></ion-icon>
+	</div>
+
+	<form #loginForm="ngForm" novalidate>
+		<ion-list>
+			<ion-item>
+				<ion-label position="floating" color="dark">Email</ion-label>
+				<ion-input [(ngModel)]="user.UserName" name="username" type="text" #username="ngModel"
+					spellcheck="false" autocapitalize="off" required>
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label position="floating" color="dark">Password</ion-label>
+				<ion-input [(ngModel)]="user.Password" name="password" type="password" #password="ngModel" required>
+				</ion-input>
+			</ion-item>
+		</ion-list>
+		<ion-row>
+			<ion-col>
+				<ion-button (click)="onLogin(loginForm)" type="submit" expand="full" disabled="{{!loginForm.valid}}">
+					Login</ion-button>
+			</ion-col>
+		</ion-row>
+	</form>
+</ion-content>

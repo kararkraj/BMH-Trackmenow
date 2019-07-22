@@ -1,0 +1,13 @@
+<ion-content>
+	<div #mapElement class="map-canvas"></div>
+	<ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="googleMap.isVehicleBeingTracked" (click)="stopTrackingVehicle()">
+		<ion-fab-button color="secondary" translucent>
+			<ion-icon name="close" color="light"></ion-icon>
+		</ion-fab-button>
+	</ion-fab>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="vehicleService.selectedVehicleNumbers.length > 0 && !googleMap.isVehicleBeingTracked" (click)="stopTrackingVehicles()">
+		<ion-fab-button color="secondary" translucent>
+			<ion-icon name="close" color="light"></ion-icon>
+		</ion-fab-button>
+	</ion-fab>
+</ion-content>
