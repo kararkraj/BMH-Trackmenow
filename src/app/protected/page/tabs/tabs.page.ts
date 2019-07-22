@@ -1,8 +1,8 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { IonTabs } from '@ionic/angular';
 
-import { VehicleService } from './../service/vehicle/vehicle.service';
-import { AuthService } from './../../public/service/auth/auth.service';
+import { VehicleService } from './../../service/vehicle/vehicle.service';
+import { AuthService } from './../../../public/service/auth/auth.service';
 
 declare var google;
 

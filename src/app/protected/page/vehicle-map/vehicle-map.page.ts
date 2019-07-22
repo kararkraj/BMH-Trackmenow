@@ -1,10 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { VehicleService } from './../service/vehicle/vehicle.service';
-import { GoogleMapService } from "./../service/google-map/google-map.service";
-import { LoaderService } from './../../public/service/loader/loader.service';
+
+import { VehicleService } from './../../service/vehicle/vehicle.service';
+import { GoogleMapService } from "./../../service/google-map/google-map.service";
+import { LoaderService } from './../../../public/service/loader/loader.service';
 
 declare var google;
 

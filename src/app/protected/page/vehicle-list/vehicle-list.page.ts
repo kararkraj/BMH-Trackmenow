@@ -1,12 +1,12 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { VehicleService } from './../service/vehicle/vehicle.service';
-import { GoogleMapService } from './../service/google-map/google-map.service';
-import { LoaderService } from './../../public/service/loader/loader.service';
-import { ToastService } from './../../public/service/toast/toast.service';
-import { ErrorHandleService } from './../../public/service/errorHandle/error-handle.service';
-import { environment } from './../../../environments/environment';
+import { VehicleService } from './../../service/vehicle/vehicle.service';
+import { GoogleMapService } from './../../service/google-map/google-map.service';
+import { LoaderService } from './../../../public/service/loader/loader.service';
+import { ToastService } from './../../../public/service/toast/toast.service';
+import { ErrorHandleService } from './../../../public/service/errorHandle/error-handle.service';
+import { environment } from './../../../../environments/environment';
 
 declare var google;
 
