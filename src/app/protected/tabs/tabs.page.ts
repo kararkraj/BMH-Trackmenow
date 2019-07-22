@@ -15,7 +15,7 @@ export class TabsPage {
 
     @ViewChild('vehicleTabs') vehicleTabs: IonTabs;
 
-    private filterVehicleText;
+    private filterText;
 
     constructor(
         private authService: AuthService,
@@ -28,6 +28,15 @@ export class TabsPage {
 
     logout() {
         this.authService.logout();
+    }
+
+    filterVehicles() {
+        if (this.filterText) {
+            this.vehicleService.filterVehicles(this.filterText);
+        } else {
+            this.vehicleService.setAllVehiclesVisible();
+            this.vehicleService.resetFilterString();
+        }
     }
 
 }

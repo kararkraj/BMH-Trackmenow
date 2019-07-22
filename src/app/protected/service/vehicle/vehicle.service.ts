@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from './../../../../environments/environment';
 
+import { Vehicle } from './vehicle';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,27 +17,29 @@ export class VehicleService {
 
   private headers: HttpHeaders;
 
-  private vehicles;
+  private vehicles: Vehicle[];
   public isVehiclesPopulated = new BehaviorSubject(false);
   private selectedVehicleNumbers = [];
-  private filteredVehiclesNumbers = [];
+  private filterString: string = "";
 
   constructor(
     private http: HttpClient,
     private storage: Storage,
   ) {
     this.setHeaders().then(() => {
-      this.getVehicles().subscribe((vehicles) => {
+      this.getVehicles().subscribe((vehicles: Vehicle[]) => {
         this.vehicles = vehicles;
-        this.setAllVisible();
-        console.log("Vehicles updated.");
+        this.setAllVehiclesVisible();
         this.isVehiclesPopulated.next(true);
       });
       setInterval(() => {
-        this.getVehicles().subscribe((vehicles: []) => {
-          vehicles.forEach((vehicle) => {
-            if (this.selectedVehicleNumbers.includes(vehicle['VehicleNumber'])) {
-              vehicle['selected'] = true;
+        this.getVehicles().subscribe((vehicles: Vehicle[]) => {
+          vehicles.forEach((vehicle: Vehicle) => {
+            if (this.selectedVehicleNumbers.includes(vehicle.VehicleNumber)) {
+              vehicle.Selected = true;
+            }
+            if (vehicle.VehicleNumber.toLowerCase().includes(this.filterString)) {
+              vehicle.Visible = true;
             }
           });
           this.vehicles = vehicles;
@@ -63,7 +67,7 @@ export class VehicleService {
   selectVehicle(vehicleNumber) {
     this.vehicles.forEach((vehicle) => {
       if (vehicle.VehicleNumber === vehicleNumber) {
-        vehicle['selected'] = true;
+        vehicle.Selected = true;
       }
     });
   }
@@ -71,15 +75,15 @@ export class VehicleService {
   deselectVehicle(vehicleNumber) {
     this.vehicles.forEach((vehicle) => {
       if (vehicle.VehicleNumber === vehicleNumber) {
-        vehicle['selected'] = false;
+        vehicle.Selected = false;
       }
     });
   }
 
   deselectAllVehicles() {
     this.vehicles.forEach((vehicle) => {
-      if (vehicle['selected']) {
-        vehicle['selected'] = false;
+      if (vehicle.Selected) {
+        vehicle.Selected = false;
       }
     });
   }
@@ -116,11 +120,30 @@ export class VehicleService {
     return this.selectedVehicleNumbers;
   }
 
-  setAllVisible() {
+  setAllVehiclesVisible() {
     this.vehicles.forEach((vehicle) => {
-      if (!vehicle["visible"]) {
-        vehicle["visible"] = true;
+      if (!vehicle.Visible) {
+        vehicle.Visible = true;
       }
     });
+  }
+
+  filterVehicles(filterString) {
+    this.setFilterString(filterString);
+    this.vehicles.forEach((vehicle) => {
+      if (vehicle.VehicleNumber.toLowerCase().includes(this.filterString)) {
+        vehicle.Visible = true;
+      } else { 
+        vehicle.Visible = false;
+      }
+    });
+  }
+
+  setFilterString(filterString) {
+    this.filterString = filterString.toLowerCase();
+  }
+
+  resetFilterString() {
+    this.filterString = "";
   }
 }

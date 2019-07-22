@@ -3,7 +3,7 @@
 		<ion-refresher-content refreshingSpinner="circles" refreshingText="Refreshing..."></ion-refresher-content>
 	</ion-refresher> -->
 	<ion-grid>
-		<ion-row *ngFor="let vehicle of vehicles" [ngClass]="{'selected': vehicle.selected, 'hidden': !vehicle.visible}" (tap)="startTrackingVehicles(vehicle)" (press)="toggleVehicleSelection(vehicle)">
+		<ion-row *ngFor="let vehicle of vehicles" [ngClass]="{'selected': vehicle.Selected, 'hidden': !vehicle.Visible}" (tap)="startTrackingVehicles(vehicle)" (press)="toggleVehicleSelection(vehicle)">
 			<ion-col size="auto">
 				<div class="speed-badge">
 					<div>
