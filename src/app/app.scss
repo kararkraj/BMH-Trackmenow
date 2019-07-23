@@ -9,3 +9,56 @@ ion-toast {
   color: #FFF;
   text-align: center;
 }
+
+//menu
+ion-header.menu {
+  > div {
+    height: 12rem;
+    background-image: url(../assets/icon/logo.png);
+    background-size: 40% auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--ion-color-light);
+    background-position-y: 1.2rem;
+    div {
+      position: absolute;
+      bottom: 0rem;
+      p, ion-label {
+        padding-left: 1.2rem;
+        color: var(--ion-color-dark);
+      }
+      p {
+        margin-top: 0.2rem;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+ion-content.menu {
+  ion-item {
+    --background-hover: none;
+    --background-activated: none;
+    --color: var(--ion-color-dark);
+    --color-activated: var(--ion-color-primary);
+    --color-hover: var(--ion-color-primary);
+    --color-focused: var(--ion-color-primary);
+    --padding-end: 1.6rem;
+    --inner-padding-end: 0rem;
+    --detail-icon-color: var(--ion-color-dark);
+    --detail-icon-opacity: 1;
+    ion-label {
+      font-size: 1rem;
+      padding: 1.2rem;
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+  ion-list.sub-pages {
+    margin-left: 2.8rem;
+    ion-label {
+      font-size: 0.8rem;
+      padding: 0.8rem;
+    }
+  }
+}

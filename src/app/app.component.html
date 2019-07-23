@@ -1,3 +1,46 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+	<ion-split-pane>
+		<ion-menu type="overlay">
+			<ion-header class="menu">
+				<div>
+					<div>
+						<ion-label color="dark">Kalidas Sutar</ion-label>
+						<p>kalidassutar712@gmail.com</p>
+					</div>
+				</div>
+			</ion-header>
+			<ion-content class="menu">
+				<ion-list>
+					<div *ngFor="let page of appPages">
+						<ion-menu-toggle autoHide="true" *ngIf="page.url">
+							<ion-item detail="{{page.detail}}" detailIcon="{{page.detailIcon}}" lines="inset"
+								[routerDirection]="'root'" [routerLink]="[page.url]">
+								<ion-icon slot="start" [name]="page.icon"></ion-icon>
+								<ion-label>
+									{{page.title}}
+								</ion-label>
+							</ion-item>
+						</ion-menu-toggle>
+						<ion-item *ngIf="!page.url" detail="{{page.detail}}" detailIcon="{{page.hideSubPages? 'arrow-dropdown':'arrow-dropup'}}"
+							lines="inset" (click)="toggleSubPages()">
+							<ion-icon slot="start" [name]="page.icon"></ion-icon>
+							<ion-label>
+								{{page.title}}
+							</ion-label>
+						</ion-item>
+						<ion-list *ngIf="page.subPages" [hidden]="page.hideSubPages" class="sub-pages">
+							<ion-menu-toggle autoHide="true" *ngFor="let subPage of page.subPages">
+								<ion-item [routerDirection]="'root'" [routerLink]="[subPage.url]" detail="false" lines="none">
+									<ion-label>
+										{{subPage.title}}
+									</ion-label>
+								</ion-item>
+							</ion-menu-toggle>
+						</ion-list>
+					</div>
+				</ion-list>
+			</ion-content>
+		</ion-menu>
+		<ion-router-outlet main></ion-router-outlet>
+	</ion-split-pane>
 </ion-app>
