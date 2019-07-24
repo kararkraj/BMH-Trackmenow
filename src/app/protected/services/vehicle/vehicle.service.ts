@@ -146,4 +146,10 @@ export class VehicleService {
   resetFilterString() {
     this.filterString = "";
   }
+
+  getVehicle(vehicleNumber): Vehicle {
+    return this.vehicles.find((vehicle: Vehicle) => {
+      return (vehicle.VehicleNumber === vehicleNumber);
+    });
+  }
 }

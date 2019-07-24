@@ -11,16 +11,19 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { VehicleDetailsComponentModule } from './protected/components/vehicle-details/vehicle-details.module';
+import { VehicleDetailsComponent } from './protected/components/vehicle-details/vehicle-details.component';
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
+    entryComponents: [VehicleDetailsComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    VehicleDetailsComponentModule
   ],
   providers: [
     StatusBar,

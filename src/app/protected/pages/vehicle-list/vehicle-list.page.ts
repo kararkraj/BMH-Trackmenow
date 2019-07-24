@@ -57,15 +57,13 @@ export class VehicleListPage {
         this.router.navigate(['/protected/tabs/tabs/vehicle-map']);
         if (this.googleMap.isMapInitialized()) {
             this.googleMap.startTrackingVehicles();
-            const timeout = setTimeout(() => {
-                this.googleMap.fitMapBounds();
-                clearTimeout();
-            }, 500);
+            // setTimeout(() => {
+            //     this.googleMap.fitMapBounds();
+            // }, 500);
         } else {
-            const timeout = setTimeout(() => {
+            setTimeout(() => {
                 this.googleMap.startTrackingVehicles();
-                this.googleMap.fitMapBounds();
-                clearTimeout(timeout);
+                // this.googleMap.fitMapBounds();
             }, 2000);
         }
     }

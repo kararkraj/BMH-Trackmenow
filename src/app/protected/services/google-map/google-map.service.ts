@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { VehicleService } from './../vehicle/vehicle.service';
+import { ModalController } from '@ionic/angular';
+import { VehicleDetailsComponent } from './../../components/vehicle-details/vehicle-details.component';
 
 declare var google;
 
@@ -14,7 +16,8 @@ export class GoogleMapService {
   public isVehicleBeingTracked = false;
 
   constructor(
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private modalController: ModalController
   ) { }
 
   async initMap(element) {
@@ -129,22 +132,53 @@ export class GoogleMapService {
         mapBounds.extend(marker.getPosition());
       }
     });
-    console.log(mapBounds);
-    this.map.fitBounds(mapBounds);
+    this.panMapToBounds(mapBounds).then(() => {
+      this.map.fitBounds(mapBounds);
+    });
   }
 
-  async startTrackingVehicle(vehicleNumber) {
+  setMapZoom(zoom) {
+    return new Promise((resolve) => {
+      this.map.setZoom(zoom);
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+  }
+
+  panMap() {
+    return new Promise((resolve) => {
+      this.map.panTo(this.selectedVehicleMarker.getPosition());
+      setTimeout(() => {
+        resolve();
+      }, 200);
+    });
+  }
+
+  panMapToBounds(bounds) {
+    return new Promise((resolve) => {
+      this.map.panToBounds(bounds);
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+  }
+
+  startTrackingVehicle(vehicleNumber) {
     if (this.selectedVehicleMarker) {
       this.stopTrackingVehicle();
     }
-    this.selectedVehicleMarker = await this.markers.find((marker) => {
+    this.selectedVehicleMarker = this.markers.find((marker) => {
       return marker.title == vehicleNumber;
     });
-    this.map.setCenter(this.selectedVehicleMarker.getPosition());
-    this.map.setZoom(15);
+    this.panMap().then(() => {
+      this.setMapZoom(15).then(() => {
+        this.presentVehicleDetailModal(vehicleNumber);
+      });
+    });
     this.isVehicleBeingTracked = true;
     google.maps.event.addListener(this.selectedVehicleMarker, 'position_changed', () => {
-      this.map.setCenter(this.selectedVehicleMarker.getPosition());
+      this.map.panTo(this.selectedVehicleMarker.getPosition());
     });
   }
 
@@ -173,6 +207,27 @@ export class GoogleMapService {
       if (!marker.getVisible()) {
         marker.setVisible(true);
       }
+    });
+  }
+
+  async presentVehicleDetailModal(vehicleNumber) {
+    const modal = await this.modalController.create({
+      component: VehicleDetailsComponent,
+      componentProps: {
+        'VehicleNumber': vehicleNumber
+      },
+      animated: true,
+      cssClass: 'vehicle-details-modal',
+      showBackdrop: false
+    });
+    return await modal.present();
+  }
+
+  dismiss() {
+    // using the injected ModalController this page
+    // can "dismiss" itself and optionally pass back data
+    this.modalController.dismiss({
+      'dismissed': true
     });
   }
 

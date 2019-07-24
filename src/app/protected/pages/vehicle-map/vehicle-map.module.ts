@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
 
 import { VehicleMapPage } from './vehicle-map.page';
-import { VehicleDetailsComponentModule } from './../vehicle-details/vehicle-details.module';
+import { VehicleDetailsComponentModule } from './../../components/vehicle-details/vehicle-details.module';
+import { VehicleDetailsComponent } from './../../components/vehicle-details/vehicle-details.component';
 
 const routes: Routes = [
   {
@@ -16,6 +16,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  entryComponents: [VehicleDetailsComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -24,5 +25,6 @@ const routes: Routes = [
     VehicleDetailsComponentModule
   ],
   declarations: [VehicleMapPage],
+
 })
 export class VehicleMapPageModule {}

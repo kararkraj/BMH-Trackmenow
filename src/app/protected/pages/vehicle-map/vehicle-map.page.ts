@@ -10,7 +10,7 @@ declare var google;
 @Component({
   selector: 'app-vehicle-map',
   templateUrl: './vehicle-map.page.html',
-  styleUrls: ['./vehicle-map.page.scss'],
+  styleUrls: ['./vehicle-map.page.scss']
 })
 export class VehicleMapPage {
 
