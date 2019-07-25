@@ -13,23 +13,22 @@ ion-toast {
 //menu
 ion-header.menu {
   > div {
-    height: 12rem;
+    height: 192px;
     background-image: url(../assets/icon/logo.png);
     background-size: 40% auto;
     background-repeat: no-repeat;
     background-position: center;
     background-color: var(--ion-color-light);
-    background-position-y: 1.2rem;
+    background-position-y: 20px;
     div {
       position: absolute;
-      bottom: 0rem;
+      bottom: 0;
       p, ion-label {
-        padding-left: 1.2rem;
+        padding-left: 20px;
         color: var(--ion-color-dark);
       }
       p {
-        margin-top: 0.2rem;
-        font-size: 0.8rem;
+        margin-top: 4px;
       }
     }
   }
@@ -43,32 +42,63 @@ ion-content.menu {
     --color-activated: var(--ion-color-primary);
     --color-hover: var(--ion-color-primary);
     --color-focused: var(--ion-color-primary);
-    --padding-end: 1.6rem;
-    --inner-padding-end: 0rem;
+    --padding-end: 26px;
+    --inner-padding-end: 0;
     --detail-icon-color: var(--ion-color-dark);
     --detail-icon-opacity: 1;
+    --border-color: var(--ion-color-medium);
     ion-label {
-      font-size: 1rem;
-      padding: 1.2rem;
-      font-weight: bold;
-      margin: 0;
+      font-weight: 500;
     }
   }
   ion-list.sub-pages {
-    margin-left: 2.8rem;
-    ion-label {
-      font-size: 0.8rem;
-      padding: 0.8rem;
+    margin-left: 60px;
+    ion-menu-toggle:last-child ion-label{
+      border-bottom: 1px solid var(--ion-color-medium)
     }
   }
 }
 
 ion-modal.vehicle-details-modal {
-  --height: 10rem;
+  --height: 168px;
   > div.modal-wrapper {
     position: absolute;
     bottom: 0;
-    border-radius: 0.8rem 0.8rem 0 0;
-    border-top: 0.8rem solid var(--ion-color-primary);
+    border-radius: 8px 8px 0 0;
+    border-top: 8px solid var(--ion-color-primary);
   }
+}
+
+// custom css  --------------------------------------------
+.font-size-extra-small {
+  font-size: 8px;
+}
+.font-size-small {
+  font-size: 12px !important;
+}
+.font-size-normal {
+  font-size: 16px;
+}
+.font-size-medium {
+  font-size: 20px;
+}
+.font-size-large {
+  font-size: 24px;
+}
+
+.custom-ion-text {
+  position: relative;
+  top: -0.4rem;
+  padding-left: 0.2rem;
+  vertical-align: middle;
+}
+
+.padding-8px {
+  padding: 8px;
+}
+.padding-bottom-0px {
+  padding-bottom: 0px;
+}
+.padding-top-4px {
+  padding-top: 4px;
 }

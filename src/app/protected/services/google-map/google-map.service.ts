@@ -132,9 +132,7 @@ export class GoogleMapService {
         mapBounds.extend(marker.getPosition());
       }
     });
-    this.panMapToBounds(mapBounds).then(() => {
-      this.map.fitBounds(mapBounds);
-    });
+    this.map.fitBounds(mapBounds);
   }
 
   setMapZoom(zoom) {
@@ -223,9 +221,7 @@ export class GoogleMapService {
     return await modal.present();
   }
 
-  dismiss() {
-    // using the injected ModalController this page
-    // can "dismiss" itself and optionally pass back data
+  dismissVehicleDetailModal() {
     this.modalController.dismiss({
       'dismissed': true
     });

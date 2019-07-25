@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+
 import { VehicleService } from './../../services/vehicle/vehicle.service';
 import { Vehicle } from './../../services/vehicle/vehicle';
 
@@ -10,19 +12,49 @@ import { Vehicle } from './../../services/vehicle/vehicle';
 export class VehicleDetailsComponent implements OnInit {
 
   @Input() VehicleNumber: string;
-  private vehicle: Vehicle;
+  public vehicle: Vehicle;
+  private vehicleSubscription;
 
   constructor(
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
-    console.log(this.VehicleNumber);
     this.getVehicle();
+    this.vehicleSubscription = this.vehicleService.isVehiclesPopulated.subscribe((state) => {
+      console.log("subscribe");
+      this.vehicle = this.vehicleService.getVehicle(this.VehicleNumber);
+    });
+  }
+
+  ngOnDestroy() {
+    this.vehicleSubscription.unsubscribe();
   }
 
   getVehicle() {
     this.vehicle = this.vehicleService.getVehicle(this.VehicleNumber);
+  }
+
+  getFullDate(dateString) {
+    dateString = new Date(dateString);
+    let date = "";
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    date += months[dateString.getMonth()] + " ";
+    date += dateString.getDate() + ", ";
+    date += dateString.getFullYear() + ", ";
+    date += dateString.getUTCHours() + ":";
+    date += dateString.getUTCMinutes() + " ";
+    date += dateString.getUTCHours() < 12 ? 'AM': 'PM';
+
+    return date;
+  }
+
+  dismissModal() {
+    this.modalController.dismiss({
+      'dismissed': true
+    });
   }
 
 }

@@ -1,5 +1,4 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { VehicleService } from './../../services/vehicle/vehicle.service';
 import { GoogleMapService } from "./../../services/google-map/google-map.service";
@@ -15,16 +14,17 @@ declare var google;
 export class VehicleMapPage {
 
   @ViewChild('mapElement') mapNativeElement: ElementRef;
+  private vehicleSubscription;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     private loader: LoaderService,
     private googleMap: GoogleMapService,
     private vehicleService: VehicleService
-  ) {
+  ) { }
+
+  ngOnInit() {
     this.loader.startLoading().then(() => {
-      const vehiclesSubscription = this.vehicleService.isVehiclesPopulated.subscribe((state) => {
+      this.vehicleSubscription = this.vehicleService.isVehiclesPopulated.subscribe((state) => {
         if (state) {
           if (!this.googleMap.isMapInitialized()) {
             this.googleMap.initMap(this.mapNativeElement).then(() => {
@@ -40,6 +40,10 @@ export class VehicleMapPage {
     });
   }
 
+  ngOnDestroy() {
+    this.vehicleSubscription.unsubscribe();
+  }
+
   stopTrackingVehicle() {
     this.googleMap.stopTrackingVehicle();
     this.googleMap.fitMapBounds();
@@ -49,4 +53,12 @@ export class VehicleMapPage {
     this.googleMap.stopTrackingVehicles();
     this.googleMap.fitMapBounds();
   }
+
+  isVehicleBeingTracked() {
+    return this.googleMap.isVehicleBeingTracked;
+  }
+
+  getSelectedVehicleNumbers() {
+    return this.vehicleService.getSelectedVehicleNumbers();
+    }
 }

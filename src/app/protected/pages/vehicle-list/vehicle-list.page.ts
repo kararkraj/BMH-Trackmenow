@@ -1,7 +1,8 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { VehicleService } from './../../services/vehicle/vehicle.service';
+import { Vehicle } from './../../services/vehicle/vehicle';
 import { GoogleMapService } from './../../services/google-map/google-map.service';
 import { LoaderService } from './../../../public/services/loader/loader.service';
 import { ToastService } from './../../../public/services/toast/toast.service';
@@ -17,18 +18,21 @@ declare var google;
 })
 export class VehicleListPage {
 
-    private vehicles;
+    public vehicles: Vehicle[];
+    private vehicleSubscription;
 
     constructor(
-        private vehicleService: VehicleService,
-        public router: Router,
-        public loader: LoaderService,
-        public toast: ToastService,
-        public errorHandle: ErrorHandleService,
+        protected vehicleService: VehicleService,
+        private router: Router,
+        private loader: LoaderService,
+        private toast: ToastService,
+        private errorHandle: ErrorHandleService,
         private googleMap: GoogleMapService
-    ) {
+    ) { }
+
+    ngOnInit() {
         this.loader.startLoading().then(() => {
-            const vehicleSubscription = this.vehicleService.isVehiclesPopulated.subscribe((state) => {
+            this.vehicleSubscription = this.vehicleService.isVehiclesPopulated.subscribe((state) => {
                 if (state) {
                     this.vehicles = this.vehicleService.populateVehicles();
                     this.loader.stopLoading();
@@ -37,8 +41,12 @@ export class VehicleListPage {
         });
     }
 
+    ngOnDestroy() {
+        this.vehicleSubscription.unsubscribe();
+    }
+
     populatevehicles() {
-        return this.vehicleService.getVehicles().subscribe((res) => {
+        return this.vehicleService.getVehicles().subscribe((res: Vehicle[]) => {
             this.vehicles = res;
         }, (error) => {
             console.log(this.errorHandle.errorHandle(error));
@@ -75,6 +83,11 @@ export class VehicleListPage {
 
     changeTab() {
         this.router.navigate(['/protected/tabs/tabs/vehicle-map']);
+    }
+
+    getSelectedVehicleNumbers() {
+        console.log(this.vehicleService.getSelectedVehicleNumbers());
+        return this.vehicleService.getSelectedVehicleNumbers();
     }
 
 }

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { AuthService } from './../../services/auth/auth.service';
 import { LoaderService } from './../../services/loader/loader.service';
@@ -15,10 +14,9 @@ import { environment } from "./../../../../environments/environment"
 })
 export class LoginPage {
 
-  private user = { UserName: '', Password: '' };
+  public user = { UserName: '', Password: '' };
 
   constructor(
-    private router: Router,
     private authService: AuthService,
     private loader: LoaderService,
     private toast: ToastService,

@@ -1,8 +1,7 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonTabs } from '@ionic/angular';
 
 import { VehicleService } from './../../services/vehicle/vehicle.service';
-import { AuthService } from './../../../public/services/auth/auth.service';
 
 declare var google;
 
@@ -14,21 +13,11 @@ declare var google;
 export class TabsPage {
 
     @ViewChild('vehicleTabs') vehicleTabs: IonTabs;
-
-    private filterText;
+    public filterText;
 
     constructor(
-        private authService: AuthService,
         private vehicleService: VehicleService
     ) { }
-
-    tabChange() {
-        console.log(this.vehicleTabs.getSelected());
-    }
-
-    logout() {
-        this.authService.logout();
-    }
 
     filterVehicles() {
         if (this.filterText) {
