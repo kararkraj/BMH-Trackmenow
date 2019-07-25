@@ -23,7 +23,6 @@ export class VehicleDetailsComponent implements OnInit {
   ngOnInit() {
     this.getVehicle();
     this.vehicleSubscription = this.vehicleService.isVehiclesPopulated.subscribe((state) => {
-      console.log("subscribe");
       this.vehicle = this.vehicleService.getVehicle(this.VehicleNumber);
     });
   }

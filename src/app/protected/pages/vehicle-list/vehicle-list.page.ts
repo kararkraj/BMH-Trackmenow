@@ -86,7 +86,6 @@ export class VehicleListPage {
     }
 
     getSelectedVehicleNumbers() {
-        console.log(this.vehicleService.getSelectedVehicleNumbers());
         return this.vehicleService.getSelectedVehicleNumbers();
     }
 

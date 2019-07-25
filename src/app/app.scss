@@ -69,6 +69,23 @@ ion-modal.vehicle-details-modal {
   }
 }
 
+.custom-alert {
+  .alert-wrapper {
+    border-radius: 8px;
+    border-top: 6px solid var(--ion-color-secondary);
+    .alert-title {
+      font-size: 24px;
+      text-align: left;
+      font-weight: normal;
+    }
+    .alert-message {
+      font-size: 16px;
+      text-align: left;
+      color: var(--ion-color-dark);
+    }
+  }
+}
+
 // custom css  --------------------------------------------
 .font-size-extra-small {
   font-size: 8px;

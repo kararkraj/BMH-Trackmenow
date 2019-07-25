@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AlertController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 
 import { AuthService } from './public/services/auth/auth.service';
 
@@ -43,7 +45,7 @@ export class AppComponent {
         {
           title: 'DISTANCE/KM',
           url: 'protected/tabs/vehicle-list',
-        },                        
+        },
       ]
     },
     {
@@ -55,20 +57,22 @@ export class AppComponent {
     },
     {
       title: 'LOGOUT',
-      url: 'protected/tabs/vehicle-list',
+      url: '',
       icon: 'log-out',
       detail: false,
       detailIcon: ""
     }
   ];
 
-  private activatedMenuPath:string;
+  private activatedMenuPath: string;
 
   constructor(
     private platform: Platform,
     private statusBar: StatusBar,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController,
+    private menu: MenuController
   ) {
     this.initializeApp();
     this.router.events.subscribe((event: RouterEvent) => {
@@ -84,6 +88,7 @@ export class AppComponent {
       this.auth.authenticationState.subscribe(state => {
         if (state) {
           this.router.navigate(['protected', 'tabs']);
+          this.menu.enable(true);
         } else {
           this.router.navigate(['login']);
         }
@@ -93,5 +98,29 @@ export class AppComponent {
 
   toggleSubPages() {
     this.appPages[1].hideSubPages = !this.appPages[1].hideSubPages;
+  }
+
+  async logout() {
+    this.menu.close();
+    const alert = await this.alertController.create({
+      header: 'Logout?',
+      message: 'Do you want to logout?',
+      cssClass: 'custom-alert',
+      buttons: [
+        {
+          text: 'YES',
+          handler: () => { 
+            this.menu.enable(false);
+            this.auth.logout();
+          }
+        }, {
+          text: 'NO',
+          role: 'cancel',
+          handler: () => { }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

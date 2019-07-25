@@ -6,18 +6,18 @@
 
 <ion-content>
 	<div class="login-logo">
-		<ion-icon name="contact"></ion-icon>
+    <img src="../../../../assets/icon/logo.png" height="200px"/>
 	</div>
 
 	<form #loginForm="ngForm" novalidate>
 		<ion-list>
-			<ion-item>
+			<ion-item class="ion-no-padding">
 				<ion-label position="floating" color="dark">Email</ion-label>
 				<ion-input [(ngModel)]="user.UserName" name="username" type="text" #username="ngModel"
 					spellcheck="false" autocapitalize="off" required>
 				</ion-input>
 			</ion-item>
-			<ion-item>
+			<ion-item class="ion-no-padding">
 				<ion-label position="floating" color="dark">Password</ion-label>
 				<ion-input [(ngModel)]="user.Password" name="password" type="password" #password="ngModel" required>
 				</ion-input>

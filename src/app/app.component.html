@@ -1,6 +1,6 @@
 <ion-app>
 	<ion-split-pane>
-		<ion-menu type="overlay">
+		<ion-menu type="overlay" disabled="true">
 			<ion-header class="menu">
 				<div>
 					<div>
@@ -22,7 +22,7 @@
 							</ion-item>
 						</ion-menu-toggle>
 						<ion-item *ngIf="!page.url" detail="{{page.detail}}" detailIcon="{{page.hideSubPages? 'arrow-dropdown':'arrow-dropup'}}"
-							lines="{{page.hideSubPages? 'inset': 'none'}}" (click)="toggleSubPages()">
+							lines="{{page.hideSubPages? 'inset': 'none'}}" (click)="page.subPages? toggleSubPages(): logout()">
 							<ion-icon slot="start" [name]="page.icon"></ion-icon>
 							<ion-label class="font-size-normal ion-padding-vertical ion-padding-end ion-no-margin">
 								{{page.title}}

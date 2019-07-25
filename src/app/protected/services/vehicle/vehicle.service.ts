@@ -28,7 +28,6 @@ export class VehicleService {
   ) {
     this.setHeaders().then(() => {
       this.getVehicles().subscribe((vehicles: Vehicle[]) => {
-        console.log("subscribe");
         this.vehicles = vehicles;
         this.setAllVehiclesVisible();
         this.isVehiclesPopulated.next(true);
