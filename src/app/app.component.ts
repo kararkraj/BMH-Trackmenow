@@ -87,7 +87,7 @@ export class AppComponent {
       this.statusBar.backgroundColorByHexString('#184F80');
       this.auth.authenticationState.subscribe(state => {
         if (state) {
-          this.router.navigate(['protected', 'tabs']);
+          this.router.navigate(['protected']);
           this.menu.enable(true);
         } else {
           this.router.navigate(['login']);

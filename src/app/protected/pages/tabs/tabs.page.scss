@@ -1,4 +1,5 @@
 ion-header {
+  background-color: var(--ion-color-primary);
   ion-toolbar {
     border-radius: 2px;
   }
@@ -15,11 +16,7 @@ ion-header {
   }
   div {
     padding: 8px;
-    background-color: var(--ion-color-primary);
   }
-}
-.header-md:after {
-  content: none;
 }
 ion-input{
   color: var(--ion-color-dark);

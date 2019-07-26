@@ -1,0 +1,36 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-buttons slot="start">
+			<ion-back-button icon="arrow-back" text=""></ion-back-button>
+		</ion-buttons>
+		<ion-title>Add Vehicle</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<div class="custom-bg"></div>
+	<div class="form">
+		<form #addVehicleForm="ngForm" novalidate>
+			<ion-item class="ion-padding-end ion-padding-start">
+				<ion-label position="floating" color="dark">Vehicle Number</ion-label>
+				<ion-input></ion-input>
+			</ion-item>
+			<ion-item class="ion-padding-end ion-padding-start">
+				<ion-label position="floating" color="dark">IMEI</ion-label>
+				<ion-input></ion-input>
+			</ion-item>
+			<ion-item class="ion-padding-end ion-padding-start">
+				<ion-label position="floating" color="dark">Vehicle Type</ion-label>
+				<ion-input></ion-input>
+			</ion-item>
+			<ion-item class="ion-padding-end ion-padding-start">
+				<ion-label position="floating" color="dark">Tank Capacity</ion-label>
+				<ion-input></ion-input>
+			</ion-item>
+		</form>
+	</div>
+  <div class="buttons">
+    <ion-button expand="block" color="medium">Cancel</ion-button>
+    <ion-button expand="block" color="primary">Add</ion-button>
+  </div>
+  </ion-content>

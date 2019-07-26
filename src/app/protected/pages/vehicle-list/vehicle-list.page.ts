@@ -89,4 +89,8 @@ export class VehicleListPage {
         return this.vehicleService.getSelectedVehicleNumbers();
     }
 
+    navigateToAddVehiclePage() {
+        this.router.navigate(['/protected/add-vehicle']);
+    }
+
 }

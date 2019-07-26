@@ -42,7 +42,7 @@
 	</ion-grid>
 	<ion-fab vertical="bottom" horizontal="end" slot="fixed"
 		*ngIf="!(getSelectedVehicleNumbers().length > 0)">
-		<ion-fab-button color="secondary" translucent>
+		<ion-fab-button (click)="navigateToAddVehiclePage()"  color="secondary" translucent>
 			<ion-icon name="add" color="light"></ion-icon>
 		</ion-fab-button>
 	</ion-fab>
