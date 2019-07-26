@@ -17,7 +17,7 @@ export class AppComponent {
   public appPages = [
     {
       title: 'MY PROFILE',
-      url: 'protected/tabs/vehicle-list',
+      url: '/protected/my-profile',
       icon: 'person',
       detail: false,
       detailIcon: ""

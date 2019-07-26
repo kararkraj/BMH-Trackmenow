@@ -14,7 +14,7 @@
 					<div *ngFor="let page of appPages">
 						<ion-menu-toggle autoHide="true" *ngIf="page.url">
 							<ion-item detail="{{page.detail}}" detailIcon="{{page.detailIcon}}" lines="inset"
-								[routerDirection]="'root'" [routerLink]="[page.url]">
+								[routerDirection]="'forward'" [routerLink]="[page.url]">
 								<ion-icon slot="start" [name]="page.icon"></ion-icon>
 								<ion-label class="font-size-normal ion-padding-vertical ion-padding-end ion-no-margin">
 									{{page.title}}
@@ -30,7 +30,7 @@
 						</ion-item>
 						<ion-list *ngIf="page.subPages" [hidden]="page.hideSubPages" class="sub-pages ion-no-margin">
 							<ion-menu-toggle autoHide="true" *ngFor="let subPage of page.subPages">
-								<ion-item class="ion-no-padding" [routerDirection]="'root'" [routerLink]="[subPage.url]" detail="false" lines="none">
+								<ion-item class="ion-no-padding" [routerDirection]="'forward'" [routerLink]="[subPage.url]" detail="false" lines="none">
 									<ion-label class="font-size-small ion-padding-bottom ion-padding-end ion-no-margin">
 										{{subPage.title}}
 									</ion-label>

@@ -119,7 +119,7 @@ ion-modal.vehicle-details-modal {
 .padding-top-4px {
   padding-top: 4px;
 }
-.header-ios ion-toolbar:last-child {
+.header-ios ion-toolbar:last-child, .footer-ios ion-toolbar:last-child {
   --border-width: 0;
 }
 ion-header::after {
@@ -136,7 +136,7 @@ ion-header::after {
 }
 div.form {
   width: 80%;
-  margin: 28px auto 0 auto;
+  margin: 28px auto 4px auto;
   padding: 10px 0px 40px 0px;
   background-color: #FFF;
   position: relative;
@@ -145,10 +145,6 @@ div.form {
   overflow: hidden;
 }
 div.buttons {
-  position: fixed;
-  bottom: 0px;
-  width: 100%;
-  padding: 16px;
   ion-button {
     display: inline-block;
     width: 48%;

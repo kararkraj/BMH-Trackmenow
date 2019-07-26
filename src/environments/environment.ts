@@ -9,7 +9,8 @@ export const environment = {
     baseApiUrl: "http://trackmeservice.cloudapp.net/api/",
     authToken: "auth-token",
     login: "Account/Login",
-    getVehicles: "Vehicle/GetAll"
+    getVehicles: "Vehicle/GetAll",
+    getUserProfile: "UserProfile/Get"
   },
   messages: {
     credentialsMismatch: "Please enter valid credentials.",

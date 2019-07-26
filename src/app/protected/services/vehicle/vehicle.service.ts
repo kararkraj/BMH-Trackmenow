@@ -15,7 +15,7 @@ export class VehicleService {
   private useMockServer: boolean = false;
   private baseMockURL: string = "https://ac0e0dc5-440a-4225-95f1-d37157a5d041.mock.pstmn.io/api";
 
-  private headers: HttpHeaders;
+  private header: HttpHeaders;
 
   private vehicles: Vehicle[];
   public isVehiclesPopulated = new BehaviorSubject(false);
@@ -24,7 +24,7 @@ export class VehicleService {
 
   constructor(
     private http: HttpClient,
-    private storage: Storage,
+    private storage: Storage
   ) {
     this.setHeaders().then(() => {
       this.getVehicles().subscribe((vehicles: Vehicle[]) => {
@@ -52,7 +52,7 @@ export class VehicleService {
 
   async setHeaders() {
     return await this.storage.get(environment.apis.authToken).then((authToken) => {
-      this.headers = new HttpHeaders({
+      this.header = new HttpHeaders({
         AuthorizeToken: authToken
       });
     });
@@ -60,7 +60,7 @@ export class VehicleService {
 
   getVehicles() {
     return this.http.get((this.useMockServer ? this.baseMockURL : environment.apis.baseApiUrl) + environment.apis.getVehicles, {
-      headers: this.headers
+      headers: this.header
     });
   }
 
