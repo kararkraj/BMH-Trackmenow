@@ -9,30 +9,58 @@
 
 <ion-content>
 	<div class="custom-bg"></div>
-	<div class="form">
-		<form #addVehicleForm="ngForm" novalidate>
-			<ion-item class="ion-padding-end ion-padding-start">
-				<ion-label position="floating" color="dark">Vehicle Number</ion-label>
-				<ion-input></ion-input>
+	<form novalidate [formGroup]="userForm">
+		<div class="form ion-padding-end">
+			<div class="item-inline">
+				<ion-item lines="inset">
+					<ion-label position="floating" color="dark">First Name</ion-label>
+					<ion-input formControlName="Firstname"></ion-input>
+				</ion-item>
+				<ion-item lines="inset">
+					<ion-label position="floating" color="dark">Last Name</ion-label>
+					<ion-input formControlName="LastName"></ion-input>
+				</ion-item>
+			</div>
+			<ion-item lines="inset">
+				<ion-label position="floating" color="dark">Username</ion-label>
+				<ion-input formControlName="UserName"></ion-input>
 			</ion-item>
-			<ion-item class="ion-padding-end ion-padding-start">
-				<ion-label position="floating" color="dark">IMEI</ion-label>
-				<ion-input></ion-input>
+			<ion-item lines="inset">
+				<ion-label position="floating" color="dark">Email Address</ion-label>
+				<ion-input formControlName="Email"></ion-input>
 			</ion-item>
-			<ion-item class="ion-padding-end ion-padding-start">
-				<ion-label position="floating" color="dark">Vehicle Type</ion-label>
-				<ion-input></ion-input>
+			<ion-item lines="inset">
+				<ion-label position="floating" color="dark">Mobile Number</ion-label>
+				<ion-input formControlName="MobileNo"></ion-input>
 			</ion-item>
-			<ion-item class="ion-padding-end ion-padding-start">
-				<ion-label position="floating" color="dark">Tank Capacity</ion-label>
-				<ion-input></ion-input>
+			<ion-item lines="inset">
+				<ion-label position="floating" color="dark">Address</ion-label>
+				<ion-textarea formControlName="Address"></ion-textarea>
 			</ion-item>
-		</form>
-	</div>
+		</div>
+		<ion-item lines="inset" class="ion-padding-end ion-padding-start">
+			<ion-label position="floating" color="dark">Company Name</ion-label>
+			<ion-input formControlName="CompanyName"></ion-input>
+		</ion-item>
+		<ion-item lines="inset" class="ion-padding-end ion-padding-start">
+			<ion-label position="floating" color="dark">Total Vehicles</ion-label>
+			<ion-input formControlName="TotalVehicles"></ion-input>
+		</ion-item>
+		<div class="item-inline">
+			<ion-item lines="inset" class="ion-padding-start">
+				<ion-label position="floating" color="dark">Valid To</ion-label>
+				<ion-input readonly></ion-input>
+			</ion-item>
+			<ion-item lines="inset" class="ion-padding-end">
+				<ion-label position="floating" color="dark">Valid From</ion-label>
+				<ion-input readonly></ion-input>
+			</ion-item>
+		</div>
+	</form>
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar>
-    <ion-button expand="block" color="primary">Save</ion-button>
-  </ion-toolbar>
+	<ion-toolbar>
+		<ion-button expand="block" color="primary">Save</ion-button>
+	</ion-toolbar>
 </ion-footer>
