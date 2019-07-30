@@ -1,0 +1,66 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-buttons slot="start">
+			<ion-back-button icon="arrow-back" text=""></ion-back-button>
+		</ion-buttons>
+		<ion-title>Contact us</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<div class="custom-bg"></div>
+	<form #addVehicleForm="ngForm" novalidate>
+		<div class="form">
+			<ion-item lines="inset">
+				<ion-label position="floating" color="dark">Full Name</ion-label>
+				<ion-input></ion-input>
+			</ion-item>
+			<ion-item lines="inset">
+				<ion-label position="floating" color="dark">Email Address</ion-label>
+				<ion-input></ion-input>
+			</ion-item>
+			<ion-item lines="inset">
+				<ion-label position="floating" color="dark">Mobile Number</ion-label>
+				<ion-input></ion-input>
+			</ion-item>
+			<ion-item lines="inset">
+				<ion-label position="floating" color="dark">Message</ion-label>
+				<ion-textarea></ion-textarea>
+			</ion-item>
+		</div>
+	</form>
+	<ion-grid>
+    <ion-row class="ion-padding">
+      <ion-col size="8" offset="2" class="ion-text-center ion-padding">
+        <ion-text color="primary" class="font-size-medium">GET IN TOUCH</ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="8" offset="2" (click)="call()">
+        <ion-icon name="call" color="primary" class="font-size-large"></ion-icon>
+        <ion-text color="primary" class="custom-ion-text">+91 99 9990 9990</ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="8" offset="2" (click)="sendEmail()">
+        <ion-icon name="mail" color="primary" class="font-size-large"></ion-icon>
+        <ion-text color="primary" class="custom-ion-text email">vivek@bmhtechnologies.co</ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+	<ion-toolbar>
+		<ion-grid>
+			<ion-row>
+				<ion-col>
+					<ion-button expand="block" color="medium">CANCEL</ion-button>
+				</ion-col>
+				<ion-col>
+					<ion-button expand="block" color="primary">ADD</ion-button>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ion-toolbar>
+</ion-footer>

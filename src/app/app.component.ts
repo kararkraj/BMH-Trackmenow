@@ -7,6 +7,7 @@ import { AlertController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 
 import { AuthService } from './public/services/auth/auth.service';
+import { VehicleService } from './protected/services/vehicle/vehicle.service';
 
 @Component({
   selector: 'app-root',
@@ -50,7 +51,7 @@ export class AppComponent {
     },
     {
       title: 'CONTACT US',
-      url: 'protected/tabs/vehicle-list',
+      url: '/protected/contact-us',
       icon: 'call',
       detail: false,
       detailIcon: ""
@@ -72,7 +73,8 @@ export class AppComponent {
     private auth: AuthService,
     private router: Router,
     private alertController: AlertController,
-    private menu: MenuController
+    private menu: MenuController,
+    private vehicleService: VehicleService
   ) {
     this.initializeApp();
     this.router.events.subscribe((event: RouterEvent) => {

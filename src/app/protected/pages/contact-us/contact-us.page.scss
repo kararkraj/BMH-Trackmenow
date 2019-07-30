@@ -1,0 +1,13 @@
+ion-grid {
+  ion-row:first-child {
+    ion-col {
+      border-bottom: 1px solid var(--ion-color-primary);
+      ion-text {
+        font-weight: bold;
+      }
+    }
+  }
+  .email.custom-ion-text {
+    top: -8px
+  }
+}

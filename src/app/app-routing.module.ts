@@ -8,7 +8,7 @@ const routes: Routes = [
   { 
     path: 'protected', 
     canActivate: [ AuthGuard ],
-    loadChildren: './protected/pages/protected-routing.module#ProtectedRoutingModule'
+    loadChildren: './protected/protected-routing.module#ProtectedRoutingModule'
   }
 ];
 

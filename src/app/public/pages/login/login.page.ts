@@ -35,4 +35,9 @@ export class LoginPage {
     });
   }
 
+  clearUser() {
+    this.user.UserName = '';
+    this.user.Password = '';
+  }
+
 }
