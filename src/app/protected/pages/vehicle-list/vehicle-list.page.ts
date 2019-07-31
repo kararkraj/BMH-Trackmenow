@@ -32,6 +32,8 @@ export class VehicleListPage {
 
     ngOnInit() {
         this.loader.startLoading().then(() => {
+            this.vehicleService.getVehicles();
+            this.vehicleService.updateVehiclesInterval();
             this.vehicleSubscription = this.vehicleService.isVehiclesPopulated.subscribe((state) => {
                 if (state) {
                     this.vehicles = this.vehicleService.populateVehicles();
@@ -42,16 +44,9 @@ export class VehicleListPage {
     }
 
     ngOnDestroy() {
+        console.log("Vehicle List destroyed");
         this.vehicleSubscription.unsubscribe();
-    }
-
-    populatevehicles() {
-        return this.vehicleService.getVehicles().subscribe((res: Vehicle[]) => {
-            this.vehicles = res;
-        }, (error) => {
-            console.log(this.errorHandle.errorHandle(error));
-            this.toast.toastHandler(this.errorHandle.errorHandle(error), "warning");
-        });
+        this.vehicleService.reset();
     }
 
     toggleVehicleSelection(vehicle) {

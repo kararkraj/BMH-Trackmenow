@@ -44,24 +44,23 @@ export class GoogleMapService {
   }
 
   generateVehicleMarker(vehicle) {
-    // const icon = {
-    //   url: './assets/img/car.png',
-    //   // url: 'https://www.trackmenow.co/Content/Images/Vehicles/car.png',
-    //   size: new google.maps.Size(40, 40),
-    //   origin: this.getMarkerOrigin(vehicle.LatestGPSInfo.Degree),
-    //   anchor: this.getMarkerAchor(0),
-    //   animation: "DROP"
-    // };
     const icon = {
-      anchor: this.getMarkerAchor(2),
-      // path: "M-20,0a20,20 0 1,0 40,0a20,20 0 1,0 -40,0",
-      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-      scale: 2,
-      fillColor: "red",
-      fillOpacity: 0.8,
-      strokeWeight: 0,
-      rotation: vehicle.LatestGPSInfo.Degree
-    }
+      url: './assets/vehicles/truck/' + this.getIconColor(vehicle) + this.getMarkerOrigin(vehicle.LatestGPSInfo.Degree) + ".png#" + vehicle.VehicleNumber,
+      // url: './assets/img/car.png',
+      size: new google.maps.Size(40, 40),
+      anchor: this.getMarkerAchor(0),
+      animation: "DROP"
+    };
+    // const icon = {
+    //   anchor: this.getMarkerAchor(2),
+    //   // path: "M-20,0a20,20 0 1,0 40,0a20,20 0 1,0 -40,0",
+    //   path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+    //   scale: 2,
+    //   fillColor: "red",
+    //   fillOpacity: 0.8,
+    //   strokeWeight: 0,
+    //   rotation: vehicle.LatestGPSInfo.Degree
+    // }
     const marker = new google.maps.Marker({
       position: { lat: vehicle.LatestGPSInfo.Latitude, lng: vehicle.LatestGPSInfo.Longitude },
       map: this.map,
@@ -122,6 +121,62 @@ export class GoogleMapService {
         return new google.maps.Point(0, 0);
       default:
         return new google.maps.Point(20, 20);
+    }
+  }
+
+  getMarkerOrigin(degree) {
+    switch (Math.round(degree / 45)) {
+      case 1:
+        return "1";
+        // return new google.maps.Point(40, 0);
+      case 2:
+        return "2";
+        // return new google.maps.Point(80, 0);
+      case 3:
+        return "3";
+        // return new google.maps.Point(120, 0);
+      case 4:
+        return "4";
+        // return new google.maps.Point(160, 0);
+      case 5:
+        return "5";
+        // return new google.maps.Point(200, 0);
+      case 6:
+        return "6";
+        // return new google.maps.Point(240, 0);
+      case 7:
+        return "7";
+        // return new google.maps.Point(280, 0);
+      default:
+        return "1";
+        // return new google.maps.Point(0, 0);
+    }
+  }
+
+  getIconUrl(vehicleTypeId) {
+    var baseUrl = "./assets/vehicles/";
+
+    switch (vehicleTypeId) {
+      case 2:
+        return baseUrl + "bus/";
+      case 3:
+        return baseUrl + "car/";
+      case 4:
+        return baseUrl + "tractor/";
+      case 5:
+        return baseUrl + "train/";
+      default:
+        return baseUrl + "truck/";
+    }
+  }
+
+  getIconColor(vehicle) {
+    if (vehicle.LatestGPSInfo.Ignition === "0") {
+      return "r";
+    } else if (vehicle.LatestGPSInfo.Speed > 0) {
+      return "g";
+    } else {
+      return "b";
     }
   }
 
@@ -197,6 +252,7 @@ export class GoogleMapService {
         marker.setVisible(false);
       }
     });
+    this.fitMapBounds();
   }
 
   stopTrackingVehicles() {

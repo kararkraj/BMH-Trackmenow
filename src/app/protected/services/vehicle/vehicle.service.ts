@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { map } from 'rxjs/operators';
@@ -15,52 +15,42 @@ export class VehicleService {
   private useMockServer: boolean = false;
   private baseMockURL: string = "https://ac0e0dc5-440a-4225-95f1-d37157a5d041.mock.pstmn.io/api";
 
-  private header: HttpHeaders;
-
   private vehicles: Vehicle[];
   public isVehiclesPopulated = new BehaviorSubject(false);
   private selectedVehicleNumbers = [];
   private filterString: string = "";
+  private callVehiclesApiInterval;
 
   constructor(
     private http: HttpClient,
     private storage: Storage
-  ) {
-    this.setHeaders().then(() => {
-      this.getVehicles().subscribe((vehicles: Vehicle[]) => {
-        this.vehicles = vehicles;
-        this.setAllVehiclesVisible();
-        this.isVehiclesPopulated.next(true);
-      });
-      setInterval(() => {
-        this.getVehicles().subscribe((vehicles: Vehicle[]) => {
-          vehicles.forEach((vehicle: Vehicle) => {
-            if (this.selectedVehicleNumbers.includes(vehicle.VehicleNumber)) {
-              vehicle.Selected = true;
-            }
-            if (vehicle.VehicleNumber.toLowerCase().includes(this.filterString)) {
-              vehicle.Visible = true;
-            }
-          });
-          this.vehicles = vehicles;
-          console.log("Vehicles updated.");
-          this.isVehiclesPopulated.next(true);
-        });
-      }, 20000);
-    });
-  }
+  ) { }
 
-  async setHeaders() {
-    return await this.storage.get(environment.apis.authToken).then((authToken) => {
-      this.header = new HttpHeaders({
-        AuthorizeToken: authToken
-      });
-    });
+  updateVehiclesInterval() {
+    this.callVehiclesApiInterval = setInterval(() => {
+      this.getVehicles();
+    }, 20000);
   }
 
   getVehicles() {
-    return this.http.get((this.useMockServer ? this.baseMockURL : environment.apis.baseApiUrl) + environment.apis.getVehicles, {
-      headers: this.header
+    this.storage.get(environment.apis.authToken).then((authToken) => {
+      this.http.get((this.useMockServer ? this.baseMockURL : environment.apis.baseApiUrl) + environment.apis.getVehicles, {
+        headers: new HttpHeaders({
+          AuthorizeToken: authToken
+        })
+      }).subscribe((vehicles: Vehicle[]) => {
+        vehicles.forEach((vehicle: Vehicle) => {
+          if (this.selectedVehicleNumbers.includes(vehicle.VehicleNumber)) {
+            vehicle.Selected = true;
+          }
+          if (vehicle.VehicleNumber.toLowerCase().includes(this.filterString)) {
+            vehicle.Visible = true;
+          }
+        });
+        this.vehicles = vehicles;
+        this.isVehiclesPopulated.next(true);
+        console.log("Vehicles updated.");
+      });
     });
   }
 
@@ -133,7 +123,7 @@ export class VehicleService {
     this.vehicles.forEach((vehicle) => {
       if (vehicle.VehicleNumber.toLowerCase().includes(this.filterString)) {
         vehicle.Visible = true;
-      } else { 
+      } else {
         vehicle.Visible = false;
       }
     });
@@ -151,5 +141,13 @@ export class VehicleService {
     return this.vehicles.find((vehicle: Vehicle) => {
       return (vehicle.VehicleNumber === vehicleNumber);
     });
+  }
+
+  reset() {
+    clearInterval(this.callVehiclesApiInterval);
+    this.vehicles = null;
+    this.isVehiclesPopulated.next(false);
+    this.filterString = "";
+    this.selectedVehicleNumbers = [];
   }
 }
