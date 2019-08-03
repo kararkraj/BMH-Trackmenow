@@ -9,23 +9,27 @@
 
 <ion-content>
 	<div class="custom-bg"></div>
-	<form #addVehicleForm="ngForm" novalidate>
+	<form novalidate [formGroup]="addVehicleForm">
 		<div class="form">
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">Vehicle Number</ion-label>
-				<ion-input></ion-input>
+				<ion-input formControlName="VehicleNumber"></ion-input>
 			</ion-item>
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">IMEI</ion-label>
-				<ion-input></ion-input>
+				<ion-select formControlName="IMEI" okText="Okay" cancelText="Dismiss">
+          <ion-select-option *ngFor="let device of devices" value="{{device.IMEI}}">{{device.IMEI}}</ion-select-option>
+				</ion-select>
 			</ion-item>
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">Vehicle Type</ion-label>
-				<ion-input></ion-input>
+				<ion-select formControlName="VehicleTypeId" okText="Okay" cancelText="Dismiss">
+          <ion-select-option *ngFor="let vehicleType of vehicleTypes" value="{{vehicleType.VehicleTypeId}}">{{vehicleType.Name}}</ion-select-option>
+				</ion-select>
 			</ion-item>
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">Tank Capacity</ion-label>
-				<ion-input></ion-input>
+				<ion-input formControlName="TankCapacity"></ion-input>
 			</ion-item>
 		</div>
 	</form>
@@ -36,10 +40,10 @@
 		<ion-grid>
 			<ion-row>
 				<ion-col>
-					<ion-button expand="block" color="medium">CANCEL</ion-button>
+					<ion-button expand="block" color="medium" (click)="reset()">RESET</ion-button>
 				</ion-col>
 				<ion-col>
-					<ion-button expand="block" color="primary">ADD</ion-button>
+					<ion-button expand="block" color="primary" (click)="addVehicle()" disabled="{{!addVehicleForm.valid}}">ADD</ion-button>
 				</ion-col>
 			</ion-row>
 		</ion-grid>

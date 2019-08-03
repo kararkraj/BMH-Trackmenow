@@ -11,7 +11,7 @@ import { User } from './../../services/user/user';
 })
 export class MyProfilePage implements OnInit {
 
-  private userForm = new FormGroup({
+  public userForm = new FormGroup({
     "Firstname": new FormControl(''),
     "LastName": new FormControl(''),
     "UserName": new FormControl(''),
@@ -42,6 +42,10 @@ export class MyProfilePage implements OnInit {
         });
       });
     });
+  }
+
+  saveProfile() {
+    console.log(this.userForm.value);
   }
 
 }

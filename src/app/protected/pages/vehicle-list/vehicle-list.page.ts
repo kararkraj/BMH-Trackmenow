@@ -57,18 +57,14 @@ export class VehicleListPage {
         if (vehicle) {
             this.toggleVehicleSelection(vehicle);
         }
-        this.router.navigate(['/protected/tabs/tabs/vehicle-map']);
         if (this.googleMap.isMapInitialized()) {
             this.googleMap.startTrackingVehicles();
-            // setTimeout(() => {
-            //     this.googleMap.fitMapBounds();
-            // }, 500);
         } else {
             setTimeout(() => {
                 this.googleMap.startTrackingVehicles();
-                // this.googleMap.fitMapBounds();
             }, 2000);
         }
+        this.router.navigate(['/protected/tabs/tabs/vehicle-map']);
     }
 
     stopTrackingVehicles() {

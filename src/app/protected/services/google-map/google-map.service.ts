@@ -44,23 +44,25 @@ export class GoogleMapService {
   }
 
   generateVehicleMarker(vehicle) {
-    const icon = {
-      url: './assets/vehicles/truck/' + this.getIconColor(vehicle) + this.getMarkerOrigin(vehicle.LatestGPSInfo.Degree) + ".png#" + vehicle.VehicleNumber,
-      // url: './assets/img/car.png',
-      size: new google.maps.Size(40, 40),
-      anchor: this.getMarkerAchor(0),
-      animation: "DROP"
-    };
     // const icon = {
-    //   anchor: this.getMarkerAchor(2),
-    //   // path: "M-20,0a20,20 0 1,0 40,0a20,20 0 1,0 -40,0",
-    //   path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-    //   scale: 2,
-    //   fillColor: "red",
-    //   fillOpacity: 0.8,
-    //   strokeWeight: 0,
-    //   rotation: vehicle.LatestGPSInfo.Degree
-    // }
+    //   url: './assets/truck/tgreen.svg',
+    //   // url: './assets/vehicles/truck/' + this.getIconColor(vehicle) + this.getMarkerOrigin(vehicle.LatestGPSInfo.Degree) + ".png#" + vehicle.VehicleNumber,
+    //   // url: './assets/img/car.png',
+    //   size: new google.maps.Size(40, 40),
+    //   anchor: this.getMarkerAchor(0),
+    //   animation: "DROP"
+    // };
+    const icon = {
+      anchor: this.getMarkerAchor(2),
+      // path: "M-20,0a20,20 0 1,0 40,0a20,20 0 1,0 -40,0",
+      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+      scale: 2,
+      fillColor: this.getIconColor(vehicle),
+      fillOpacity: 0.8,
+      strokeWeight: 0,
+      rotation: vehicle.LatestGPSInfo.Degree,
+      animation: "DROP"
+    }
     const marker = new google.maps.Marker({
       position: { lat: vehicle.LatestGPSInfo.Latitude, lng: vehicle.LatestGPSInfo.Longitude },
       map: this.map,
@@ -172,11 +174,14 @@ export class GoogleMapService {
 
   getIconColor(vehicle) {
     if (vehicle.LatestGPSInfo.Ignition === "0") {
-      return "r";
+      return "red";
+      // return "r";
     } else if (vehicle.LatestGPSInfo.Speed > 0) {
-      return "g";
+      return "#018637";
+      // return "g";
     } else {
-      return "b";
+      return "#797979";
+      // return "b";
     }
   }
 

@@ -10,7 +10,10 @@ export const environment = {
     authToken: "auth-token",
     login: "Account/Login",
     getVehicles: "Vehicle/GetAll",
-    getUserProfile: "UserProfile/Get"
+    getUserProfile: "UserProfile/Get",
+    getVehicleTypes: "VehicleType/Get",
+    getGPSDevices: "Device/Get",
+    addVehicle: "Vehicle/Create"
   },
   messages: {
     credentialsMismatch: "Please enter valid credentials.",

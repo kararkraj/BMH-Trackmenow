@@ -39,6 +39,9 @@ export class VehicleService {
           AuthorizeToken: authToken
         })
       }).subscribe((vehicles: Vehicle[]) => {
+        vehicles = vehicles.filter((vehicle) => {
+          return vehicle.LatestGPSInfo !== null;
+        });
         vehicles.forEach((vehicle: Vehicle) => {
           if (this.selectedVehicleNumbers.includes(vehicle.VehicleNumber)) {
             vehicle.Selected = true;
