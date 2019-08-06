@@ -28,8 +28,13 @@ export class AddVehiclePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log("AddVehicle init");
     this.getVehicleTypes();
     this.getGPSDevices();
+  }
+
+  ngOnDestroy() {
+    console.log("AddVehicle destroyed");
   }
 
   getVehicleTypes() {

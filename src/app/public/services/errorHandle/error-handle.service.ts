@@ -10,16 +10,7 @@ export class ErrorHandleService {
   constructor(
     private network: Network
   ) { }
-
-  private connectSubscription = this.network.onConnect().subscribe((res) => {
-    console.log("Got network");
-    console.log(res);
-  });
-  private disconnectSubscription = this.network.onDisconnect().subscribe((res) => {
-    console.log("Network lost");
-    console.log(res);
-  });
-
+  
   errorHandle(error) {
     if (error.status === 0) {
       if (!this.network.type) {

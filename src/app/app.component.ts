@@ -18,7 +18,7 @@ export class AppComponent {
   public appPages = [
     {
       title: 'MY PROFILE',
-      url: '/protected/my-profile',
+      url: '/my-profile',
       icon: 'person',
       detail: false,
       detailIcon: ""
@@ -33,25 +33,25 @@ export class AppComponent {
       subPages: [
         {
           title: 'SPEED',
-          url: 'protected/tabs/vehicle-list',
+          url: 'tabs/vehicle-list',
         },
         {
           title: 'FUEL',
-          url: 'protected/tabs/vehicle-list',
+          url: 'tabs/vehicle-list',
         },
         {
           title: 'TRIP',
-          url: 'protected/tabs/vehicle-list',
+          url: 'tabs/vehicle-list',
         },
         {
           title: 'DISTANCE/KM',
-          url: 'protected/tabs/vehicle-list',
+          url: 'tabs/vehicle-list',
         },
       ]
     },
     {
       title: 'CONTACT US',
-      url: '/protected/contact-us',
+      url: '/contact-us',
       icon: 'call',
       detail: false,
       detailIcon: ""
@@ -65,8 +65,6 @@ export class AppComponent {
     }
   ];
 
-  private activatedMenuPath: string;
-
   constructor(
     private platform: Platform,
     private statusBar: StatusBar,
@@ -77,9 +75,6 @@ export class AppComponent {
     private vehicleService: VehicleService
   ) {
     this.initializeApp();
-    this.router.events.subscribe((event: RouterEvent) => {
-      this.activatedMenuPath = event.url;
-    });
   }
 
   initializeApp() {
@@ -87,14 +82,7 @@ export class AppComponent {
       this.statusBar.styleLightContent();
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#184F80');
-      this.auth.authenticationState.subscribe(state => {
-        if (state) {
-          this.router.navigate(['protected']);
-          this.menu.enable(true);
-        } else {
-          this.router.navigate(['login']);
-        }
-      });
+      this.router.navigate(['']);
     });
   }
 
@@ -111,9 +99,10 @@ export class AppComponent {
       buttons: [
         {
           text: 'YES',
-          handler: () => { 
-            this.menu.enable(false);
-            this.auth.logout();
+          handler: () => {
+            this.auth.logout().then(() => {
+              this.router.navigate(['login']);
+            });
           }
         }, {
           text: 'NO',

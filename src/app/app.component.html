@@ -14,7 +14,7 @@
 					<div *ngFor="let page of appPages">
 						<ion-menu-toggle autoHide="true" *ngIf="page.url">
 							<ion-item detail="{{page.detail}}" detailIcon="{{page.detailIcon}}" lines="inset"
-								[routerDirection]="'forward'" [routerLink]="[page.url]">
+								[routerDirection]="'forward'" routerLink="{{page.url}}">
 								<ion-icon slot="start" [name]="page.icon"></ion-icon>
 								<ion-label class="font-size-normal ion-padding-vertical ion-padding-end ion-no-margin">
 									{{page.title}}

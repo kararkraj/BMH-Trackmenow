@@ -23,8 +23,8 @@ export class AuthService {
     });
   }
 
-  checkToken() {
-    this.storage.get(environment.apis.authToken).then((res) => {
+  async checkToken() {
+    await this.storage.get(environment.apis.authToken).then((res) => {
       if (res) {
         this.authenticationState.next(true);
       }

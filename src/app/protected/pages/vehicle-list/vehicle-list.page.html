@@ -1,7 +1,4 @@
-<ion-content (swipeleft)="changeTab()">
-	<!-- <ion-refresher slot="fixed" (ionRefresh)="refreshTruckList($event)">
-		<ion-refresher-content refreshingSpinner="circles" refreshingText="Refreshing..."></ion-refresher-content>
-	</ion-refresher> -->
+<ion-content>
 	<ion-grid>
 		<ion-row *ngFor="let vehicle of vehicles" [ngClass]="{'selected': vehicle.Selected, 'hidden': !vehicle.Visible}"
 			(tap)="startTrackingVehicles(vehicle)" (press)="toggleVehicleSelection(vehicle)">

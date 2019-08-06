@@ -64,7 +64,7 @@ export class VehicleListPage {
                 this.googleMap.startTrackingVehicles();
             }, 2000);
         }
-        this.router.navigate(['/protected/tabs/tabs/vehicle-map']);
+        this.router.navigate(['tabs/tabs/vehicle-map']);
     }
 
     stopTrackingVehicles() {
@@ -73,7 +73,7 @@ export class VehicleListPage {
     }
 
     changeTab() {
-        this.router.navigate(['/protected/tabs/tabs/vehicle-map']);
+        this.router.navigate(['tabs/tabs/vehicle-map']);
     }
 
     getSelectedVehicleNumbers() {
@@ -81,7 +81,7 @@ export class VehicleListPage {
     }
 
     navigateToAddVehiclePage() {
-        this.router.navigate(['/protected/add-vehicle']);
+        this.router.navigate(['/add-vehicle']);
     }
 
 }
