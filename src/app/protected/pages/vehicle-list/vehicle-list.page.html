@@ -19,7 +19,7 @@
 				<div class="padding-8px">
 					<ion-icon class="font-size-large" color="secondary"
 						src="./assets/baseline-local_gas_station-24px.svg"></ion-icon>
-					<ion-text class="font-size-small custom-ion-text" color="dark">75%</ion-text>
+					<ion-text class="font-size-small custom-ion-text" color="dark">{{vehicle.LatestGPSInfo.Fuel == null? '-': vehicle.LatestGPSInfo.Fuel}}</ion-text>
 					<ion-icon class="engine-on font-size-normal ion-margin-start" color="light" name="power"
 						*ngIf="vehicle.LatestGPSInfo.Ignition === '1'"></ion-icon>
 					<ion-icon class="engine-off font-size-normal ion-margin-start" color="light" name="power"

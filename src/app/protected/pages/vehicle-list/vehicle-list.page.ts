@@ -20,6 +20,7 @@ export class VehicleListPage {
 
     public vehicles: Vehicle[];
     private vehicleSubscription;
+    private selectMultiple: boolean;
 
     constructor(
         protected vehicleService: VehicleService,

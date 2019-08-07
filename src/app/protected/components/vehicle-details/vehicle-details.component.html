@@ -21,7 +21,7 @@
 		<ion-col size="4">
 			<ion-icon class="font-size-large" color="secondary" src="./assets/baseline-local_gas_station-24px.svg">
 			</ion-icon>
-			<ion-text class="custom-ion-text" color="dark">12 Litre</ion-text>
+			<ion-text class="custom-ion-text" color="dark">{{vehicle.LatestGPSInfo.Fuel == null? '-': vehicle.LatestGPSInfo.Fuel + 'Litre'}}</ion-text>
 		</ion-col>
 		<ion-col align-self-stretch class="border-left" size="4">
 			<ion-icon class="engine-on font-size-normal" color="light" name="power"

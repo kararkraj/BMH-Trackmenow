@@ -7,7 +7,7 @@ import { AlertController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 
 import { AuthService } from './public/services/auth/auth.service';
-import { VehicleService } from './protected/services/vehicle/vehicle.service';
+import { UserService } from './protected/services/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -72,7 +72,7 @@ export class AppComponent {
     private router: Router,
     private alertController: AlertController,
     private menu: MenuController,
-    private vehicleService: VehicleService
+    public userService: UserService 
   ) {
     this.initializeApp();
   }
@@ -83,6 +83,11 @@ export class AppComponent {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#184F80');
       this.router.navigate(['']);
+      this.userService.getUserDetails().then((subscription) => {
+      subscription.subscribe((user) => {
+        this.userService.setUser(user[0]);
+      });
+    });
     });
   }
 
