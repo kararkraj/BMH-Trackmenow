@@ -37,7 +37,6 @@ export class LoginPage {
             this.userService.setUser(user[0]);
           });
         });
-        this.authenticatedSubscription.unsubscribe();
       }
     });
   }
@@ -51,7 +50,6 @@ export class LoginPage {
     this.authService.login(this.user).subscribe((res) => {
       this.authService.setAuthToken(res["token"]).then((res) => {
         this.loader.stopLoading();
-        this.menu.enable(true);
       });
     }, (error) => {
       this.loader.stopLoading();
