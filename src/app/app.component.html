@@ -4,7 +4,7 @@
 			<ion-header class="menu">
 				<div>
 					<div>
-						<ion-label color="dark">{{userService.user.FirstName}} {{userService.user.LastName}}</ion-label>
+						<ion-label class="font-size-medium">{{userService.user.Firstname}} {{userService.user.LastName}}</ion-label>
 						<p class="font-size-small">{{userService.user.Email}}</p>
 					</div>
 				</div>
@@ -40,6 +40,11 @@
 					</div>
 				</ion-list>
 			</ion-content>
+      <ion-footer>
+        <ion-toolbar class="ion-text-center background-light">
+          <img src="./assets/img/bmh-logo.png" width="40%" />
+        </ion-toolbar>
+      </ion-footer>
 		</ion-menu>
 		<ion-router-outlet main></ion-router-outlet>
 	</ion-split-pane>

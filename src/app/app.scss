@@ -9,23 +9,41 @@ ion-toast {
   color: #FFF;
   text-align: center;
 }
+div.line-height-0px {
+  line-height: 0px;
+}
+.background-light {
+  --background: var(--ion-color-light);
+}
+.background-white {
+  background-color: #FFFFFF;
+}
 
-//menu
+//loader css
+ion-loading {
+  .loading-wrapper {
+    --ion-background-color-rgb: none;
+    --background: none;
+    --spinner-color: #FFFFFF;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+//menu css
 ion-header.menu {
   > div {
-    height: 192px;
-    background-image: url(../assets/icon/logo.png);
-    background-size: 40% auto;
+    height: 174px;
+    background-image: url(../assets/img/menu-bg.png);
+    background-size: 100% auto;
     background-repeat: no-repeat;
-    background-position: center;
-    background-color: var(--ion-color-light);
-    background-position-y: 20px;
     div {
       position: absolute;
       bottom: 0;
       p, ion-label {
         padding-left: 20px;
-        color: var(--ion-color-dark);
+        color: #FFF;
       }
       p {
         margin-top: 4px;
@@ -46,21 +64,27 @@ ion-content.menu {
     --inner-padding-end: 0;
     --detail-icon-color: var(--ion-color-dark);
     --detail-icon-opacity: 1;
-    --border-color: var(--ion-color-medium);
+    --border-color: var(--ion-color-light);
     ion-label {
       font-weight: 500;
     }
   }
   ion-list.sub-pages {
-    margin-left: 60px;
     ion-menu-toggle:last-child ion-label{
-      border-bottom: 1px solid var(--ion-color-medium)
+      border-bottom: 1px solid var(--ion-color-light)
     }
+  }
+  ion-list.sub-pages.md {
+    margin-left: 72px;
+  }
+  ion-list.sub-pages.ios {
+    margin-left: 60px;
   }
 }
 
+//vehicle details modal css
 ion-modal.vehicle-details-modal {
-  --height: 168px;
+  --height: 154px;
   > div.modal-wrapper {
     position: absolute;
     bottom: 0;
@@ -69,7 +93,27 @@ ion-modal.vehicle-details-modal {
   }
 }
 
+// alert css
 .custom-alert {
+  .alert-button.sc-ion-alert-ios {
+    border: none;
+    min-width: auto;
+    font-weight: normal;
+    flex: unset;
+  }
+  .alert-button-group.sc-ion-alert-ios {
+    justify-content: flex-end;
+    padding-right: 12px;
+  }
+  .alert-button.sc-ion-alert-ios {
+    font-size: 14px;
+  }
+  --min-width: 85%;
+  --max-width: 85%;
+  .alert-wrapper.sc-ion-alert-ios {
+    -webkit-box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
+    box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
+  }
   .alert-wrapper {
     border-radius: 8px;
     border-top: 6px solid var(--ion-color-secondary);
@@ -84,14 +128,30 @@ ion-modal.vehicle-details-modal {
       color: var(--ion-color-dark);
     }
   }
+  button:first-child {
+    .alert-button-inner {
+      color: var(--ion-color-dark);
+    }
+  }
+  button:last-child {
+   .alert-button-inner {
+      color: var(--ion-color-secondary);
+    } 
+  }
 }
 
-// custom css  --------------------------------------------
-.font-size-extra-small {
+// custom font css  --------------------------------------------
+.font-size-smallest {
+  font-size: 6px;
+}
+.font-size-smaller {
   font-size: 8px;
 }
 .font-size-small {
   font-size: 12px !important;
+}
+.font-size-14px {
+  font-size: 14px;
 }
 .font-size-normal {
   font-size: 16px;
@@ -102,6 +162,22 @@ ion-modal.vehicle-details-modal {
 .font-size-large {
   font-size: 24px;
 }
+.color-dark {
+  color: var(--ion-color-dark);
+}
+.color-light {
+  color: var(--ion-color-light);
+}
+.color-medium {
+  color: var(--ion-color-medium);
+}
+.color-white {
+  color: #FFFFFF;
+}
+
+.bold {
+  font-weight: bold;
+}
 
 .custom-ion-text {
   position: relative;
@@ -110,11 +186,29 @@ ion-modal.vehicle-details-modal {
   vertical-align: middle;
 }
 
+//custom alignments
+.verticle-align-middle {
+  vertical-align: middle;
+}
+
+//custom paddings
 .padding-8px {
   padding: 8px;
 }
 .padding-bottom-0px {
   padding-bottom: 0px;
+}
+.padding-start {
+  padding-left: 8px;
+}
+.padding-end {
+  padding-right: 8px;
+}
+.padding-top {
+  padding-top: 8px;
+}
+.padding-bottom {
+  padding-bottom: 8px;
 }
 .padding-top-4px {
   padding-top: 4px;
@@ -128,6 +222,7 @@ ion-footer::before {
 .header-ios ion-toolbar:last-child, .footer-ios ion-toolbar:last-child {
   --border-width: 0;
 }
+
 // CSS for forms
 .custom-bg {
   background-color: var(--ion-color-primary);
@@ -138,8 +233,7 @@ ion-footer::before {
   width: 100%;
 }
 div.form {
-  width: 80%;
-  margin: 28px auto 4px auto;
+  margin: 28px 16px 4px 16px;
   padding: 10px 16px 40px 0px;
   background-color: #FFF;
   position: relative;

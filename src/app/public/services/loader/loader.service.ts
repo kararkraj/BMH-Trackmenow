@@ -14,11 +14,9 @@ export class LoaderService {
 
   async startLoading() {
     this.loading = await this.loadingController.create({
-      spinner: "bubbles",
       animated: true,
       message: '',
       translucent: true,
-      cssClass: ''
     });
     await this.loading.present();
   }

@@ -39,4 +39,18 @@ export class UserService {
   setUser(user: User) {
     this.user = user;
   }
+
+  resetUser() {
+    this.user = {
+      "Firstname": "",
+      "LastName": "",
+      "UserName": "",
+      "Email": "",
+      "MobileNo": 0,
+      "Address": "",
+      "Pincode": 0,
+      "CompanyName": "",
+      "TotalVehicles": 0
+    }
+  }
 }

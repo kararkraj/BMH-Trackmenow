@@ -4,25 +4,20 @@ ion-grid {
   }
   ion-row.bordered {
     padding: 0;
-    border: 1px solid var(--ion-color-medium);
+    border: 1px solid var(--ion-color-light);
     ion-col {
       padding: 8px;
     }
     .border-right {
-      border-right: 1px solid var(--ion-color-medium);
+      border-right: 1px solid var(--ion-color-light);
     }
     .border-left {
-      border-left: 1px solid var(--ion-color-medium);
+      border-left: 1px solid var(--ion-color-light);
     }
   }
 }
 ion-icon.filter {
   transform: rotate(90deg);
-}
-.filter-text {
-  vertical-align: top;
-  position: relative;
-  top: -0.3rem;
 }
 ion-icon.engine-on {
   background-color: var(--ion-color-tertiary);
@@ -33,5 +28,11 @@ ion-icon.engine-off {
 ion-icon.engine-on, ion-icon.engine-off {
   border-radius: 50%;
   padding: 2px;
-  margin-top: 3px;
 }
+.line-height-10px {
+  line-height: 10px;
+}
+// .engine-on.verticle-align-middle, .engine-off.verticle-align-middle {
+//   vertical-align: -webkit-baseline-middle;
+//   vertical-align: middle;
+// }

@@ -37,12 +37,12 @@
 
 <ion-footer>
 	<ion-toolbar>
-		<ion-grid>
+		<ion-grid class="ion-padding">
 			<ion-row>
-				<ion-col>
-					<ion-button expand="block" color="medium" (click)="reset()">RESET</ion-button>
+				<ion-col class="ion-no-padding">
+					<ion-button expand="block" color="light" (click)="reset()">RESET</ion-button>
 				</ion-col>
-				<ion-col>
+				<ion-col class="ion-no-padding">
 					<ion-button expand="block" color="primary" (click)="addVehicle()" disabled="{{!addVehicleForm.valid}}">ADD</ion-button>
 				</ion-col>
 			</ion-row>

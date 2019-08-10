@@ -24,24 +24,20 @@ export class VehicleMapPage {
 
   ngOnInit() {
     this.loader.startLoading().then(() => {
-      this.vehicleSubscription = this.vehicleService.isVehiclesPopulated.subscribe((state) => {
-        if (state) {
-          if (!this.googleMap.isMapInitialized()) {
-            this.googleMap.initMap(this.mapNativeElement).then(() => {
-              this.googleMap.locateVehicles();
-              this.loader.stopLoading();
-            });
-          } else {
-            this.googleMap.updateVehicleMarkers();
-            this.loader.stopLoading();
-          }
-        }
-      });
+      if (!this.googleMap.isMapInitialized()) {
+        this.googleMap.initMap(this.mapNativeElement).then(() => {
+          this.googleMap.locateVehicles();
+          this.loader.stopLoading();
+        });
+      } else {
+        this.googleMap.updateVehicleMarkers();
+        this.loader.stopLoading();
+      }
     });
   }
 
   ngOnDestroy() {
-    this.vehicleSubscription.unsubscribe();
+    this.googleMap.resetMap();
   }
 
   stopTrackingVehicle() {
@@ -60,5 +56,5 @@ export class VehicleMapPage {
 
   getSelectedVehicleNumbers() {
     return this.vehicleService.getSelectedVehicleNumbers();
-    }
+  }
 }

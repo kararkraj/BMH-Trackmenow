@@ -9,56 +9,58 @@
 
 <ion-content>
 	<div class="custom-bg"></div>
-	<form #addVehicleForm="ngForm" novalidate>
+	<form novalidate [formGroup]="contactUsForm">
 		<div class="form">
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">Full Name</ion-label>
-				<ion-input></ion-input>
+				<ion-input formControlName="Username" readonly></ion-input>
 			</ion-item>
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">Email Address</ion-label>
-				<ion-input></ion-input>
+				<ion-input formControlName="Email" readonly></ion-input>
 			</ion-item>
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">Mobile Number</ion-label>
-				<ion-input></ion-input>
+				<ion-input formControlName="MobileNo" readonly></ion-input>
 			</ion-item>
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">Message</ion-label>
-				<ion-textarea></ion-textarea>
+				<ion-textarea formControlName="Message"></ion-textarea>
 			</ion-item>
 		</div>
 	</form>
 	<ion-grid>
-    <ion-row class="ion-padding">
-      <ion-col size="8" offset="2" class="ion-text-center ion-padding">
-        <ion-text color="primary" class="font-size-medium">GET IN TOUCH</ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="8" offset="2" (click)="call()">
-        <ion-icon name="call" color="primary" class="font-size-large"></ion-icon>
-        <ion-text color="primary" class="custom-ion-text">+91 99 9990 9990</ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="8" offset="2" (click)="sendEmail()">
-        <ion-icon name="mail" color="primary" class="font-size-large"></ion-icon>
-        <ion-text color="primary" class="custom-ion-text email">vivek@bmhtechnologies.co</ion-text>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+		<ion-row class="ion-padding" justify-content-center>
+			<ion-col size="auto" class="ion-text-center ion-padding border-bottom">
+				<ion-text color="primary" class="font-size-medium">GET IN TOUCH</ion-text>
+			</ion-col>
+		</ion-row>
+		<ion-row justify-content-center>
+			<ion-col size="9" (click)="call()">
+				<ion-icon name="call" color="primary" class="font-size-large verticle-align-middle"></ion-icon>
+				<ion-text color="primary" class="verticle-align-middle ion-padding-start">+91 99 9990 9990</ion-text>
+			</ion-col>
+		</ion-row>
+		<ion-row justify-content-center>
+			<ion-col size="9" (click)="sendEmail()">
+				<span>
+        <ion-icon name="mail" color="primary" class="font-size-large verticle-align-middle"></ion-icon>
+        <ion-text color="primary" class="verticle-align-middle ion-padding-start">vivek@bmhtechnologies.co</ion-text>
+        </span>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
 </ion-content>
 
 <ion-footer>
 	<ion-toolbar>
-		<ion-grid>
+		<ion-grid class="ion-padding">
 			<ion-row>
-				<ion-col>
-					<ion-button expand="block" color="medium">CANCEL</ion-button>
+				<ion-col class="ion-no-padding">
+					<ion-button expand="block" color="light" (click)="reset()">RESET</ion-button>
 				</ion-col>
-				<ion-col>
-					<ion-button expand="block" color="primary">ADD</ion-button>
+				<ion-col class="ion-no-padding">
+					<ion-button expand="block" color="primary">SUBMIT</ion-button>
 				</ion-col>
 			</ion-row>
 		</ion-grid>

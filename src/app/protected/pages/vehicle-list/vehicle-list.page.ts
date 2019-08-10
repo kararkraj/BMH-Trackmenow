@@ -5,9 +5,6 @@ import { VehicleService } from './../../services/vehicle/vehicle.service';
 import { Vehicle } from './../../services/vehicle/vehicle';
 import { GoogleMapService } from './../../services/google-map/google-map.service';
 import { LoaderService } from './../../../public/services/loader/loader.service';
-import { ToastService } from './../../../public/services/toast/toast.service';
-import { ErrorHandleService } from './../../../public/services/errorHandle/error-handle.service';
-import { environment } from './../../../../environments/environment';
 
 declare var google;
 
@@ -20,14 +17,11 @@ export class VehicleListPage {
 
     public vehicles: Vehicle[];
     private vehicleSubscription;
-    private selectMultiple: boolean;
 
     constructor(
         protected vehicleService: VehicleService,
         private router: Router,
         private loader: LoaderService,
-        private toast: ToastService,
-        private errorHandle: ErrorHandleService,
         private googleMap: GoogleMapService
     ) { }
 
@@ -45,19 +39,15 @@ export class VehicleListPage {
     }
 
     ngOnDestroy() {
-        console.log("Vehicle List destroyed");
         this.vehicleSubscription.unsubscribe();
         this.vehicleService.reset();
     }
 
-    toggleVehicleSelection(vehicle) {
-        this.vehicleService.toggleVehicleNumberSelection(vehicle.VehicleNumber);
+    toggleVehicleSelection(vehicleNumber) {
+        this.vehicleService.toggleVehicleNumberSelection(vehicleNumber);
     }
 
-    startTrackingVehicles(vehicle?) {
-        if (vehicle) {
-            this.toggleVehicleSelection(vehicle);
-        }
+    trackVehicles() {
         if (this.googleMap.isMapInitialized()) {
             this.googleMap.startTrackingVehicles();
         } else {
@@ -68,13 +58,18 @@ export class VehicleListPage {
         this.router.navigate(['tabs/tabs/vehicle-map']);
     }
 
+    selectVehicles(vehicleNumber) {
+        if (this.vehicleService.getSelectedVehicleNumbers().length >= 1) {
+            this.vehicleService.toggleVehicleNumberSelection(vehicleNumber);
+        } else {
+            this.vehicleService.toggleVehicleNumberSelection(vehicleNumber);
+            this.trackVehicles();
+        }
+    }
+
     stopTrackingVehicles() {
         this.vehicleService.clearSelectedVehicleNumbers();
         this.googleMap.stopTrackingVehicles();
-    }
-
-    changeTab() {
-        this.router.navigate(['tabs/tabs/vehicle-map']);
     }
 
     getSelectedVehicleNumbers() {
@@ -83,6 +78,10 @@ export class VehicleListPage {
 
     navigateToAddVehiclePage() {
         this.router.navigate(['/add-vehicle']);
+    }
+
+    getBalanceFuelPercent(balanceFuel, tankCapacity) {
+        return Math.round(balanceFuel*100/tankCapacity) + '%';
     }
 
 }

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { UserService } from './../../services/user/user.service';
 
 @Component({
   selector: 'app-contact-us',
@@ -9,12 +12,25 @@ import { EmailComposer } from '@ionic-native/email-composer/ngx';
 })
 export class ContactUsPage implements OnInit {
 
+  public contactUsForm = new FormGroup({
+    "Username": new FormControl('', Validators.required),
+    "Email": new FormControl(''),
+    "MobileNo": new FormControl('', Validators.required),
+    "Message": new FormControl('')
+  });
+
   constructor(
     private callNumber: CallNumber,
-    private emailComposer: EmailComposer
+    private emailComposer: EmailComposer,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
+    this.contactUsForm.patchValue({
+      Username: this.userService.user["UserName"],
+      Email: this.userService.user["Email"],
+      MobileNo: this.userService.user["MobileNo"]
+    });
   }
 
   call() {
@@ -39,6 +55,12 @@ export class ContactUsPage implements OnInit {
         // Send a text message using default options
         this.emailComposer.open(email);
       }
+    });
+  }
+
+  reset() {
+    this.contactUsForm.patchValue({
+      Message: ""
     });
   }
 

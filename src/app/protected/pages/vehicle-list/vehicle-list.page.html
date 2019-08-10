@@ -1,58 +1,56 @@
 <ion-content>
-	<ion-grid>
-		<ion-row *ngFor="let vehicle of vehicles" [ngClass]="{'selected': vehicle.Selected, 'hidden': !vehicle.Visible}"
-			(tap)="startTrackingVehicles(vehicle)" (press)="toggleVehicleSelection(vehicle)">
-			<ion-col size="auto">
-				<div class="speed-badge">
-					<div>
-						<ion-icon class="font-size-large padding-top-4px" name="speedometer"></ion-icon>
+	<ion-list class="ion-no-padding">
+		<ion-item lines="full" *ngFor="let vehicle of vehicles" [ngClass]="{'selected': vehicle.Selected, 'hidden': !vehicle.Visible}" (press)="toggleVehicleSelection(vehicle.VehicleNumber)" (tap)="selectVehicles(vehicle.VehicleNumber)">
+			<span class="speed-badge color-white">
+        <div>
+          <ion-icon class="font-size-medium padding-top-4px" name="speedometer"></ion-icon>
+        </div>
+        <div class="line-height-4px">
+          <ion-text class="font-size-small ion-no-padding color-white">{{vehicle.LatestGPSInfo.Speed.toFixed(1)}}</ion-text>
+        </div>  
+        <ion-text class="font-size-smaller bold">km/hr</ion-text>
+			</span>
+			<span class="ion-padding-start">
+        <div>
+          <ion-text class="font-size-14px" color="primary">{{vehicle.VehicleNumber}}</ion-text>
+        </div>
+        <div>
+					<span class="font-size-small display-inline-block">
+            <ion-icon class="font-size-normal verticle-align-middle" color="secondary"src="./assets/baseline-local_gas_station-24px.svg"></ion-icon>
+            <span class="verticle-align-middle color-dark padding-start">{{vehicle.LatestGPSInfo.Fuel == null? ' - ': getBalanceFuelPercent(vehicle.LatestGPSInfo.Fuel, vehicle.TankCapacity)}}</span>
+          </span>
+          <span class="font-size-small display-inline-block ion-padding-start">
+            <ion-icon [ngClass]="vehicle.LatestGPSInfo.Ignition === '1'? 'engine-on': 'engine-off'" class="verticle-align-middle engine color-white" name="power"></ion-icon>
+            <span class="verticle-align-middle color-dark padding-start">Engine</span>
+          </span>
+			  </div>
+			</span>
+      <span class="padding-end travel-reply-badge">
+        <div class="ion-text-center">
+					<div class="line-height-0px">
+						<ion-icon class="font-size-medium" name="open" color="primary"></ion-icon>
 					</div>
-					<div>
-						<ion-text class="font-size-small ion-no-padding" color="light">
-							{{vehicle.LatestGPSInfo.Speed.toFixed(1)}}<span>KM/HR</span>
-						</ion-text>
-					</div>
+					<ion-text class="font-size-small" color="dark">Travel Reply</ion-text>
 				</div>
-			</ion-col>
-			<ion-col size="7">
-				<ion-text class="font-size-small" color="primary">{{vehicle.VehicleNumber}}</ion-text>
-				<div class="padding-8px">
-					<ion-icon class="font-size-large" color="secondary"
-						src="./assets/baseline-local_gas_station-24px.svg"></ion-icon>
-					<ion-text class="font-size-small custom-ion-text" color="dark">{{vehicle.LatestGPSInfo.Fuel == null? '-': vehicle.LatestGPSInfo.Fuel}}</ion-text>
-					<ion-icon class="engine-on font-size-normal ion-margin-start" color="light" name="power"
-						*ngIf="vehicle.LatestGPSInfo.Ignition === '1'"></ion-icon>
-					<ion-icon class="engine-off font-size-normal ion-margin-start" color="light" name="power"
-						*ngIf="vehicle.LatestGPSInfo.Ignition === '0'"></ion-icon>
-					<ion-text class="font-size-small custom-ion-text" color="dark">Engine</ion-text>
-				</div>
-			</ion-col>
-			<ion-col size="3" align-self-center>
-				<div class="travel-replay-badge">
-					<div>
-						<ion-icon class="font-size-large" name="open" color="primary"></ion-icon>
-					</div>
-					<ion-text class="font-size-extra-small" color="dark">Travel Replay</ion-text>
-				</div>
-			</ion-col>
-		</ion-row>
-	</ion-grid>
-	<ion-fab vertical="bottom" horizontal="end" slot="fixed"
-		*ngIf="!(getSelectedVehicleNumbers().length > 0)">
-		<ion-fab-button (click)="navigateToAddVehiclePage()"  color="secondary" translucent>
-			<ion-icon name="add" color="light"></ion-icon>
+      </span>
+		</ion-item>
+	</ion-list>
+
+	<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!(getSelectedVehicleNumbers().length > 0)">
+		<ion-fab-button (click)="navigateToAddVehiclePage()" color="secondary" translucent>
+			<ion-icon name="add" class="color-white"></ion-icon>
 		</ion-fab-button>
 	</ion-fab>
-	<ion-fab vertical="bottom" horizontal="end" slot="fixed"
-		*ngIf="getSelectedVehicleNumbers().length > 0" (click)="startTrackingVehicles()">
+	<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="getSelectedVehicleNumbers().length > 0"
+		(click)="trackVehicles()">
 		<ion-fab-button color="secondary" translucent>
-			<ion-icon name="eye" color="light"></ion-icon>
+			<ion-icon name="eye" class="color-white"></ion-icon>
 		</ion-fab-button>
 	</ion-fab>
-	<ion-fab vertical="bottom" horizontal="start" slot="fixed"
-		*ngIf="getSelectedVehicleNumbers().length > 0" (click)="stopTrackingVehicles()">
+	<ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="getSelectedVehicleNumbers().length > 0"
+		(click)="stopTrackingVehicles()">
 		<ion-fab-button color="secondary" translucent>
-			<ion-icon name="close" color="light"></ion-icon>
+			<ion-icon name="close" class="color-white"></ion-icon>
 		</ion-fab-button>
 	</ion-fab>
 </ion-content>

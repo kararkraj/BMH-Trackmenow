@@ -3,8 +3,7 @@ import { Component } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { AlertController } from '@ionic/angular';
-import { MenuController } from '@ionic/angular';
+import { AlertController, MenuController, NavController } from '@ionic/angular';
 
 import { AuthService } from './public/services/auth/auth.service';
 import { UserService } from './protected/services/user/user.service';
@@ -72,7 +71,8 @@ export class AppComponent {
     private router: Router,
     private alertController: AlertController,
     private menu: MenuController,
-    public userService: UserService 
+    public userService: UserService,
+    private navCtrl: NavController
   ) {
     this.initializeApp();
   }
@@ -83,11 +83,6 @@ export class AppComponent {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#184F80');
       this.router.navigate(['']);
-      this.userService.getUserDetails().then((subscription) => {
-      subscription.subscribe((user) => {
-        this.userService.setUser(user[0]);
-      });
-    });
     });
   }
 
@@ -103,16 +98,19 @@ export class AppComponent {
       cssClass: 'custom-alert',
       buttons: [
         {
-          text: 'YES',
-          handler: () => {
-            this.auth.logout().then(() => {
-              this.router.navigate(['login']);
-            });
-          }
-        }, {
           text: 'NO',
           role: 'cancel',
           handler: () => { }
+        },
+        {
+          text: 'YES',
+          handler: () => {
+            this.auth.logout().then(() => {
+              this.navCtrl.navigateRoot('login');
+              this.userService.resetUser();
+              this.menu.enable(false);
+            });
+          }
         }
       ]
     });

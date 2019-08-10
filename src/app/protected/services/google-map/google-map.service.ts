@@ -289,4 +289,11 @@ export class GoogleMapService {
     });
   }
 
+  resetMap () {
+    this.map = null;
+    this.markers = [];
+    this.selectedVehicleMarker = null;
+    this.isVehicleBeingTracked = false;
+  }
+
 }

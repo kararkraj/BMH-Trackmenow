@@ -15,12 +15,12 @@ ion-header {
     position: relative;
   }
   div {
-    padding: 8px;
+    padding: 4px;
   }
 }
 ion-input{
   color: var(--ion-color-dark);
-  --placeholder-color: var(--ion-color-medium);
+  --placeholder-color: var(--ion-color-dark);
 }
 ion-tab-button.tab-selected {
     border-bottom: 2px solid #FFF;

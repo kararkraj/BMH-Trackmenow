@@ -1,9 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonTabs } from '@ionic/angular';
+import { Component } from '@angular/core';
 
 import { VehicleService } from './../../services/vehicle/vehicle.service';
-
-declare var google;
 
 @Component({
     selector: 'app-tabs',
@@ -12,7 +9,6 @@ declare var google;
 })
 export class TabsPage {
 
-    @ViewChild('vehicleTabs') vehicleTabs: IonTabs;
     public filterText;
 
     constructor(
