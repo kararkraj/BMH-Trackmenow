@@ -82,7 +82,7 @@ export class AppComponent {
       this.statusBar.styleLightContent();
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#184F80');
-      this.router.navigate(['']);
+      this.router.navigate(['login']);
     });
   }
 

@@ -15,6 +15,7 @@ export class VehicleMapPage {
 
   @ViewChild('mapElement') mapNativeElement: ElementRef;
   private vehicleSubscription;
+  private subscription;
 
   constructor(
     private loader: LoaderService,
@@ -34,9 +35,15 @@ export class VehicleMapPage {
         this.loader.stopLoading();
       }
     });
+    this.subscription = this.vehicleService.isVehiclesPopulated.subscribe((state) => {
+      if (state) {
+        this.googleMap.updateVehicleMarkers();
+      }
+    });
   }
 
   ngOnDestroy() {
+    this.subscription.unsubscribe();
     this.googleMap.resetMap();
   }
 

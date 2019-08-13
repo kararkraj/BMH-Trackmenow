@@ -3,7 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  // { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', loadChildren: './public/pages/login/login.module#LoginPageModule' },
   { path: 'tabs', canActivate: [ AuthGuard ], loadChildren: './protected/pages/tabs/tabs.module#TabsPageModule' },
   { path: 'add-vehicle', canActivate: [ AuthGuard ], loadChildren: './protected/pages/add-vehicle/add-vehicle.module#AddVehiclePageModule' },
