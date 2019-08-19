@@ -1,51 +1,53 @@
 <ion-app>
-	<ion-split-pane>
-		<ion-menu type="overlay" disabled="true">
-			<ion-header class="menu">
+	<ion-menu type="overlay" disabled="true">
+		<ion-header class="menu">
+			<div>
 				<div>
-					<div>
-						<ion-label class="font-size-medium">{{userService.user.Firstname}} {{userService.user.LastName}}</ion-label>
-						<p class="font-size-small">{{userService.user.Email}}</p>
-					</div>
+					<ion-label class="font-size-medium">{{userService.user.Firstname}} {{userService.user.LastName}}
+					</ion-label>
+					<p class="font-size-small">{{userService.user.Email}}</p>
 				</div>
-			</ion-header>
-			<ion-content class="menu">
-				<ion-list>
-					<div *ngFor="let page of appPages">
-						<ion-menu-toggle autoHide="true" *ngIf="page.url">
-							<ion-item detail="{{page.detail}}" detailIcon="{{page.detailIcon}}" lines="inset"
-								[routerDirection]="'forward'" routerLink="{{page.url}}">
-								<ion-icon slot="start" [name]="page.icon"></ion-icon>
-								<ion-label class="font-size-normal ion-padding-vertical ion-padding-end ion-no-margin">
-									{{page.title}}
-								</ion-label>
-							</ion-item>
-						</ion-menu-toggle>
-						<ion-item *ngIf="!page.url" detail="{{page.detail}}" detailIcon="{{page.hideSubPages? 'arrow-dropdown':'arrow-dropup'}}"
-							lines="{{page.hideSubPages? 'inset': 'none'}}" (click)="page.subPages? toggleSubPages(): logout()">
+			</div>
+		</ion-header>
+		<ion-content class="menu">
+			<ion-list>
+				<div *ngFor="let page of appPages">
+					<ion-menu-toggle autoHide="true" *ngIf="page.url">
+						<ion-item detail="{{page.detail}}" detailIcon="{{page.detailIcon}}" lines="inset"
+							[routerDirection]="'forward'" routerLink="{{page.url}}">
 							<ion-icon slot="start" [name]="page.icon"></ion-icon>
 							<ion-label class="font-size-normal ion-padding-vertical ion-padding-end ion-no-margin">
 								{{page.title}}
 							</ion-label>
 						</ion-item>
-						<ion-list *ngIf="page.subPages" [hidden]="page.hideSubPages" class="sub-pages ion-no-margin">
-							<ion-menu-toggle autoHide="true" *ngFor="let subPage of page.subPages">
-								<ion-item class="ion-no-padding" [routerDirection]="'forward'" [routerLink]="[subPage.url]" detail="false" lines="none">
-									<ion-label class="font-size-small ion-padding-bottom ion-padding-end ion-no-margin">
-										{{subPage.title}}
-									</ion-label>
-								</ion-item>
-							</ion-menu-toggle>
-						</ion-list>
-					</div>
-				</ion-list>
-			</ion-content>
-      <ion-footer>
-        <ion-toolbar class="ion-text-center background-light">
-          <img src="./assets/img/bmh-logo.png" width="40%" />
-        </ion-toolbar>
-      </ion-footer>
-		</ion-menu>
-		<ion-router-outlet main></ion-router-outlet>
-	</ion-split-pane>
+					</ion-menu-toggle>
+					<ion-item *ngIf="!page.url" detail="{{page.detail}}"
+						detailIcon="{{page.hideSubPages? 'arrow-dropdown':'arrow-dropup'}}"
+						lines="{{page.hideSubPages? 'inset': 'none'}}"
+						(click)="page.subPages? toggleSubPages(): logout()">
+						<ion-icon slot="start" [name]="page.icon"></ion-icon>
+						<ion-label class="font-size-normal ion-padding-vertical ion-padding-end ion-no-margin">
+							{{page.title}}
+						</ion-label>
+					</ion-item>
+					<ion-list *ngIf="page.subPages" [hidden]="page.hideSubPages" class="sub-pages ion-no-margin">
+						<ion-menu-toggle autoHide="true" *ngFor="let subPage of page.subPages">
+							<ion-item class="ion-no-padding" [routerDirection]="'forward'" [routerLink]="[subPage.url]"
+								detail="false" lines="none">
+								<ion-label class="font-size-small ion-padding-bottom ion-padding-end ion-no-margin">
+									{{subPage.title}}
+								</ion-label>
+							</ion-item>
+						</ion-menu-toggle>
+					</ion-list>
+				</div>
+			</ion-list>
+		</ion-content>
+		<ion-footer>
+			<ion-toolbar class="ion-text-center background-light">
+				<img src="./assets/img/bmh-logo.png" width="40%" />
+        	</ion-toolbar>
+		</ion-footer>
+	</ion-menu>
+	<ion-router-outlet main></ion-router-outlet>
 </ion-app>

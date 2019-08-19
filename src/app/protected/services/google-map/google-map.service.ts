@@ -44,21 +44,21 @@ export class GoogleMapService {
   }
 
   generateVehicleMarker(vehicle) {
+
     const icon = {
-      url: './assets/vehicles/truck-' + this.getIconColor(vehicle) + '.svg',
-      // url: './assets/vehicles/truck/' + this.getIconColor(vehicle) + this.getMarkerOrigin(vehicle.LatestGPSInfo.Degree) + ".png#" + vehicle.VehicleNumber,
-      size: new google.maps.Size(40, 40),
-      anchor: this.getMarkerAchor(0),
+      url: this.getIconUrl(1) + '-' + this.getIconColor(vehicle) + '-' + this.getIconRotation(vehicle.LatestGPSInfo.Degree) + '.png',
+      scaledSize: new google.maps.Size(40, 40),
+      anchor: new google.maps.Point(20, 20),
       animation: "DROP"
     };
+
     const marker = new google.maps.Marker({
       position: { lat: vehicle.LatestGPSInfo.Latitude, lng: vehicle.LatestGPSInfo.Longitude },
       map: this.map,
       icon: icon,
       title: vehicle.VehicleNumber,
       animation: google.maps.Animation.DROP,
-      visible: true,
-      optimized: false
+      visible: true
     });
 
     const that = this;
@@ -78,8 +78,12 @@ export class GoogleMapService {
     this.markers.forEach((marker) => {
       if (marker.title === vehicle.VehicleNumber) {
 
-        const icon = marker.getIcon();
-        icon.rotation = vehicle.LatestGPSInfo.Degree;
+        const icon = {
+          url: this.getIconUrl(1) + '-' + this.getIconColor(vehicle) + '-' + this.getIconRotation(vehicle.LatestGPSInfo.Degree) + '.png',
+          scaledSize: new google.maps.Size(40, 40),
+          anchor: new google.maps.Point(20, 20),
+          animation: "DROP"
+        };
         marker.setIcon(icon);
 
         const latOffset = (vehicle.LatestGPSInfo.Latitude - marker.getPosition().lat()) / 100;
@@ -107,58 +111,61 @@ export class GoogleMapService {
 
   getMarkerAchor(vehicleType) {
     switch (vehicleType) {
+      case 0:
+        return new google.maps.Point(0, 0);
       case 1: //BAG
         return new google.maps.Point(20, 40);
       case 2:
-        return new google.maps.Point(0, 0);
-      default:
-        return new google.maps.Point(20, 20);
+        return new google.maps.Point(40, 40);
     }
+  }
+
+  getIconRotation(degree) {
+    return (Math.round(degree / 10) * 10) === 0? 360: (Math.round(degree / 10) * 10);
   }
 
   getMarkerOrigin(degree) {
     switch (Math.round(degree / 45)) {
       case 1:
         return "1";
-        // return new google.maps.Point(40, 0);
+      // return new google.maps.Point(40, 0);
       case 2:
         return "2";
-        // return new google.maps.Point(80, 0);
+      // return new google.maps.Point(80, 0);
       case 3:
         return "3";
-        // return new google.maps.Point(120, 0);
+      // return new google.maps.Point(120, 0);
       case 4:
         return "4";
-        // return new google.maps.Point(160, 0);
+      // return new google.maps.Point(160, 0);
       case 5:
         return "5";
-        // return new google.maps.Point(200, 0);
+      // return new google.maps.Point(200, 0);
       case 6:
         return "6";
-        // return new google.maps.Point(240, 0);
+      // return new google.maps.Point(240, 0);
       case 7:
         return "7";
-        // return new google.maps.Point(280, 0);
+      // return new google.maps.Point(280, 0);
       default:
         return "1";
-        // return new google.maps.Point(0, 0);
+      // return new google.maps.Point(0, 0);
     }
   }
 
   getIconUrl(vehicleTypeId) {
-    var baseUrl = "./assets/vehicles/";
-
+    const baseUrl = "./assets/vehicles/";
     switch (vehicleTypeId) {
+      case 1:
+        return baseUrl + "truck/truck";
       case 2:
-        return baseUrl + "bus/";
+        return baseUrl + "bus/bus";
       case 3:
-        return baseUrl + "car/";
+        return baseUrl + "car/car";
       case 4:
-        return baseUrl + "tractor/";
+        return baseUrl + "tractor/tractor";
       case 5:
-        return baseUrl + "train/";
-      default:
-        return baseUrl + "truck/";
+        return baseUrl + "train/train";
     }
   }
 
@@ -247,7 +254,14 @@ export class GoogleMapService {
         marker.setVisible(false);
       }
     });
-    this.fitMapBounds();
+    const mapBounds = new google.maps.LatLngBounds();
+    this.markers.forEach((marker) => {
+      if (marker.getVisible()) {
+        mapBounds.extend(marker.getPosition());
+      }
+    });
+    this.panMapToBounds(mapBounds);
+    // this.fitMapBounds();
   }
 
   stopTrackingVehicles() {
@@ -278,7 +292,7 @@ export class GoogleMapService {
     });
   }
 
-  resetMap () {
+  resetMap() {
     this.map = null;
     this.markers = [];
     this.selectedVehicleMarker = null;

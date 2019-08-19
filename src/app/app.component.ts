@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { AlertController, MenuController, NavController } from '@ionic/angular';
 
 import { AuthService } from './public/services/auth/auth.service';
@@ -72,7 +73,8 @@ export class AppComponent {
     private alertController: AlertController,
     private menu: MenuController,
     public userService: UserService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private splashScreen: SplashScreen
   ) {
     this.initializeApp();
   }
@@ -81,6 +83,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#184F80');
+      this.splashScreen.hide();
       this.router.navigate(['login']);
     });
   }
