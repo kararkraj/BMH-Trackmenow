@@ -33,11 +33,11 @@ export class AppComponent {
       subPages: [
         {
           title: 'SPEED',
-          url: 'tabs/vehicle-list',
+          url: '/speed-report',
         },
         {
           title: 'FUEL',
-          url: 'tabs/vehicle-list',
+          url: '/fuel-report',
         },
         {
           title: 'TRIP',
@@ -45,7 +45,7 @@ export class AppComponent {
         },
         {
           title: 'DISTANCE/KM',
-          url: 'tabs/vehicle-list',
+          url: '/distance-report',
         },
       ]
     },

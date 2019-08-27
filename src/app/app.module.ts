@@ -14,11 +14,12 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { VehicleDetailsComponentModule } from './protected/components/vehicle-details/vehicle-details.module';
 import { VehicleDetailsComponent } from './protected/components/vehicle-details/vehicle-details.component';
+
 import { IonicGestureConfig } from './public/services/hammer/hammer.service';
 
 @NgModule({
   declarations: [AppComponent],
-    entryComponents: [VehicleDetailsComponent],
+  entryComponents: [VehicleDetailsComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

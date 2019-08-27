@@ -18,13 +18,15 @@
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">IMEI</ion-label>
 				<ion-select formControlName="IMEI" okText="Okay" cancelText="Dismiss">
-          <ion-select-option *ngFor="let device of devices" value="{{device.IMEI}}">{{device.IMEI}}</ion-select-option>
+					<ion-select-option *ngFor="let device of devices" value="{{device.IMEI}}">{{device.IMEI}}
+					</ion-select-option>
 				</ion-select>
 			</ion-item>
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">Vehicle Type</ion-label>
 				<ion-select formControlName="VehicleTypeId" okText="Okay" cancelText="Dismiss">
-          <ion-select-option *ngFor="let vehicleType of vehicleTypes" value="{{vehicleType.VehicleTypeId}}">{{vehicleType.Name}}</ion-select-option>
+					<ion-select-option *ngFor="let vehicleType of vehicleTypes" value="{{vehicleType.VehicleTypeId}}">
+						{{vehicleType.Name}}</ion-select-option>
 				</ion-select>
 			</ion-item>
 			<ion-item lines="inset">
@@ -43,7 +45,8 @@
 					<ion-button expand="block" color="light" (click)="reset()">RESET</ion-button>
 				</ion-col>
 				<ion-col class="ion-no-padding">
-					<ion-button expand="block" color="primary" (click)="addVehicle()" disabled="{{!addVehicleForm.valid}}">ADD</ion-button>
+					<ion-button expand="block" color="primary" (click)="addVehicle()"
+						disabled="{{!addVehicleForm.valid}}">ADD</ion-button>
 				</ion-col>
 			</ion-row>
 		</ion-grid>

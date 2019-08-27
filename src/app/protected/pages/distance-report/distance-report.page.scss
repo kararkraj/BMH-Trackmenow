@@ -1,0 +1,17 @@
+.rounded-corners {
+    --border-radius: 50px;
+}
+ion-select {
+    background: #FFFFFF;
+    border-radius: 25px;
+    padding-inline-end: 25px;
+    color: var(--ion-color-primary);
+}
+.inline-items {
+  ion-item {
+    display: inline-block;
+  }
+  ion-item:first-child {
+    width: 50%;
+  }
+}

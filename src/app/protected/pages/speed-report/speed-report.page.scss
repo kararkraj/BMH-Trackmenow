@@ -1,0 +1,13 @@
+.custom-bg {
+  border-radius: 0 0 0 20%;
+  position: relative;
+  margin-bottom: 6px;
+}
+.inline-items {
+  ion-item {
+    display: inline-block;
+  }
+  ion-item:first-child {
+    width: 74%;
+  }
+}

@@ -153,4 +153,12 @@ export class VehicleService {
     this.filterString = "";
     this.selectedVehicleNumbers = [];
   }
+
+  getVehicleNumbers() {
+    const vehicleNumbers = [];
+    this.vehicles.forEach((vehicle) => {
+      vehicleNumbers.push(vehicle.VehicleNumber);
+    });
+    return vehicleNumbers;
+  }
 }

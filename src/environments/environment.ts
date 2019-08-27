@@ -13,12 +13,16 @@ export const environment = {
     getUserProfile: "UserProfile/Get",
     getVehicleTypes: "VehicleType/Get",
     getGPSDevices: "Device/Get",
-    addVehicle: "Vehicle/Create"
+    addVehicle: "Vehicle/Create",
+    speedReport: "SpeedReport/Get",
+    distanceReport: "DistanceReport/Get",
+    fuelReport: "FuelReport/Get"
   },
   messages: {
     credentialsMismatch: "Please enter valid credentials.",
     noInternet: "Please make sure you have internet connectivity",
-    somethingWrong: "Something went wrong. Please try again after some time."
+    somethingWrong: "Something went wrong. Please try again after some time.",
+    reportDataUnavailable: "The noun data of the vehicle is unavailable in the selected date range."
   }
 };
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { AddVehicleService } from './../../services/add-vehicle/add-vehicle.service';
+import { HttpService } from './../../services/http/http.service';
 import { ToastService } from './../../../public/services/toast/toast.service';
 import { LoaderService } from './../../../public/services/loader/loader.service';
 
@@ -22,19 +22,14 @@ export class AddVehiclePage implements OnInit {
   public devices;
 
   constructor(
-    private addVehicleService: AddVehicleService,
+    private addVehicleService: HttpService,
     private toast: ToastService,
     private loader: LoaderService
   ) { }
 
   ngOnInit() {
-    console.log("AddVehicle init");
     this.getVehicleTypes();
     this.getGPSDevices();
-  }
-
-  ngOnDestroy() {
-    console.log("AddVehicle destroyed");
   }
 
   getVehicleTypes() {

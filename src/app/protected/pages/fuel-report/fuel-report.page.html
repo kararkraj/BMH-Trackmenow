@@ -1,0 +1,60 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-buttons slot="start">
+			<ion-back-button icon="arrow-back" text=""></ion-back-button>
+		</ion-buttons>
+		<ion-title>Fuel Report</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<div class="custom-bg">
+		<div id="chart_div"></div>
+	</div>
+	<form novalidate [formGroup]="fuelReportForm">
+		<ion-item class="padding-end" lines="inset">
+			<ion-label position="floating" color="dark">Select Vehicle</ion-label>
+			<ion-select formControlName="VehicleNumber" okText="Okay" cancelText="Dismiss">
+				<ion-select-option *ngFor="let vehicleNumber of vehicleNumbers" value="{{vehicleNumber}}">
+					{{vehicleNumber}}
+				</ion-select-option>
+			</ion-select>
+		</ion-item>
+		<div class="inline-items ion-padding-end">
+			<ion-item lines="inset">
+  				<ion-label position="floating" color="dark">From</ion-label>
+  				<ion-datetime formControlName="fromDate" displayFormat="MM/DD/YYYY" min="2017-01-01"></ion-datetime>
+			</ion-item>
+			<ion-item lines="inset">
+  				<ion-label position="floating" color="dark">HH:mm</ion-label>
+  				<ion-datetime formControlName="fromTime" displayFormat="HH:mm"></ion-datetime>
+			</ion-item>
+		</div>
+		<div class="inline-items ion-padding-end">
+			<ion-item lines="inset">
+  				<ion-label position="floating" color="dark">To</ion-label>
+  				<ion-datetime formControlName="toDate" displayFormat="MM/DD/YYYY" min="2017-01-01"></ion-datetime>
+			</ion-item>
+			<ion-item lines="inset">
+  				<ion-label position="floating" color="dark">HH:mm</ion-label>
+  				<ion-datetime formControlName="toTime" displayFormat="HH:mm"></ion-datetime>
+			</ion-item>
+		</div>
+	</form>
+</ion-content>
+
+<ion-footer>
+	<ion-toolbar>
+		<ion-grid class="ion-padding">
+			<ion-row>
+				<ion-col class="ion-no-padding">
+					<ion-button expand="block" color="light" (click)="reset()">RESET</ion-button>
+				</ion-col>
+				<ion-col class="ion-no-padding">
+					<ion-button expand="block" color="primary" (click)="getFuelReport()"
+						disabled="{{!fuelReportForm.valid}}">SHOW</ion-button>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ion-toolbar>
+</ion-footer>
