@@ -11,35 +11,52 @@
 	<div class="custom-bg"></div>
 	<form novalidate [formGroup]="distanceReportForm">
 		<div class="ion-padding rounded-corners">
-			<ion-select class="font-size-14px" okText="Okay" cancelText="Dismiss">
+			<ion-select formControlName="VehicleNumber" class="font-size-14px" okText="Okay" cancelText="Dismiss">
+				<ion-select-option value="">All</ion-select-option>
 				<ion-select-option *ngFor="let vehicleNumber of vehicleNumbers" value="{{vehicleNumber}}">
 					{{vehicleNumber}}
 				</ion-select-option>
 			</ion-select>
 		</div>
-		<div class="inline-items ion-padding-end">
-			<ion-item lines="inset">
-				<ion-datetime formControlName="toDate" displayFormat="MM/DD/YYYY" min="2017-01-01"></ion-datetime>
+		<div class="inline-items ion-padding">
+			<ion-item lines="none" detail="true" detailIcon="md-arrow-dropdown">
+				<ion-datetime class="font-size-14px ion-no-padding" placeholder="Date" formControlName="Start"
+					displayFormat="DDDD, MMM DD, YYYY, hh:mm A" min="2017-01-01"></ion-datetime>
 			</ion-item>
-			<ion-item lines="inset">
-				<ion-datetime formControlName="toTime" displayFormat="HH:mm"></ion-datetime>
+			<span class="font-size-normal">TO</span>
+			<ion-item lines="none" detail="true" detailIcon="md-arrow-dropdown">
+				<ion-datetime class="font-size-14px ion-no-padding" placeholder="Date" formControlName="End"
+					displayFormat="DDDD MMM DD, YYYY, hh:mm A" min="2017-01-01"></ion-datetime>
 			</ion-item>
 		</div>
 	</form>
+	<div class="icon" (click)="getDistanceReport()">
+		<ion-icon name="ios-arrow-dropright"></ion-icon>
+	</div>
+	<div class="vehicle-count ion-padding-top ion-padding-start ion-padding-end">
+		<div>
+			<ion-text color="secondary" class="font-size-14px">Total Vehicles Count: {{distanceReport.length}}</ion-text>
+		</div>
+		<div class="download-icon ion-text-right">
+			<ion-icon name="md-download" class="download verticle-align-middle"></ion-icon>
+		</div>
+	</div>
+	<div class="ion-padding list ion-margin" *ngFor="let vehicle of distanceReport">
+		<div class="inline-block">
+			<div>
+				<ion-text color="medium" class="font-size-small">Vehicle</ion-text>
+			</div>
+			<div>
+				<ion-text class="font-size-14px">{{vehicle.VehicleNumber}}</ion-text>
+			</div>
+		</div>
+		<div class="inline-block ion-text-right">
+			<div>
+				<ion-text color="medium" class="font-size-small">Distance km/hr</ion-text>
+			</div>
+			<div>
+				<ion-text class="font-size-normal">{{vehicle.Distance}}</ion-text>
+			</div>
+		</div>
+	</div>
 </ion-content>
-
-<ion-footer>
-	<ion-toolbar>
-		<ion-grid class="ion-padding">
-			<ion-row>
-				<ion-col class="ion-no-padding">
-					<ion-button expand="block" color="light" (click)="reset()">RESET</ion-button>
-				</ion-col>
-				<ion-col class="ion-no-padding">
-					<ion-button expand="block" color="primary" (click)="getDistanceReport()"
-						disabled="{{!distanceReportForm.valid}}">ADD</ion-button>
-				</ion-col>
-			</ion-row>
-		</ion-grid>
-	</ion-toolbar>
-</ion-footer>

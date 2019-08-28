@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { VehicleService } from './../../services/vehicle/vehicle.service';
 import { HttpService } from './../../services/http/http.service';
 import { ToastService } from './../../../public/services/toast/toast.service';
+import { LoaderService } from './../../../public/services/loader/loader.service';
 import { environment } from './../../../../environments/environment';
 
 declare var google;
@@ -29,7 +30,8 @@ export class SpeedReportPage implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     private http: HttpService,
-    private toast: ToastService
+    private toast: ToastService,
+    private loader: LoaderService
   ) { }
 
   ngOnInit() {
@@ -73,7 +75,7 @@ export class SpeedReportPage implements OnInit {
         },
         baselineColor: '#77869E'
       },
-      backgroundColor: { fill:'transparent' },
+      backgroundColor: { fill: 'transparent' },
       colors: ['#ffffff', '#77869E'],
       crosshair: { trigger: 'both' },
       pointSize: 2
@@ -86,23 +88,30 @@ export class SpeedReportPage implements OnInit {
   }
 
   getSpeedReport() {
-    let data = {
-      "VehicleNumber": this.speedReportForm.value.VehicleNumber,
-      "FromDate": (this.speedReportForm.value.fromDate.split("T")[0] + "T" + (this.speedReportForm.value.fromTime ? (this.speedReportForm.value.fromTime.split("T")[1]).split(":")[0] + ":" + (this.speedReportForm.value.fromTime.split("T")[1]).split(":")[1] + ":00" : "00:00:00")).split(".")[0] + "Z",
-      "ToDate": (this.speedReportForm.value.toDate.split("T")[0] + "T" + (this.speedReportForm.value.toTime ? (this.speedReportForm.value.toTime.split("T")[1]).split(":")[0] + ":" + (this.speedReportForm.value.toTime.split("T")[1]).split(":")[1] + ":00" : "00:00:00")).split(".")[0] + "Z"
-    };
-    this.http.getSpeedReport(data).then((subscription) => {
-      subscription.subscribe((data) => {
-        let rows = [];
-        data["SpeedData"].forEach((data) => {
-          rows.push([new Date(data.ReceivedOn.substring(0, data.ReceivedOn.length - 1)), data.Speed])
+    this.loader.startLoading().then(() => {
+      let data = {
+        "VehicleNumber": this.speedReportForm.value.VehicleNumber,
+        "FromDate": (this.speedReportForm.value.fromDate.split("T")[0] + "T" + (this.speedReportForm.value.fromTime ? (this.speedReportForm.value.fromTime.split("T")[1]).split(":")[0] + ":" + (this.speedReportForm.value.fromTime.split("T")[1]).split(":")[1] + ":00" : "00:00:00")).split(".")[0] + "Z",
+        "ToDate": (this.speedReportForm.value.toDate.split("T")[0] + "T" + (this.speedReportForm.value.toTime ? (this.speedReportForm.value.toTime.split("T")[1]).split(":")[0] + ":" + (this.speedReportForm.value.toTime.split("T")[1]).split(":")[1] + ":00" : "00:00:00")).split(".")[0] + "Z"
+      };
+      this.http.getSpeedReport(data).then((subscription) => {
+        subscription.subscribe((data) => {
+          let rows = [];
+          data["SpeedData"].forEach((data) => {
+            rows.push([new Date(data.ReceivedOn.substring(0, data.ReceivedOn.length - 1)), data.Speed])
+          });
+          if (rows.length === 0) {
+            this.loader.stopLoading();
+            this.toast.toastHandler(environment.messages.reportDataUnavailable.replace("noun", "fuel"), "secondary")
+          } else {
+            this.data.addRows(rows);
+            this.drawChart();
+            this.loader.stopLoading();
+          }
+        }, (error) => {
+          this.toast.toastHandler(environment.messages.somethingWrong, "secondary");
+          this.loader.stopLoading();
         });
-        if (rows.length === 0) {
-          this.toast.toastHandler(environment.messages.reportDataUnavailable.replace("noun", "fuel"), "secondary")
-        } else {
-          this.data.addRows(rows);
-          this.drawChart();
-        }
       });
     });
   }
