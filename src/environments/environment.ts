@@ -22,7 +22,8 @@ export const environment = {
     credentialsMismatch: "Please enter valid credentials.",
     noInternet: "Please make sure you have internet connectivity",
     somethingWrong: "Something went wrong. Please try again after some time.",
-    reportDataUnavailable: "The noun data of the vehicle is unavailable in the selected date range."
+    reportDataUnavailable: "The noun data of the vehicle is unavailable in the selected date range.",
+    noDevices: "There are no new devices to add."
   }
 };
 

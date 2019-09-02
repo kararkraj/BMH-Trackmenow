@@ -46,9 +46,9 @@ export class GoogleMapService {
   generateVehicleMarker(vehicle) {
 
     const icon = {
-      url: this.getIconUrl(1) + '-' + this.getIconColor(vehicle) + '-' + this.getIconRotation(vehicle.LatestGPSInfo.Degree) + '.png',
-      scaledSize: new google.maps.Size(40, 40),
-      anchor: new google.maps.Point(20, 20),
+      url: this.getIconUrl(1) + '-' + this.getIconColor(vehicle) + '-' + this.getMarkerOrigin(vehicle.LatestGPSInfo.Degree) + '.png',
+      scaledSize: new google.maps.Size(60, 60),
+      anchor: new google.maps.Point(30, 30),
       animation: "DROP"
     };
 
@@ -79,9 +79,9 @@ export class GoogleMapService {
       if (marker.title === vehicle.VehicleNumber) {
 
         const icon = {
-          url: this.getIconUrl(1) + '-' + this.getIconColor(vehicle) + '-' + this.getIconRotation(vehicle.LatestGPSInfo.Degree) + '.png',
-          scaledSize: new google.maps.Size(40, 40),
-          anchor: new google.maps.Point(20, 20),
+          url: this.getIconUrl(1) + '-' + this.getIconColor(vehicle) + '-' + this.getMarkerOrigin(vehicle.LatestGPSInfo.Degree) + '.png',
+          scaledSize: new google.maps.Size(60, 60),
+          anchor: new google.maps.Point(30, 30),
           animation: "DROP"
         };
         marker.setIcon(icon);
@@ -126,30 +126,32 @@ export class GoogleMapService {
 
   getMarkerOrigin(degree) {
     switch (Math.round(degree / 45)) {
-      case 1:
-        return "1";
+      case 0:
+        return 0;
       // return new google.maps.Point(40, 0);
-      case 2:
-        return "2";
+      case 1:
+        return 45;
       // return new google.maps.Point(80, 0);
-      case 3:
-        return "3";
+      case 2:
+        return 90;
       // return new google.maps.Point(120, 0);
-      case 4:
-        return "4";
+      case 3:
+        return 135;
       // return new google.maps.Point(160, 0);
-      case 5:
-        return "5";
+      case 4:
+        return 180;
       // return new google.maps.Point(200, 0);
-      case 6:
-        return "6";
+      case 5:
+        return 225;
       // return new google.maps.Point(240, 0);
-      case 7:
-        return "7";
+      case 6:
+        return 270;
       // return new google.maps.Point(280, 0);
-      default:
-        return "1";
+      case 7:
+        return 315;
       // return new google.maps.Point(0, 0);
+      default:
+        return 0;
     }
   }
 

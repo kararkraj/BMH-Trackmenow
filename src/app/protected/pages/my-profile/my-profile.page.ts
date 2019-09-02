@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
+import { LoaderService } from './../../../public/services/loader/loader.service';
 import { UserService } from './../../services/user/user.service';
 
 @Component({
@@ -22,7 +23,8 @@ export class MyProfilePage implements OnInit {
   });
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private loader: LoaderService
   ) { }
 
   ngOnInit() {
@@ -43,7 +45,9 @@ export class MyProfilePage implements OnInit {
   }
 
   saveProfile() {
-    console.log(this.userForm.value);
+    this.loader.startLoading().then(() => {
+      console.log(this.userForm.value);      
+    });
   }
 
   reset() {

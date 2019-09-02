@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpService } from './../../services/http/http.service';
 import { ToastService } from './../../../public/services/toast/toast.service';
 import { LoaderService } from './../../../public/services/loader/loader.service';
+import { environment } from './../../../../environments/environment';
 
 @Component({
   selector: 'app-add-vehicle',
@@ -19,10 +20,10 @@ export class AddVehiclePage implements OnInit {
     "VehicleTypeId": new FormControl('', Validators.required),
     "TankCapacity": new FormControl(null)
   });
-  public devices;
+  public devices = [];
 
   constructor(
-    private addVehicleService: HttpService,
+    private http: HttpService,
     private toast: ToastService,
     private loader: LoaderService
   ) { }
@@ -33,7 +34,7 @@ export class AddVehiclePage implements OnInit {
   }
 
   getVehicleTypes() {
-    this.addVehicleService.getVehicleTypes().then((subscription) => {
+    this.http.getVehicleTypes().then((subscription) => {
       subscription.subscribe((vehicleTypes) => {
         this.vehicleTypes = vehicleTypes;
       });
@@ -41,19 +42,26 @@ export class AddVehiclePage implements OnInit {
   }
 
   getGPSDevices() {
-    this.addVehicleService.getGPSDevices().then((subscription) => {
-      subscription.subscribe((devices) => {
-        console.log(devices);
-        this.devices = devices;
+    this.http.getGPSDevices().then((subscription) => {
+      subscription.subscribe((devices: []) => {
+        if (devices.length > 0) {
+          devices.forEach((device) => {
+            if (!device["VehicleNumber"]) {
+              this.devices.push(device)
+            }
+          });
+        }
+        if (this.devices.length === 0) {
+          this.toast.toastHandler(environment.messages.noDevices, "secondary")
+        }
       });
     });
   }
 
   addVehicle() {
     this.loader.startLoading().then(() => {
-      this.addVehicleService.addVehicle(this.addVehicleForm.value).then((subscription) => {
-        subscription.subscribe((devices) => {
-          console.log(devices);
+      this.http.addVehicle(this.addVehicleForm.value).then((subscription) => {
+        subscription.subscribe((res) => {
           this.loader.stopLoading();
           this.toast.toastHandler("Vehicle added successfully.", "tertiary");
         }, (error) => {
