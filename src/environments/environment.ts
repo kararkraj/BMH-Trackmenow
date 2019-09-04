@@ -11,6 +11,7 @@ export const environment = {
     login: "Account/Login",
     getVehicles: "Vehicle/GetAll",
     getUserProfile: "UserProfile/Get",
+    updateUserProfile: "UserProfile/Update",
     getVehicleTypes: "VehicleType/Get",
     getGPSDevices: "Device/Get",
     addVehicle: "Vehicle/Create",
@@ -23,7 +24,8 @@ export const environment = {
     noInternet: "Please make sure you have internet connectivity",
     somethingWrong: "Something went wrong. Please try again after some time.",
     reportDataUnavailable: "The noun data of the vehicle is unavailable in the selected date range.",
-    noDevices: "There are no new devices to add."
+    noDevices: "There are no new devices to add.",
+    userProfileUpdated: "Thanks for updating your profile"
   }
 };
 

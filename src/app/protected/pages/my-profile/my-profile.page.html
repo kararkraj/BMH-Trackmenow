@@ -14,45 +14,41 @@
 			<div class="item-inline"></div>
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">First Name</ion-label>
-				<ion-input formControlName="Firstname"></ion-input>
+				<ion-input readonly="{{!isEditable}}" formControlName="Firstname"></ion-input>
 			</ion-item>
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">Last Name</ion-label>
-				<ion-input formControlName="LastName"></ion-input>
+				<ion-input readonly="{{!isEditable}}" formControlName="LastName"></ion-input>
 			</ion-item>
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">Username</ion-label>
-				<ion-input formControlName="UserName"></ion-input>
+				<ion-input readonly="{{!isEditable}}" formControlName="UserName"></ion-input>
 			</ion-item>
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">Email Address</ion-label>
-				<ion-input formControlName="Email"></ion-input>
+				<ion-input readonly="{{!isEditable}}" formControlName="Email"></ion-input>
 			</ion-item>
 			<ion-item lines="inset">
 				<ion-label position="floating" color="dark">Mobile Number</ion-label>
-				<ion-input formControlName="MobileNo"></ion-input>
-			</ion-item>
-			<ion-item lines="inset">
-				<ion-label position="floating" color="dark">Address</ion-label>
-				<ion-textarea formControlName="Address"></ion-textarea>
+				<ion-input readonly="{{!isEditable}}" formControlName="MobileNo"></ion-input>
 			</ion-item>
 		</div>
 		<ion-item lines="inset" class="ion-padding-end ion-padding-start">
 			<ion-label position="floating" color="dark">Company Name</ion-label>
-			<ion-input formControlName="CompanyName"></ion-input>
+			<ion-input readonly="true" formControlName="CompanyName"></ion-input>
 		</ion-item>
 		<ion-item lines="inset" class="ion-padding-end ion-padding-start">
 			<ion-label position="floating" color="dark">Total Vehicles</ion-label>
-			<ion-input formControlName="TotalVehicles"></ion-input>
+			<ion-input readonly="true" formControlName="TotalVehicles"></ion-input>
 		</ion-item>
 		<div class="item-inline">
 			<ion-item lines="inset" class="ion-padding-start">
 				<ion-label position="floating" color="dark">Valid To</ion-label>
-				<ion-input readonly></ion-input>
+				<ion-input readonly="true"></ion-input>
 			</ion-item>
 			<ion-item lines="inset" class="ion-padding-end">
 				<ion-label position="floating" color="dark">Valid From</ion-label>
-				<ion-input readonly></ion-input>
+				<ion-input readonly="true"></ion-input>
 			</ion-item>
 		</div>
 	</form>
@@ -66,7 +62,7 @@
 					<ion-button expand="block" color="light" (click)="reset()">RESET</ion-button>
 				</ion-col>
 				<ion-col class="ion-no-padding">
-					<ion-button expand="block" color="primary" (click)="saveProfile()">SAVE</ion-button>
+					<ion-button expand="block" color="primary" (click)="saveProfile()">{{isEditable ? 'SAVE' : 'EDIT'}}</ion-button>
 				</ion-col>
 			</ion-row>
 		</ion-grid>

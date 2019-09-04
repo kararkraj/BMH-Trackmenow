@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 
+import { User } from './user';
 import { environment } from './../../../../environments/environment';
 
 @Injectable({
@@ -10,6 +11,18 @@ import { environment } from './../../../../environments/environment';
 export class HttpService {
 
   private headers: HttpHeaders;
+
+  public user: User = {
+    "Firstname": "",
+    "LastName": "",
+    "UserName": "",
+    "Email": "",
+    "MobileNo": 0,
+    "Address": "",
+    "Pincode": 0,
+    "CompanyName": "",
+    "TotalVehicles": 0
+  };
 
   constructor(
     private http: HttpClient,
@@ -26,6 +39,38 @@ export class HttpService {
           "AuthorizeToken": authToken
         });
       });
+    }
+  }
+
+  async getUserDetails() {
+    await this.setHeaders();
+    return this.http.get(environment.apis.baseApiUrl + environment.apis.getUserProfile, {
+      headers: this.headers
+    });
+  }
+
+  async updateUserDetails(data) {
+    await this.setHeaders();
+    return this.http.post(environment.apis.baseApiUrl + environment.apis.updateUserProfile, data, {
+      headers: this.headers
+    });
+  }
+
+  setUser(user: User) {
+    this.user = user;
+  }
+
+  resetUser() {
+    this.user = {
+      "Firstname": "",
+      "LastName": "",
+      "UserName": "",
+      "Email": "",
+      "MobileNo": 0,
+      "Address": "",
+      "Pincode": 0,
+      "CompanyName": "",
+      "TotalVehicles": 0
     }
   }
 

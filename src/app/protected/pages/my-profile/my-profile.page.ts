@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { LoaderService } from './../../../public/services/loader/loader.service';
-import { UserService } from './../../services/user/user.service';
+import { ToastService } from './../../../public/services/toast/toast.service';
+import { HttpService } from './../../services/http/http.service';
+
+import { environment } from './../../../../environments/environment';
 
 @Component({
   selector: 'app-my-profile',
@@ -21,10 +24,12 @@ export class MyProfilePage implements OnInit {
     "CompanyName": new FormControl(''),
     "TotalVehicles": new FormControl(0)
   });
+  public isEditable: boolean = false;
 
   constructor(
-    private userService: UserService,
-    private loader: LoaderService
+    private http: HttpService,
+    private loader: LoaderService,
+    private toast: ToastService
   ) { }
 
   ngOnInit() {
@@ -33,21 +38,49 @@ export class MyProfilePage implements OnInit {
 
   getUserDetails() {
     this.userForm.patchValue({
-      Firstname: this.userService.user["Firstname"],
-      LastName: this.userService.user["LastName"],
-      UserName: this.userService.user["UserName"],
-      Email: this.userService.user["Email"],
-      MobileNo: this.userService.user["MobileNo"],
-      Address: this.userService.user["Address"],
-      CompanyName: this.userService.user["CompanyName"],
-      TotalVehicles: this.userService.user["TotalVehicles"]
+      Firstname: this.http.user["Firstname"],
+      LastName: this.http.user["LastName"],
+      UserName: this.http.user["UserName"],
+      Email: this.http.user["Email"],
+      MobileNo: this.http.user["MobileNo"],
+      Address: this.http.user["Address"],
+      CompanyName: this.http.user["CompanyName"],
+      TotalVehicles: this.http.user["TotalVehicles"]
     });
   }
 
   saveProfile() {
-    this.loader.startLoading().then(() => {
-      console.log(this.userForm.value);      
-    });
+    if (this.isEditable) {
+      const data = {
+        "Firstname": this.userForm.value.Firstname,
+        "LastName": this.userForm.value.LastName,
+        "UserName": this.userForm.value.UserName,
+        "Email": this.userForm.value.Email,
+        "MobileNo": this.userForm.value.MobileNo
+      }
+      this.loader.startLoading().then(() => {
+        this.http.updateUserDetails(data).then((subscription) => {
+          subscription.subscribe((res) => {
+            this.http.getUserDetails().then((subscription) => {
+              subscription.subscribe((user) => {
+                this.http.setUser(user[0]);
+                this.loader.stopLoading();
+                this.toast.toastHandler(environment.messages.userProfileUpdated, "secondary");
+                this.isEditable = false;
+              }, (error) => {
+                this.loader.stopLoading();
+                this.toast.toastHandler(environment.messages.somethingWrong, "secondary");
+              });
+            });
+          }, (error) => {
+            this.loader.stopLoading();
+            this.toast.toastHandler(environment.messages.somethingWrong, "secondary");
+          });
+        });
+      });
+    } else {
+      this.isEditable = true;
+    }
   }
 
   reset() {

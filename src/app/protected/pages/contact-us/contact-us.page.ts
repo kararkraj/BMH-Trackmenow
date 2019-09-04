@@ -3,7 +3,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { UserService } from './../../services/user/user.service';
+import { HttpService } from './../../services/http/http.service';
 
 @Component({
   selector: 'app-contact-us',
@@ -22,14 +22,14 @@ export class ContactUsPage implements OnInit {
   constructor(
     private callNumber: CallNumber,
     private emailComposer: EmailComposer,
-    private userService: UserService
+    private http: HttpService
   ) { }
 
   ngOnInit() {
     this.contactUsForm.patchValue({
-      Username: this.userService.user["UserName"],
-      Email: this.userService.user["Email"],
-      MobileNo: this.userService.user["MobileNo"]
+      Username: this.http.user["UserName"],
+      Email: this.http.user["Email"],
+      MobileNo: this.http.user["MobileNo"]
     });
   }
 

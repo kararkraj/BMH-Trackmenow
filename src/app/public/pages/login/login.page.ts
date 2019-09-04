@@ -5,7 +5,7 @@ import { MenuController, NavController } from '@ionic/angular';
 import { AuthService } from './../../services/auth/auth.service';
 import { LoaderService } from './../../services/loader/loader.service';
 import { ToastService } from './../../services/toast/toast.service';
-import { UserService } from './../../../protected/services/user/user.service';
+import { HttpService } from './../../../protected/services/http/http.service';
 import { environment } from "./../../../../environments/environment";
 
 @Component({
@@ -24,7 +24,7 @@ export class LoginPage {
     private toast: ToastService,
     private menu: MenuController,
     private navCtrl: NavController,
-    private userService: UserService
+    private http: HttpService
   ) { }
 
   ngOnInit() {
@@ -32,9 +32,9 @@ export class LoginPage {
       if (state) {
         this.menu.enable(true);
         this.navCtrl.navigateRoot('tabs');
-        this.userService.getUserDetails().then((subscription) => {
+        this.http.getUserDetails().then((subscription) => {
           subscription.subscribe((user) => {
-            this.userService.setUser(user[0]);
+            this.http.setUser(user[0]);
           });
         });
       }

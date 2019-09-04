@@ -7,7 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { AlertController, MenuController, NavController } from '@ionic/angular';
 
 import { AuthService } from './public/services/auth/auth.service';
-import { UserService } from './protected/services/user/user.service';
+import { HttpService } from './protected/services/http/http.service';
 
 @Component({
   selector: 'app-root',
@@ -72,7 +72,7 @@ export class AppComponent {
     private router: Router,
     private alertController: AlertController,
     private menu: MenuController,
-    public userService: UserService,
+    public http: HttpService,
     private navCtrl: NavController,
     private splashScreen: SplashScreen
   ) {
@@ -109,7 +109,7 @@ export class AppComponent {
           handler: () => {
             this.auth.logout().then(() => {
               this.navCtrl.navigateRoot('login');
-              this.userService.resetUser();
+              this.http.resetUser();
               this.menu.enable(false);
             });
           }
