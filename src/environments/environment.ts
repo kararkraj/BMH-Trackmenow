@@ -17,7 +17,8 @@ export const environment = {
     addVehicle: "Vehicle/Create",
     speedReport: "SpeedReport/Get",
     distanceReport: "DistanceReport/Get",
-    fuelReport: "FuelReport/Get"
+    fuelReport: "FuelReport/Get",
+    contactUs: "ContactUs/SendMessage"
   },
   messages: {
     credentialsMismatch: "Please enter valid credentials.",
@@ -25,7 +26,8 @@ export const environment = {
     somethingWrong: "Something went wrong. Please try again after some time.",
     reportDataUnavailable: "The noun data of the vehicle is unavailable in the selected date range.",
     noDevices: "There are no new devices to add.",
-    userProfileUpdated: "Thanks for updating your profile"
+    userProfileUpdated: "Thanks for updating your profile",
+    contactUs: "Your message is sent successfully."
   }
 };
 

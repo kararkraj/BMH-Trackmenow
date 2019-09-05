@@ -60,7 +60,8 @@
 					<ion-button expand="block" color="light" (click)="reset()">RESET</ion-button>
 				</ion-col>
 				<ion-col class="ion-no-padding">
-					<ion-button expand="block" color="primary">SUBMIT</ion-button>
+					<ion-button disabled="{{!contactUsForm.valid}}" expand="block" color="primary" (click)="contact()">
+						SUBMIT</ion-button>
 				</ion-col>
 			</ion-row>
 		</ion-grid>

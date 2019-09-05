@@ -115,4 +115,11 @@ export class HttpService {
       headers: this.headers
     });
   }
+
+  async contact(data) {
+    await this.setHeaders();
+    return this.http.post(environment.apis.baseApiUrl + environment.apis.contactUs, data, {
+      headers: this.headers
+    });
+  }
 }

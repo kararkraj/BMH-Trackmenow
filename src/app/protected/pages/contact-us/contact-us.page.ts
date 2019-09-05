@@ -4,6 +4,10 @@ import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { HttpService } from './../../services/http/http.service';
+import { LoaderService } from './../../../public/services/loader/loader.service';
+import { ToastService } from './../../../public/services/toast/toast.service';
+
+import { environment } from './../../../../environments/environment';
 
 @Component({
   selector: 'app-contact-us',
@@ -14,15 +18,17 @@ export class ContactUsPage implements OnInit {
 
   public contactUsForm = new FormGroup({
     "Username": new FormControl('', Validators.required),
-    "Email": new FormControl(''),
+    "Email": new FormControl('', Validators.required),
     "MobileNo": new FormControl('', Validators.required),
-    "Message": new FormControl('')
+    "Message": new FormControl('', Validators.required)
   });
 
   constructor(
     private callNumber: CallNumber,
     private emailComposer: EmailComposer,
-    private http: HttpService
+    private http: HttpService,
+    private loader: LoaderService,
+    private toast: ToastService
   ) { }
 
   ngOnInit() {
@@ -34,7 +40,7 @@ export class ContactUsPage implements OnInit {
   }
 
   call() {
-    this.callNumber.callNumber("+919999909990", true)
+    this.callNumber.callNumber("02048604255", true)
       .then(res => console.log('Launched dialer!', res))
       .catch(err => console.log('Error launching dialer', err));
   }
@@ -55,6 +61,22 @@ export class ContactUsPage implements OnInit {
         // Send a text message using default options
         this.emailComposer.open(email);
       }
+    });
+  }
+
+  contact() {
+    this.loader.startLoading().then(() => {
+      this.http.contact(this.contactUsForm.value).then((subscription) => {
+        subscription.subscribe((res) => {
+          this.loader.stopLoading();
+          this.toast.toastHandler(environment.messages.contactUs, "secondary");
+          this.reset();
+        }, (error) => {
+          this.loader.stopLoading();
+          this.toast.toastHandler(environment.messages.somethingWrong, "secondary");
+          this.reset();
+        });
+      });
     });
   }
 
