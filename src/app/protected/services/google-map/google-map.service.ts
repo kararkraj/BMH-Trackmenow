@@ -44,9 +44,10 @@ export class GoogleMapService {
   }
 
   generateVehicleMarker(vehicle) {
+    console.log(vehicle);
 
     const icon = {
-      url: this.getIconUrl(1) + '-' + this.getIconColor(vehicle) + '-' + this.getMarkerOrigin(vehicle.LatestGPSInfo.Degree) + '.png',
+      url: this.getIconUrl(vehicle.VehicleTypeName) + '-' + this.getIconColor(vehicle) + '-' + this.getMarkerOrigin(vehicle.LatestGPSInfo.Degree) + '.png',
       scaledSize: new google.maps.Size(60, 60),
       anchor: new google.maps.Point(30, 30),
       animation: "DROP"
@@ -79,7 +80,7 @@ export class GoogleMapService {
       if (marker.title === vehicle.VehicleNumber) {
 
         const icon = {
-          url: this.getIconUrl(1) + '-' + this.getIconColor(vehicle) + '-' + this.getMarkerOrigin(vehicle.LatestGPSInfo.Degree) + '.png',
+          url: this.getIconUrl(vehicle.VehicleTypeName) + '-' + this.getIconColor(vehicle) + '-' + this.getMarkerOrigin(vehicle.LatestGPSInfo.Degree) + '.png',
           scaledSize: new google.maps.Size(60, 60),
           anchor: new google.maps.Point(30, 30),
           animation: "DROP"
@@ -155,20 +156,20 @@ export class GoogleMapService {
     }
   }
 
-  getIconUrl(vehicleTypeId) {
-    const baseUrl = "./assets/vehicles/";
-    switch (vehicleTypeId) {
-      case 1:
-        return baseUrl + "truck/truck";
-      case 2:
-        return baseUrl + "bus/bus";
-      case 3:
-        return baseUrl + "car/car";
-      case 4:
-        return baseUrl + "tractor/tractor";
-      case 5:
-        return baseUrl + "train/train";
-    }
+  getIconUrl(vehicleTypeName) {
+    return "./assets/vehicles/" + vehicleTypeName.toLowerCase() + "/" + vehicleTypeName.toLowerCase();
+    // switch (vehicleTypeId) {
+    //   case 1:
+    //     return baseUrl + "truck/truck";
+    //   case 2:
+    //     return baseUrl + "bus/bus";
+    //   case 3:
+    //     return baseUrl + "car/car";
+    //   case 4:
+    //     return baseUrl + "tractor/tractor";
+    //   case 5:
+    //     return baseUrl + "train/train";
+    // }
   }
 
   getIconColor(vehicle) {
