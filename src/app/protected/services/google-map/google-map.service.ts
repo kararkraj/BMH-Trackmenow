@@ -44,8 +44,6 @@ export class GoogleMapService {
   }
 
   generateVehicleMarker(vehicle) {
-    console.log(vehicle);
-
     const icon = {
       url: this.getIconUrl(vehicle.VehicleTypeName) + '-' + this.getIconColor(vehicle) + '-' + this.getMarkerOrigin(vehicle.LatestGPSInfo.Degree) + '.png',
       scaledSize: new google.maps.Size(60, 60),
@@ -122,7 +120,7 @@ export class GoogleMapService {
   }
 
   getIconRotation(degree) {
-    return (Math.round(degree / 10) * 10) === 0? 360: (Math.round(degree / 10) * 10);
+    return (Math.round(degree / 10) * 10) === 0 ? 360 : (Math.round(degree / 10) * 10);
   }
 
   getMarkerOrigin(degree) {
@@ -192,7 +190,9 @@ export class GoogleMapService {
         mapBounds.extend(marker.getPosition());
       }
     });
-    this.map.fitBounds(mapBounds);
+    setTimeout(() => {
+      this.map.fitBounds(mapBounds);
+    }, 100)
   }
 
   setMapZoom(zoom) {
@@ -257,14 +257,7 @@ export class GoogleMapService {
         marker.setVisible(false);
       }
     });
-    const mapBounds = new google.maps.LatLngBounds();
-    this.markers.forEach((marker) => {
-      if (marker.getVisible()) {
-        mapBounds.extend(marker.getPosition());
-      }
-    });
-    this.panMapToBounds(mapBounds);
-    // this.fitMapBounds();
+    this.fitMapBounds();
   }
 
   stopTrackingVehicles() {
