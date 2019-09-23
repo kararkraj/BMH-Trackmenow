@@ -9,12 +9,12 @@ export const environment = {
     baseApiUrl: "http://trackmeservice.cloudapp.net/api/",
     authToken: "auth-token",
     login: "Account/Login",
-    getVehicles: "Vehicle/GetAll",
+    getAssets: "Vehicle/GetAll",
     getUserProfile: "UserProfile/Get",
     updateUserProfile: "UserProfile/Update",
-    getVehicleTypes: "VehicleType/Get",
+    getAssetType: "VehicleType/Get",
     getGPSDevices: "Device/Get",
-    addVehicle: "Vehicle/Create",
+    addAsset: "Vehicle/Create",
     speedReport: "SpeedReport/Get",
     distanceReport: "DistanceReport/Get",
     fuelReport: "FuelReport/Get",
@@ -27,7 +27,8 @@ export const environment = {
     reportDataUnavailable: "The noun data of the vehicle is unavailable in the selected date range.",
     noDevices: "There are no new devices to add.",
     userProfileUpdated: "Thanks for updating your profile",
-    contactUs: "Your message is sent successfully."
+    contactUs: "Your message is sent successfully.",
+    assetAdded: "{{asset}} added successfully.",
   }
 };
 

@@ -4,10 +4,11 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { AlertController, MenuController, NavController } from '@ionic/angular';
+import { AlertController, MenuController } from '@ionic/angular';
 
-import { AuthService } from './public/services/auth/auth.service';
-import { HttpService } from './protected/services/http/http.service';
+import { HttpService } from './services/http/http.service';
+import { AssetService } from './services/asset/asset.service';
+import { LoaderService } from './services/loader/loader.service';
 
 @Component({
   selector: 'app-root',
@@ -68,13 +69,13 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private statusBar: StatusBar,
-    private auth: AuthService,
     private router: Router,
     private alertController: AlertController,
     private menu: MenuController,
     public http: HttpService,
-    private navCtrl: NavController,
-    private splashScreen: SplashScreen
+    private assetService: AssetService,
+    private splashScreen: SplashScreen,
+    private loader: LoaderService
   ) {
     this.initializeApp();
   }
@@ -84,7 +85,17 @@ export class AppComponent {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#184F80');
       this.splashScreen.hide();
-      this.router.navigate(['login']);
+      const subscription = this.http.authenticated.subscribe((state) => {
+        if (state) {
+            this.http.getUserDetails().subscribe((res) => {
+              this.http.setUser(res[0]);
+              this.menu.enable(true);
+              this.router.navigate(['tabs']);
+            });
+        } else {
+          this.router.navigate(['login']);
+        }
+      });
     });
   }
 
@@ -107,11 +118,9 @@ export class AppComponent {
         {
           text: 'YES',
           handler: () => {
-            this.auth.logout().then(() => {
-              this.navCtrl.navigateRoot('login');
-              this.http.resetUser();
-              this.menu.enable(false);
-            });
+            this.http.logout();
+            this.assetService.resetAssets();
+            this.menu.enable(false);
           }
         }
       ]

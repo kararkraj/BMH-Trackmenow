@@ -1,0 +1,36 @@
+ion-item {
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+}
+span.speed-badge {
+  background-color: var(--ion-color-primary);
+  border-radius: 64px;
+  width: 56px;
+  height: 56px;
+  text-align: center;
+}
+div.line-height-4px {
+  line-height: 4px;
+}
+ion-icon.engine-on {
+  background-image: url(../../../assets/img/on.png);
+  background-size: 100%;
+}
+ion-icon.engine-off {
+  background-image: url(../../../assets/img/off.png);
+  background-size: 100%;
+}
+span.travel-reply-badge {
+  position: absolute
+  ;right: 0;
+}
+ion-item.selected {
+  border-left: 4px solid var(--ion-color-secondary);
+  --background: var(--ion-color-light-tint);
+}
+ion-item.hidden {
+  display: none;
+}
+.display-inline-block {
+  display: inline-block;
+}

@@ -1,0 +1,54 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-buttons slot="start">
+			<ion-back-button icon="arrow-back" text=""></ion-back-button>
+		</ion-buttons>
+		<ion-title>Add {{asset}}</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<div class="custom-bg"></div>
+	<form novalidate [formGroup]="addAssetForm">
+		<div class="form">
+			<ion-item lines="inset">
+				<ion-label position="floating" color="dark">{{asset}} Number</ion-label>
+				<ion-input formControlName="AssetNumber"></ion-input>
+			</ion-item>
+			<ion-item lines="inset">
+				<ion-label position="floating" color="dark">IMEI</ion-label>
+				<ion-select formControlName="IMEI" okText="Okay" cancelText="Dismiss">
+					<ion-select-option *ngFor="let device of devices" value="{{device.IMEI}}">{{device.IMEI}}
+					</ion-select-option>
+				</ion-select>
+			</ion-item>
+			<ion-item lines="inset">
+				<ion-label position="floating" color="dark">{{asset}} Type</ion-label>
+				<ion-select formControlName="AssetTypeId" okText="Okay" cancelText="Dismiss">
+					<ion-select-option *ngFor="let assetType of assetTypes" value="{{assetType.VehicleTypeId}}">
+						{{assetType.Name}}</ion-select-option>
+				</ion-select>
+			</ion-item>
+			<ion-item lines="inset">
+				<ion-label position="floating" color="dark">Tank Capacity</ion-label>
+				<ion-input formControlName="TankCapacity"></ion-input>
+			</ion-item>
+		</div>
+	</form>
+</ion-content>
+
+<ion-footer>
+	<ion-toolbar>
+		<ion-grid class="ion-padding">
+			<ion-row>
+				<ion-col class="ion-no-padding">
+					<ion-button expand="block" color="light" (click)="reset()">RESET</ion-button>
+				</ion-col>
+				<ion-col class="ion-no-padding">
+					<ion-button expand="block" color="primary" (click)="addAsset()"
+						disabled="{{!addAssetForm.valid}}">ADD</ion-button>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ion-toolbar>
+</ion-footer>
