@@ -17,7 +17,7 @@ export class AssetListPage {
     public assets: Asset[];
 
     constructor(
-        private assetService: AssetService,
+        public assetService: AssetService,
         private router: Router,
         private loader: LoaderService
     ) { }

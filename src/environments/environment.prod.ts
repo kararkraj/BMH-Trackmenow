@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   apis: {
     apisActive: true,
     baseApiUrl: "http://trackmeservice.cloudapp.net/api/",
@@ -8,7 +8,7 @@ export const environment = {
     getAssets: "Vehicle/GetAll",
     getUserProfile: "UserProfile/Get",
     updateUserProfile: "UserProfile/Update",
-    getAssetTypes: "VehicleType/Get",
+    getAssetType: "VehicleType/Get",
     getGPSDevices: "Device/Get",
     addAsset: "Vehicle/Create",
     speedReport: "SpeedReport/Get",
@@ -23,6 +23,7 @@ export const environment = {
     reportDataUnavailable: "The noun data of the vehicle is unavailable in the selected date range.",
     noDevices: "There are no new devices to add.",
     userProfileUpdated: "Thanks for updating your profile",
-    contactUs: "Your message is sent successfully."
+    contactUs: "Your message is sent successfully.",
+    assetAdded: "{{asset}} added successfully.",
   }
 };

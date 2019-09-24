@@ -23,7 +23,7 @@ export class AssetMapPage {
 
   constructor(
     private loader: LoaderService,
-    private assetService: AssetService,
+    public assetService: AssetService,
     private modalController: ModalController,
     private activatedRoute: ActivatedRoute
   ) { }

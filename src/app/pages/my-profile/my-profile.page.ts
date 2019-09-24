@@ -14,6 +14,7 @@ import { environment } from './../../../environments/environment';
 })
 export class MyProfilePage implements OnInit {
 
+  public asset: string = "Vehicle"
   public userForm = new FormGroup({
     "Firstname": new FormControl(''),
     "LastName": new FormControl(''),
