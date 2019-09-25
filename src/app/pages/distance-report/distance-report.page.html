@@ -41,13 +41,13 @@
 			<ion-icon name="md-download" class="download verticle-align-middle"></ion-icon>
 		</div>
 	</div>
-	<div class="ion-padding list ion-margin" *ngFor="let asset of distanceReport">
+	<div class="ion-padding list ion-margin" *ngFor="let report of distanceReport">
 		<div class="inline-block">
 			<div>
 				<ion-text color="medium" class="font-size-small">{{asset}}</ion-text>
 			</div>
 			<div>
-				<ion-text class="font-size-14px">{{asset.VehicleNumber}}</ion-text>
+				<ion-text class="font-size-14px">{{report.VehicleNumber}}</ion-text>
 			</div>
 		</div>
 		<div class="inline-block ion-text-right">
@@ -55,7 +55,7 @@
 				<ion-text color="medium" class="font-size-small">Distance (kms)</ion-text>
 			</div>
 			<div>
-				<ion-text class="font-size-normal">{{asset.Distance}}</ion-text>
+				<ion-text class="font-size-normal">{{report.Distance}}</ion-text>
 			</div>
 		</div>
 	</div>

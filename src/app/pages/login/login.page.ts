@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MenuController, NavController } from '@ionic/angular';
+import { NavController, MenuController } from '@ionic/angular';
 
-import { LoaderService } from './../../services/loader/loader.service';
-import { ToastService } from './../../services/toast/toast.service';
 import { HttpService } from './../../services/http/http.service';
 import { environment } from "./../../../environments/environment";
 
@@ -18,23 +15,31 @@ export class LoginPage {
   public user = { UserName: '', Password: '' };
 
   constructor(
-    private loader: LoaderService,
-    private toast: ToastService,
-    private menu: MenuController,
     private http: HttpService,
-    private router: Router
-  ) { }
+    private nav: NavController,
+    private menu: MenuController
+  ) {}
 
   login() {
-    this.loader.startLoading().then(() => {
+    this.http.startLoading().then(() => {
       this.http.login(this.user).subscribe((res) => {
-        this.http.setAuthToken(res["token"])
-        this.loader.stopLoading();
+        this.http.setAuthenticated(res["token"]);
+          this.http.getUserDetails().subscribe((res) => {
+            this.http.setUser(res[0]);
+            this.nav.navigateRoot('tabs').then(() => {
+              this.menu.enable(true); 
+            });
+            this.http.stopLoading();
+          });
       }, (error) => {
-        this.loader.stopLoading();
-        this.toast.toastHandler(this.http.errorHandle(error), "secondary");
+        this.http.stopLoading();
+        this.http.toastHandler(this.http.errorHandle(error), "secondary");
       });
     });
+  }
+
+  ngOnDestroy() {
+    this.clearUser();
   }
 
   clearUser() {

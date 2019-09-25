@@ -1,14 +1,13 @@
-import { Router, RouterEvent } from '@angular/router';
 import { Component } from '@angular/core';
-
-import { Platform } from '@ionic/angular';
+import { Platform, NavController, MenuController } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { AlertController, MenuController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 import { HttpService } from './services/http/http.service';
 import { AssetService } from './services/asset/asset.service';
-import { LoaderService } from './services/loader/loader.service';
+
+import { environment } from './../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -69,13 +68,12 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private statusBar: StatusBar,
-    private router: Router,
     private alertController: AlertController,
-    private menu: MenuController,
     public http: HttpService,
     private assetService: AssetService,
     private splashScreen: SplashScreen,
-    private loader: LoaderService
+    private nav: NavController,
+    private menu: MenuController
   ) {
     this.initializeApp();
   }
@@ -85,15 +83,19 @@ export class AppComponent {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#184F80');
       this.splashScreen.hide();
-      const subscription = this.http.authenticated.subscribe((state) => {
-        if (state) {
-            this.http.getUserDetails().subscribe((res) => {
-              this.http.setUser(res[0]);
+      this.http.getAuthenticated().then((authToken) => {
+        if (authToken) {
+          this.http.setAuthenticated(authToken);
+          this.http.getUserDetails().subscribe((res) => {
+            this.http.setUser(res[0]);
+            this.nav.navigateRoot('tabs').then(() => {
               this.menu.enable(true);
-              this.router.navigate(['tabs']);
             });
+          });
         } else {
-          this.router.navigate(['login']);
+          this.nav.navigateRoot('login').then(() => {
+            this.menu.enable(true);
+          });
         }
       });
     });
@@ -104,7 +106,6 @@ export class AppComponent {
   }
 
   async logout() {
-    this.menu.close();
     const alert = await this.alertController.create({
       header: 'Logout?',
       message: 'Do you want to logout?',
@@ -118,9 +119,14 @@ export class AppComponent {
         {
           text: 'YES',
           handler: () => {
-            this.http.logout();
-            this.assetService.resetAssets();
-            this.menu.enable(false);
+            this.http.startLoading().then(() => {
+              this.http.logout();
+              this.assetService.resetAssets();
+              this.nav.navigateRoot('login').then(() => {
+                this.menu.enable(false);
+                this.http.stopLoading();
+              });
+            });
           }
         }
       ]

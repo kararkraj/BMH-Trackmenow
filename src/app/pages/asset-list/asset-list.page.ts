@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AssetService } from './../../services/asset/asset.service';
+import { HttpService } from './../../services/http/http.service';
 import { Asset } from './../../services/asset/asset';
-import { LoaderService } from './../../services/loader/loader.service';
 
 declare var google;
 
@@ -14,29 +14,29 @@ declare var google;
 })
 export class AssetListPage {
 
-    public assets: Asset[];
-
     constructor(
         public assetService: AssetService,
-        private router: Router,
-        private loader: LoaderService
+        private http: HttpService,
+        private router: Router
     ) { }
 
     ngOnInit() {
-        this.loader.startLoading().then(() => {
+        this.http.startLoading().then(() => {
             this.assetService.getAssets().then(() =>{
                 this.assetService.updateAssets();
-                this.loader.stopLoading();
+                this.http.stopLoading();
             });
         });
     }
 
     trackAssets() {
-        this.router.navigate(['tabs/tabs/asset-map']);
+        // this.router.navigate(['tabs/tabs/asset-map', {assetNumber: 'multipleAssets'}]);
+        this.router.navigate(['/tabs/asset-map'], { queryParams: {assetNumber: 'multipleAssets'}, skipLocationChange: true });
     }
 
     trackAsset(assetNumber) {
-        this.router.navigate(['tabs/tabs/asset-map']);
+        // this.router.navigate(['tabs/tabs/asset-map', {assetNumber: assetNumber}]);
+        this.router.navigate(['/tabs/asset-map'], {  queryParams: {assetNumber: assetNumber}, skipLocationChange: true });
     }
 
     deselectAssets() {

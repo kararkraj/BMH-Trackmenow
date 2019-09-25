@@ -12,7 +12,6 @@ const routes: Routes = [
   { path: 'speed-report', canActivate: [ AuthGuard ], loadChildren: './pages/speed-report/speed-report.module#SpeedReportPageModule' },
   { path: 'distance-report', canActivate: [ AuthGuard ], loadChildren: './pages/distance-report/distance-report.module#DistanceReportPageModule' },
   { path: 'travel-replay', canActivate: [ AuthGuard ], loadChildren: './pages/travel-replay/travel-replay.module#TravelReplayPageModule' },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 
 @NgModule({

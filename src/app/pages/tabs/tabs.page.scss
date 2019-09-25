@@ -23,8 +23,9 @@ ion-input{
   --placeholder-color: var(--ion-color-dark);
 }
 ion-tab-button.tab-selected {
-    border-bottom: 2px solid #FFF;
+    border-color: #FFF;
 }
 ion-tab-button {
     font-weight: bold;
+    border-bottom: 2px solid var(--ion-color-primary);
 }

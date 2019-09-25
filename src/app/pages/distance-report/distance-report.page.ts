@@ -3,8 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { AssetService } from './../../services/asset/asset.service';
 import { HttpService } from './../../services/http/http.service';
-import { ToastService } from './../../services/toast/toast.service';
-import { LoaderService } from './../../services/loader/loader.service';
 import { environment } from './../../../environments/environment';
 
 @Component({
@@ -19,16 +17,14 @@ export class DistanceReportPage implements OnInit {
   public distanceReport = [];
 
   public distanceReportForm = new FormGroup({
-    "VehicleNumber": new FormControl('', Validators.required),
+    "AssetNumber": new FormControl('', Validators.required),
     "Start": new FormControl('', Validators.required),
     "End": new FormControl('', Validators.required)
   });
 
   constructor(
     private assetService: AssetService,
-    private http: HttpService,
-    private toast: ToastService,
-    private loader: LoaderService
+    private http: HttpService
   ) { }
 
   ngOnInit() {
@@ -44,22 +40,23 @@ export class DistanceReportPage implements OnInit {
   }
 
   getDistanceReport() {
-    this.loader.startLoading().then(() => {
+    this.http.startLoading().then(() => {
       let data = {
-        "VehicleNumber": this.distanceReportForm.value.VehicleNumber,
+        "VehicleNumber": this.distanceReportForm.value.AssetNumber,
         "Start": this.distanceReportForm.value.Start.split(".")[0] + "Z",
         "End": this.distanceReportForm.value.End.split(".")[0] + "Z"
       }
       if (data.Start === "Z" || data.End === "Z") {
-        this.toast.toastHandler("Please select the date range", "secondary");
-        this.loader.stopLoading();
+        this.http.toastHandler("Please select the date range", "secondary");
+        this.http.stopLoading();
       } else {
-        this.http.getDistanceReport(this.distanceReportForm).subscribe((res: []) => {
-          this.loader.stopLoading();
+        this.http.getDistanceReport(data).subscribe((res: []) => {
+          this.http.stopLoading();
           this.distanceReport = res;
         }, (error) => {
-          this.toast.toastHandler(environment.messages.somethingWrong, "secondary");
-          this.loader.stopLoading();
+          console.log(error);
+          this.http.toastHandler(environment.messages.somethingWrong, "secondary");
+          this.http.stopLoading();
         });
       }
     });

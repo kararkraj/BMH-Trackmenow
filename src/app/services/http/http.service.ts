@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { BehaviorSubject } from 'rxjs';
@@ -14,7 +14,8 @@ import { environment } from './../../../environments/environment';
 export class HttpService {
 
   public headers: HttpHeaders;
-  public authenticated = new BehaviorSubject(false);
+  private authenticated: boolean = false;
+  private loading;
 
   public user: User = {
     "Firstname": "",
@@ -31,31 +32,24 @@ export class HttpService {
   constructor(
     private http: HttpClient,
     private storage: Storage,
-    private platform: Platform
-  ) {
-    this.platform.ready().then(() => {
-      this.setAuthToken();
+    private loader: LoadingController,
+    private toast: ToastController
+  ) {}
+
+  setAuthenticated(authToken) {
+    this.storage.set(environment.apis.authToken, authToken);
+    this.headers = new HttpHeaders({
+      "AuthorizeToken": authToken
     });
+    this.authenticated = true;
   }
 
-  setAuthToken(authToken?) {
-    if (authToken) {
-      this.headers = new HttpHeaders({
-        "AuthorizeToken": authToken
+  getAuthenticated() {
+    return new Promise((resolve) => {
+      this.storage.get(environment.apis.authToken).then(async (authToken) => {
+        resolve(authToken);
       });
-      return this.storage.set(environment.apis.authToken, authToken).then(() => {
-        this.authenticated.next(true);
-      });
-    } else {
-      this.storage.get(environment.apis.authToken).then((authToken) => {
-        if (authToken) {
-          this.headers = new HttpHeaders({
-            "AuthorizeToken": authToken
-          });
-          this.authenticated.next(true);
-        }
-      });
-    }
+    });
   }
 
   removeAuthToken() {
@@ -68,14 +62,14 @@ export class HttpService {
 
   logout() {
     this.removeAuthToken().then(() => {
-      this.authenticated.next(false);
+      this.authenticated = false;
       this.headers.delete("AuthorizeToken");
       this.resetUser();
     });
   }
 
   isAuthenticated() {
-    return this.authenticated.value;
+    return this.authenticated;
   }
 
   getAssets() {
@@ -157,11 +151,37 @@ export class HttpService {
   }
 
   errorHandle(error) {
+    // network errors
+      // 1) net::ERR_NETWORK_CHANGED
+      // 2) net::ERR_INTERNET_DISCONNECTED
     switch (error.status) {
       case 401:
         return environment.messages.credentialsMismatch;
       default:
         return environment.messages.somethingWrong;
     }
+  }
+
+  async startLoading() {
+    this.loading = await this.loader.create({
+      animated: true,
+      message: '',
+      translucent: true,
+    });
+    this.loading.present();
+  }
+
+  async stopLoading() {
+    await this.loading.dismiss();
+  }
+
+  async toastHandler(message, color, duration?) {
+    const toast = await this.toast.create({
+      message: message,
+      duration: duration ? duration : 2000,
+      color: color,
+      keyboardClose: true
+    });
+    toast.present();
   }
 }

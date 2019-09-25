@@ -4,8 +4,6 @@ import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { HttpService } from './../../services/http/http.service';
-import { LoaderService } from './../..//services/loader/loader.service';
-import { ToastService } from './../../services/toast/toast.service';
 
 import { environment } from './../../../environments/environment';
 
@@ -26,9 +24,7 @@ export class ContactUsPage implements OnInit {
   constructor(
     private callNumber: CallNumber,
     private emailComposer: EmailComposer,
-    private http: HttpService,
-    private loader: LoaderService,
-    private toast: ToastService
+    private http: HttpService
   ) { }
 
   ngOnInit() {
@@ -65,14 +61,14 @@ export class ContactUsPage implements OnInit {
   }
 
   contact() {
-    this.loader.startLoading().then(() => {
+    this.http.startLoading().then(() => {
       this.http.contact(this.contactUsForm.value).subscribe((res) => {
-        this.loader.stopLoading();
-        this.toast.toastHandler(environment.messages.contactUs, "secondary");
+        this.http.stopLoading();
+        this.http.toastHandler(environment.messages.contactUs, "secondary");
         this.reset();
       }, (error) => {
-        this.loader.stopLoading();
-        this.toast.toastHandler(environment.messages.somethingWrong, "secondary");
+        this.http.stopLoading();
+        this.http.toastHandler(environment.messages.somethingWrong, "secondary");
         this.reset();
       });
     });

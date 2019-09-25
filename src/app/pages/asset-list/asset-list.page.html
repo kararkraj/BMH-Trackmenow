@@ -1,6 +1,6 @@
 <ion-content>
 	<ion-list class="ion-no-padding">
-		<ion-item lines="full" *ngFor="let asset of assetService.assets" [ngClass]="{'selected': asset.Selected, 'hidden': !asset.Visible}" (press)="asset.Selected = !asset.Selected; toggleSelectedAssets(asset.VehicleNumber)" (tap)="assetService.selectedAssets.length == 0 ? trackAsset():''; asset.Selected = !asset.Selected; toggleSelectedAssets(asset.VehicleNumber);">
+		<ion-item lines="full" *ngFor="let asset of assetService.assets" [ngClass]="{'selected': asset.Selected, 'hidden': !asset.Visible}" (press)="asset.Selected = !asset.Selected; toggleSelectedAssets(asset.VehicleNumber)" (tap)="assetService.selectedAssets.length == 0 ? trackAsset(asset.VehicleNumber):''; asset.Selected = !asset.Selected; toggleSelectedAssets(asset.VehicleNumber);">
 			<span class="speed-badge color-white">
         <div>
           <ion-icon class="font-size-medium padding-top-4px" name="speedometer"></ion-icon>

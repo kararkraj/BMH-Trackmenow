@@ -3,8 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { AssetService } from './../../services/asset/asset.service';
 import { HttpService } from './../../services/http/http.service';
-import { ToastService } from './../../services/toast/toast.service';
-import { LoaderService } from './../../services/loader/loader.service';
 
 import { environment } from './../../../environments/environment';
 
@@ -32,9 +30,7 @@ export class FuelReportPage implements OnInit {
 
   constructor(
     private assetService: AssetService,
-    private http: HttpService,
-    private toast: ToastService,
-    private loader: LoaderService
+    private http: HttpService
   ) { }
 
   ngOnInit() {
@@ -91,7 +87,7 @@ export class FuelReportPage implements OnInit {
   }
 
   getFuelReport() {
-    this.loader.startLoading().then(() => {
+    this.http.startLoading().then(() => {
       let data = {
         "VehicleNumber": this.fuelReportForm.value.VehicleNumber,
         "FromDate": (this.fuelReportForm.value.fromDate.split("T")[0] + "T" + (this.fuelReportForm.value.fromTime ? (this.fuelReportForm.value.fromTime.split("T")[1]).split(":")[0] + ":" + (this.fuelReportForm.value.fromTime.split("T")[1]).split(":")[1] + ":00" : "00:00:00")).split(".")[0] + "Z",
@@ -103,16 +99,16 @@ export class FuelReportPage implements OnInit {
             rows.push([new Date(data.ReceivedOn.substring(0, data.ReceivedOn.length - 1)), data.Fuel])
           });
           if (rows.length === 0) {
-            this.toast.toastHandler(environment.messages.reportDataUnavailable.replace("noun", "fuel"), "secondary")
-            this.loader.stopLoading();
+            this.http.toastHandler(environment.messages.reportDataUnavailable.replace("noun", "fuel"), "secondary")
+            this.http.stopLoading();
           } else {
             this.data.addRows(rows);
             this.drawChart();
-            this.loader.stopLoading();
+            this.http.stopLoading();
           }
       }, (error) => {
-        this.toast.toastHandler(environment.messages.somethingWrong, "secondary");
-        this.loader.stopLoading();
+        this.http.toastHandler(environment.messages.somethingWrong, "secondary");
+        this.http.stopLoading();
       });
     });
   }

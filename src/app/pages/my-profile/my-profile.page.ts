@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
-import { LoaderService } from './../../services/loader/loader.service';
-import { ToastService } from './../../services/toast/toast.service';
 import { HttpService } from './../../services/http/http.service';
 
 import { environment } from './../../../environments/environment';
@@ -28,9 +26,7 @@ export class MyProfilePage implements OnInit {
   public isEditable: boolean = false;
 
   constructor(
-    private http: HttpService,
-    private loader: LoaderService,
-    private toast: ToastService
+    private http: HttpService
   ) { }
 
   ngOnInit() {
@@ -59,20 +55,20 @@ export class MyProfilePage implements OnInit {
         "Email": this.userForm.value.Email,
         "MobileNo": this.userForm.value.MobileNo
       }
-      this.loader.startLoading().then(() => {
+      this.http.startLoading().then(() => {
         this.http.updateUserDetails(data).subscribe((res) => {
           this.http.getUserDetails().subscribe((res) => {
             this.http.setUser(res[0]);
-            this.loader.stopLoading();
-            this.toast.toastHandler(environment.messages.userProfileUpdated, "secondary");
+            this.http.stopLoading();
+            this.http.toastHandler(environment.messages.userProfileUpdated, "secondary");
             this.isEditable = false;
           }, (error) => {
-            this.loader.stopLoading();
-            this.toast.toastHandler(environment.messages.somethingWrong, "secondary");
+            this.http.stopLoading();
+            this.http.toastHandler(environment.messages.somethingWrong, "secondary");
           });
         }, (error) => {
-          this.loader.stopLoading();
-          this.toast.toastHandler(environment.messages.somethingWrong, "secondary");
+          this.http.stopLoading();
+          this.http.toastHandler(environment.messages.somethingWrong, "secondary");
         });
       });
     } else {

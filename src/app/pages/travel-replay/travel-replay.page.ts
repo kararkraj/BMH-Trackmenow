@@ -7,8 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TravelReplayPage implements OnInit {
 
-  public asset = "Vehicle";
-
   constructor() { }
 
   ngOnInit() {

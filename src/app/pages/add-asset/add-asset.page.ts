@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { HttpService } from './../../services/http/http.service';
-import { ToastService } from './../../services/toast/toast.service';
-import { LoaderService } from './../../services/loader/loader.service';
 import { environment } from './../../../environments/environment';
 
 @Component({
@@ -24,9 +22,7 @@ export class AddAssetPage implements OnInit {
   public devices = [];
 
   constructor(
-    private http: HttpService,
-    private toast: ToastService,
-    private loader: LoaderService
+    private http: HttpService
   ) { }
 
   ngOnInit() {
@@ -50,19 +46,19 @@ export class AddAssetPage implements OnInit {
         });
       }
       if (this.devices.length === 0) {
-        this.toast.toastHandler(environment.messages.noDevices, "secondary")
+        this.http.toastHandler(environment.messages.noDevices, "secondary")
       }
     });
   }
 
   addAsset() {
-    this.loader.startLoading().then(() => {
+    this.http.startLoading().then(() => {
       this.http.addAsset(this.addAssetForm.value).subscribe((res) => {
-        this.loader.stopLoading();
-        this.toast.toastHandler(environment.messages.assetAdded, "tertiary");
+        this.http.stopLoading();
+        this.http.toastHandler(environment.messages.assetAdded, "tertiary");
       }, (error) => {
-        this.loader.stopLoading();
-        this.toast.toastHandler(environment.messages.somethingWrong, "danger");
+        this.http.stopLoading();
+        this.http.toastHandler(environment.messages.somethingWrong, "danger");
       });
     });
   }

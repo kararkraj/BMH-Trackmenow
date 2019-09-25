@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
 import { AssetService } from './../../services/asset/asset.service';
-import { LoaderService } from './../../services/loader/loader.service';
+import { HttpService } from './../../services/http/http.service';
 
 import { AssetDetailsComponent } from './../../components/asset-details/asset-details.component';
 
@@ -22,26 +22,26 @@ export class AssetMapPage {
   private routerSubscription;
 
   constructor(
-    private loader: LoaderService,
+    private http: HttpService,
     public assetService: AssetService,
     private modalController: ModalController,
     private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.loader.startLoading().then(() => {
+    this.http.startLoading().then(() => {
       this.initMap(this.mapNativeElement).then(() => {
-        this.locateAssets();
-        this.activatedRoute.params.subscribe(() => {
-          if (this.assetService.selectedAssets.length === 0) {
-            this.stopTrackingAssets();
-          } else if (this.assetService.selectedAssets.length > 1) {
+        this.generateAssetMarkers();
+        this.routerSubscription = this.activatedRoute.queryParams.subscribe((params) => {
+          if (params.assetNumber === "multipleAssets") {
             this.startTrackingAssets();
-          } else if (this.assetService.selectedAssets.length === 1) {
+          } else if (params.assetNumber) {
             this.startTrackingAsset(this.assetService.selectedAssets[0]);
+          } else {
+            this.fitMapBounds();
           }
         });
-        this.loader.stopLoading();
+        this.http.stopLoading();
       });
     });
     this.subscription = this.assetService.assetsLoaded.subscribe((state) => {
@@ -62,10 +62,6 @@ export class AssetMapPage {
       zoom: 8,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
-  }
-
-  locateAssets() {
-    this.generateAssetMarkers();
   }
 
   generateAssetMarkers() {
@@ -224,16 +220,16 @@ export class AssetMapPage {
       return marker.title == assetNumber;
     });
     this.panMap();
-    const listener = google.maps.event.addListener(this.assetService.map, 'idle', () => {
-      this.setMapZoom(12);
-      listener.remove();
+    // const listener = google.maps.event.addListener(this.assetService.map, 'idle', () => {
+      this.setMapZoom(15);
+      // listener.remove();
       this.presentAssetDetailModal(assetNumber).then((modal) => {
         modal.present();
         modal.onDidDismiss().then(() => {
           this.stopTrackingAsset();
         });
       });
-    });
+    // });
     google.maps.event.addListener(this.assetService.selectedAssetMarker, 'position_changed', () => {
       this.assetService.map.panTo(this.assetService.selectedAssetMarker.getPosition());
     });
