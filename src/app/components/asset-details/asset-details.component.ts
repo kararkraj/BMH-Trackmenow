@@ -12,34 +12,32 @@ import { Asset } from './../../services/asset/asset';
 export class AssetDetailsComponent implements OnInit {
 
   @Input() assetNumber: string;
-  public asset: Asset;
+  public assetIndex: number;
+  public date;
 
   constructor(
-    private assetService: AssetService,
+    public assetService: AssetService,
     private modalController: ModalController
   ) { }
 
   ngOnInit() {
-    this.getAsset();
+    this.assetIndex = this.assetService.getAssetIndex(this.assetNumber);
+    this.getFullDate();
   }
 
-  getAsset() {
-    this.asset = this.assetService.getAsset(this.assetNumber);
-  }
-
-  getFullDate(dateString) {
-    dateString = new Date(dateString);
+  getFullDate() {
+    let dateString = new Date(this.assetService.assets[this.assetIndex].LatestGPSInfo.End.replace('Z', '+05:30'));
     let date = "";
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    
+
     date += months[dateString.getMonth()] + " ";
     date += dateString.getDate() + ", ";
     date += dateString.getFullYear() + ", ";
-    date += dateString.getUTCHours() + ":";
-    date += dateString.getUTCMinutes() + " ";
-    date += dateString.getUTCHours() < 12 ? 'AM': 'PM';
+    date += dateString.getHours() < 10 ? "0" + dateString.getHours() + ":" : dateString.getHours() + ":";
+    date += dateString.getMinutes() < 10 ? "0" + dateString.getMinutes() + " ": dateString.getMinutes() + " ";
+    date += dateString.getHours() < 12 ? 'AM': 'PM';
 
-    return date;
+    this.date = date;
   }
 
   dismissModal() {

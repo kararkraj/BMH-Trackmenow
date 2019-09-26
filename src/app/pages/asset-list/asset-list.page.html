@@ -1,6 +1,6 @@
 <ion-content>
 	<ion-list class="ion-no-padding">
-		<ion-item lines="full" *ngFor="let asset of assetService.assets" [ngClass]="{'selected': asset.Selected, 'hidden': !asset.Visible}" (press)="asset.Selected = !asset.Selected; toggleSelectedAssets(asset.VehicleNumber)" (tap)="assetService.selectedAssets.length == 0 ? trackAsset(asset.VehicleNumber):''; asset.Selected = !asset.Selected; toggleSelectedAssets(asset.VehicleNumber);">
+		<ion-item lines="full" *ngFor="let asset of assetService.assets" [ngClass]="{'selected': asset.Selected, 'hidden': !asset.Visible}" (press)="asset.Selected = !asset.Selected; toggleSelectedAssets(asset.VehicleNumber)" (tap)="asset.Selected = !asset.Selected; assetService.multipleSelection ? toggleSelectedAssets(asset.VehicleNumber):trackAsset(asset.VehicleNumber);">
 			<span class="speed-badge color-white">
         <div>
           <ion-icon class="font-size-medium padding-top-4px" name="speedometer"></ion-icon>
@@ -36,19 +36,19 @@
 		</ion-item>
 	</ion-list>
 
-	<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="assetService.selectedAssets.length == 0">
+	<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!assetService.multipleSelection">
 		<ion-fab-button (click)="navigateTo('add-asset')" color="secondary" translucent>
 			<ion-icon name="add" class="color-white"></ion-icon>
 		</ion-fab-button>
 	</ion-fab>
-	<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="assetService.selectedAssets.length > 0"
+	<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="assetService.multipleSelection"
 		(click)="trackAssets()">
 		<ion-fab-button color="secondary" translucent>
 			<ion-icon name="eye" class="color-white"></ion-icon>
 		</ion-fab-button>
 	</ion-fab>
-	<ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="assetService.selectedAssets.length > 0"
-		(click)="deselectAssets()">
+	<ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="assetService.multipleSelection"
+		(click)="stopTrackingAssets()">
 		<ion-fab-button color="secondary" translucent>
 			<ion-icon name="close" class="color-white"></ion-icon>
 		</ion-fab-button>

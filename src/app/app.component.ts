@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, MenuController } from '@ionic/angular';
+import { Platform, NavController, MenuController, AlertController } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { AlertController } from '@ionic/angular';
+import { Network } from '@ionic-native/network/ngx';
 
 import { HttpService } from './services/http/http.service';
 import { AssetService } from './services/asset/asset.service';
@@ -15,6 +15,7 @@ import { environment } from './../environments/environment';
 })
 export class AppComponent {
 
+  private initiating: boolean;
   public appPages = [
     {
       title: 'MY PROFILE',
@@ -73,31 +74,49 @@ export class AppComponent {
     private assetService: AssetService,
     private splashScreen: SplashScreen,
     private nav: NavController,
-    private menu: MenuController
+    private menu: MenuController,
+    private network: Network
   ) {
     this.initializeApp();
+    this.checkNetwork();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+      if (this.network.type == "none") {
+        this.initiating = false;
+      } else {
+        this.initiating = true;
+      }
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#184F80');
       this.splashScreen.hide();
-      this.http.getAuthenticated().then((authToken) => {
-        if (authToken) {
-          this.http.setAuthenticated(authToken);
+      this.http.getAuthenticated().then((authenticated) => {
+        if (authenticated) {
           this.http.getUserDetails().subscribe((res) => {
             this.http.setUser(res[0]);
-            this.nav.navigateRoot('tabs').then(() => {
-              this.menu.enable(true);
-            });
+            this.menu.enable(true);
+            this.nav.navigateRoot('tabs');
           });
         } else {
-          this.nav.navigateRoot('login').then(() => {
-            this.menu.enable(true);
-          });
+          this.menu.enable(false);
+          this.nav.navigateRoot('login');
         }
       });
+    });
+  }
+
+  checkNetwork() {
+    this.network.onDisconnect().subscribe(() => {
+      this.http.toastHandler(environment.messages.networkIssues, "secondary", 0);
+    });
+    this.network.onConnect().subscribe(() => {
+      this.http.dismissToast();
+      if (!this.initiating) {
+        this.assetService.getAssets().then(() => {
+          this.assetService.updateAssets();
+        });
+      }
     });
   }
 
@@ -122,8 +141,8 @@ export class AppComponent {
             this.http.startLoading().then(() => {
               this.http.logout();
               this.assetService.resetAssets();
+              this.menu.enable(false);
               this.nav.navigateRoot('login').then(() => {
-                this.menu.enable(false);
                 this.http.stopLoading();
               });
             });

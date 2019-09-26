@@ -8,7 +8,7 @@
       </span>
 		</ion-col>
 		<ion-col align-self-center class="ion-text-center" size="8">
-			<ion-text class="font-size-normal" color="dark">{{asset.VehicleNumber}}</ion-text>
+			<ion-text class="font-size-normal" color="dark">{{assetService.assets[assetIndex].VehicleNumber}}</ion-text>
 		</ion-col>
 		<ion-col align-self-center class="ion-text-end" size="2">
 			<ion-icon name="ios-arrow-down" color="light" (click)="dismissModal()"></ion-icon>
@@ -18,20 +18,20 @@
 	<ion-row class="bordered ion-text-center padding-8px">
 		<ion-col align-self-center class="border-right" size="4">
 			<ion-icon class="font-size-large" color="secondary" name="speedometer"></ion-icon>
-			<ion-text class="custom-ion-text" color="dark">{{asset.LatestGPSInfo.Speed.toFixed(1)}} <span class="font-size-small">km/hr</span>
+			<ion-text class="custom-ion-text" color="dark">{{assetService.assets[assetIndex].LatestGPSInfo.Speed.toFixed(1)}} <span class="font-size-small">km/hr</span>
 			</ion-text>
 		</ion-col>
 		<ion-col align-self-center class="border-right" size="4">
 			<ion-icon class="font-size-large" color="secondary" src="./assets/baseline-local_gas_station-24px.svg">
 			</ion-icon>
-			<ion-text class="custom-ion-text" color="dark">{{asset.LatestGPSInfo.Fuel == null? '-': (asset.LatestGPSInfo.Fuel | number:'1.0-0') + ' Litre'}}</ion-text>
+			<ion-text class="custom-ion-text" color="dark">{{assetService.assets[assetIndex].LatestGPSInfo.Fuel == null? '-': (assetService.assets[assetIndex].LatestGPSInfo.Fuel | number:'1.0-0') + ' Litre'}}</ion-text>
 		</ion-col>
 		<ion-col align-self-stretch size="4">
 			<ion-icon class="verticle-align-middle engine-on font-size-normal color-white" name="power"
-				*ngIf="asset.LatestGPSInfo.Ignition === '1'">
+				*ngIf="assetService.assets[assetIndex].LatestGPSInfo.Ignition === '1'">
 			</ion-icon>
 			<ion-icon class="verticle-align-middle engine-off font-size-normal color-white" name="power"
-				*ngIf="asset.LatestGPSInfo.Ignition === '0'">
+				*ngIf="assetService.assets[assetIndex].LatestGPSInfo.Ignition === '0'">
 			</ion-icon>
 			<span class="verticle-align-middle color-dark padding-start">Engine</span>
 		</ion-col>
@@ -41,7 +41,7 @@
       <ion-text class="font-size-small" color="dark">Last Received On</ion-text>
       <div>
         <ion-icon class="font-size-medium" name="timer" color="secondary"></ion-icon>
-        <ion-text class="custom-ion-text font-size-normal" color="dark">{{getFullDate(asset.LatestGPSInfo.End)}}</ion-text>
+        <ion-text class="custom-ion-text font-size-normal" color="dark">{{date}}</ion-text>
       </div>
     </ion-col>
   </ion-row>

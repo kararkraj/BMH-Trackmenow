@@ -94,8 +94,8 @@
       "call-number": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

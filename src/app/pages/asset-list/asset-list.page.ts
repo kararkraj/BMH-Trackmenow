@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { AssetService } from './../../services/asset/asset.service';
 import { HttpService } from './../../services/http/http.service';
@@ -14,29 +14,34 @@ declare var google;
 })
 export class AssetListPage {
 
+    public multipleSelection: boolean = false;
+
     constructor(
         public assetService: AssetService,
         private http: HttpService,
-        private router: Router
+        private router: Router,
+        private activatedRoute: ActivatedRoute
     ) { }
 
     ngOnInit() {
         this.http.startLoading().then(() => {
-            this.assetService.getAssets().then(() =>{
+            this.assetService.getAssets().then(() => {
                 this.assetService.updateAssets();
                 this.http.stopLoading();
             });
         });
+        this.activatedRoute.params.subscribe(() => {
+            this.assetService.setMultipleSelection();
+        });
     }
 
     trackAssets() {
-        // this.router.navigate(['tabs/tabs/asset-map', {assetNumber: 'multipleAssets'}]);
-        this.router.navigate(['/tabs/asset-map'], { queryParams: {assetNumber: 'multipleAssets'}, skipLocationChange: true });
+        this.router.navigate(['/tabs/asset-map'], { queryParams: { assetNumber: 'multipleAssets' }, skipLocationChange: true });
     }
 
     trackAsset(assetNumber) {
-        // this.router.navigate(['tabs/tabs/asset-map', {assetNumber: assetNumber}]);
-        this.router.navigate(['/tabs/asset-map'], {  queryParams: {assetNumber: assetNumber}, skipLocationChange: true });
+        this.assetService.deselectAsset(assetNumber);
+        this.router.navigate(['/tabs/asset-map'], { queryParams: { assetNumber: assetNumber }, skipLocationChange: true });
     }
 
     deselectAssets() {
@@ -52,11 +57,12 @@ export class AssetListPage {
     }
 
     toggleSelectedAssets(assetNumber) {
-        if (this.assetService.selectedAssets.includes(assetNumber)) {
-            this.assetService.selectedAssets.splice(this.assetService.selectedAssets.indexOf(assetNumber), 1);
-        } else {
-            this.assetService.selectedAssets.push(assetNumber);
-        }
+        this.assetService.toggleSelectedAssets(assetNumber);
+        this.assetService.setMultipleSelection();
     }
 
+    stopTrackingAssets() {
+        this.assetService.stopTrackingAssets();
+        this.assetService.setMultipleSelection();
+    }
 }

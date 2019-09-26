@@ -18,19 +18,20 @@ export class LoginPage {
     private http: HttpService,
     private nav: NavController,
     private menu: MenuController
-  ) {}
+  ) { }
 
   login() {
     this.http.startLoading().then(() => {
       this.http.login(this.user).subscribe((res) => {
-        this.http.setAuthenticated(res["token"]);
+        this.http.setAuthenticated(res["token"]).then(() => {
           this.http.getUserDetails().subscribe((res) => {
             this.http.setUser(res[0]);
             this.nav.navigateRoot('tabs').then(() => {
-              this.menu.enable(true); 
+              this.menu.enable(true);
             });
             this.http.stopLoading();
           });
+        });
       }, (error) => {
         this.http.stopLoading();
         this.http.toastHandler(this.http.errorHandle(error), "secondary");

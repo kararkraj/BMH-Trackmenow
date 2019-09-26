@@ -1,6 +1,6 @@
 <ion-content>
 	<div #mapElement class="map-canvas"></div>
-	<ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="assetService.selectedAssets.length > 1"
+	<ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="assetService.multipleSelection"
 		(click)="stopTrackingAssets()">
 		<ion-fab-button color="secondary" translucent>
 			<ion-icon name="close" class="color-white"></ion-icon>
