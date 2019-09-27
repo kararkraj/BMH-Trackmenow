@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
+import { Network, Connection } from '@ionic-native/network/ngx';
 
 import { catchError } from 'rxjs/operators';
 
@@ -34,7 +35,8 @@ export class HttpService {
     private http: HttpClient,
     private storage: Storage,
     private loader: LoadingController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private network: Network
   ) { }
 
   setAuthenticated(authToken) {
@@ -196,13 +198,18 @@ export class HttpService {
         break;
       case 0:
         message = environment.messages.networkIssues;
+        this.toastHandler(message, "secondary", 10000);
         break;
       default:
         message = environment.messages.somethingWrong;
         this.toastHandler(message, "secondary");
     }
-    this.stopLoading();
-    return message;
+    this.loader.getTop().then((loader) => {
+      if (loader) {
+        loader.dismiss();
+      }
+    });
+    return [];
   }
 
   async startLoading() {
@@ -219,23 +226,19 @@ export class HttpService {
   }
 
   async toastHandler(message, color, duration?) {
-    this.toastCtrl.getTop().then(async (toast) => {
-      if (toast) {
-        toast.dismiss();
-      } else {
-        let toast = await this.toastCtrl.create({
-          message: message,
-          duration: duration ? duration : (duration == 0 ? 0 : 2000),
-          color: color,
-          keyboardClose: true
-        });
-        return toast.present();
-      }
+    this.dismissToast().then(async () => {
+      let toast = await this.toastCtrl.create({
+        message: message,
+        duration: duration ? duration : (duration == 0 ? 0 : 2000),
+        color: color,
+        keyboardClose: true
+      });
+      return toast.present();
     });
   }
 
   dismissToast() {
-    this.toastCtrl.getTop().then((toast) => {
+    return this.toastCtrl.getTop().then((toast) => {
       if (toast) {
         toast.dismiss();
       }

@@ -23,6 +23,9 @@ export class AssetDetailsComponent implements OnInit {
   ngOnInit() {
     this.assetIndex = this.assetService.getAssetIndex(this.assetNumber);
     this.getFullDate();
+    document.addEventListener('backbutton', () => {
+      this.dismissModal();
+    }, false);
   }
 
   getFullDate() {
@@ -34,16 +37,14 @@ export class AssetDetailsComponent implements OnInit {
     date += dateString.getDate() + ", ";
     date += dateString.getFullYear() + ", ";
     date += dateString.getHours() < 10 ? "0" + dateString.getHours() + ":" : dateString.getHours() + ":";
-    date += dateString.getMinutes() < 10 ? "0" + dateString.getMinutes() + " ": dateString.getMinutes() + " ";
-    date += dateString.getHours() < 12 ? 'AM': 'PM';
+    date += dateString.getMinutes() < 10 ? "0" + dateString.getMinutes() + " " : dateString.getMinutes() + " ";
+    date += dateString.getHours() < 12 ? 'AM' : 'PM';
 
     this.date = date;
   }
 
   dismissModal() {
-    this.modalController.dismiss({
-      'dismissed': true
-    });
+    this.modalController.dismiss();
   }
 
 }

@@ -37,6 +37,7 @@ export class AssetService {
   getAssets() {
     return new Promise((resolve) => {
       this.httpService.getAssets().subscribe((assets: Asset[]) => {
+        console.log(assets);
         assets = assets.filter((asset) => {
           return asset.LatestGPSInfo !== null;
         });

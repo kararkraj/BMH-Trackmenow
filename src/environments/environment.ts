@@ -23,6 +23,8 @@ export const environment = {
   messages: {
     credentialsMismatch: "Please enter valid credentials.",
     networkIssues: "Please check your internet connectivity.",
+    networkIssuesOnStart: "Please check your internet connectivity and restart the application.",
+    dataLoading: "Data is loading. Please wait...",
     somethingWrong: "Something went wrong. Please try again after some time.",
     reportDataUnavailable: "The noun data of the vehicle is unavailable in the selected date range.",
     noDevices: "There are no new devices to add.",

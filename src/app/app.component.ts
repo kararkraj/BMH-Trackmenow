@@ -15,7 +15,6 @@ import { environment } from './../environments/environment';
 })
 export class AppComponent {
 
-  private initiating: boolean;
   public appPages = [
     {
       title: 'MY PROFILE',
@@ -78,30 +77,18 @@ export class AppComponent {
     private network: Network
   ) {
     this.initializeApp();
-    this.checkNetwork();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      if (this.network.type == "none") {
-        this.initiating = false;
-      } else {
-        this.initiating = true;
-      }
-      this.statusBar.overlaysWebView(false);
-      this.statusBar.backgroundColorByHexString('#184F80');
-      this.splashScreen.hide();
-      this.http.getAuthenticated().then((authenticated) => {
-        if (authenticated) {
-          this.http.getUserDetails().subscribe((res) => {
-            this.http.setUser(res[0]);
-            this.menu.enable(true);
-            this.nav.navigateRoot('tabs');
-          });
-        } else {
-          this.menu.enable(false);
-          this.nav.navigateRoot('login');
-        }
+      this.loadData().then(() => {
+        this.checkNetwork();
+        this.statusBar.overlaysWebView(false);
+        this.statusBar.backgroundColorByHexString('#184F80');
+        this.splashScreen.hide();
+        // if (this.network.type == "none") {
+        //   this.http.toastHandler(environment.messages.networkIssues, "secondary", 0);
+        // }
       });
     });
   }
@@ -111,13 +98,38 @@ export class AppComponent {
       this.http.toastHandler(environment.messages.networkIssues, "secondary", 0);
     });
     this.network.onConnect().subscribe(() => {
-      this.http.dismissToast();
-      if (!this.initiating) {
-        this.assetService.getAssets().then(() => {
-          this.assetService.updateAssets();
+      this.http.dismissToast().then(() => {
+        if (!this.assetService.assets && this.http.isAuthenticated()) {
+          this.http.toastHandler(environment.messages.dataLoading, "secondary");
+          this.loadData();
+          this.assetService.getAssets().then(() => {
+            this.assetService.updateAssets();
+          });
+        }
+      });
+    });
+  }
+
+  loadData() {
+    return this.http.getAuthenticated().then((authenticated) => {
+      if (authenticated) {
+        this.http.getUserDetails().subscribe((res) => {
+          this.http.setUser(res[0]);
         });
+        this.toggleMenu(true);
+        this.setNavigation("tabs");
+      } else {
+        this.setNavigation("login");
       }
     });
+  }
+
+  setNavigation(navigation: string) {
+    this.nav.navigateRoot(navigation);
+  }
+
+  toggleMenu(state: boolean) {
+    this.menu.enable(state);
   }
 
   toggleSubPages() {
@@ -141,7 +153,7 @@ export class AppComponent {
             this.http.startLoading().then(() => {
               this.http.logout();
               this.assetService.resetAssets();
-              this.menu.enable(false);
+              this.toggleMenu(false);
               this.nav.navigateRoot('login').then(() => {
                 this.http.stopLoading();
               });
