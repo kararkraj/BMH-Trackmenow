@@ -86,9 +86,6 @@ export class AppComponent {
         this.statusBar.overlaysWebView(false);
         this.statusBar.backgroundColorByHexString('#184F80');
         this.splashScreen.hide();
-        // if (this.network.type == "none") {
-        //   this.http.toastHandler(environment.messages.networkIssues, "secondary", 0);
-        // }
       });
     });
   }
