@@ -7,8 +7,6 @@ import { HttpService } from './../../services/http/http.service';
 
 import { AssetDetailsComponent } from './../../components/asset-details/asset-details.component';
 
-declare let google;
-
 @Component({
   selector: 'app-asset-map',
   templateUrl: './asset-map.page.html',
@@ -31,7 +29,6 @@ export class AssetMapPage {
     this.http.startLoading().then(() => {
       this.assetService.initMap(this.mapNativeElement).then(() => {
         this.addAssetClickEvents();
-        this.assetService.fitMapBounds();
         this.http.stopLoading();
         this.routerSubscription = this.activatedRoute.queryParams.subscribe((params) => {
           if (params.assetNumber === "multipleAssets") {

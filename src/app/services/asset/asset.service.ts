@@ -24,6 +24,8 @@ export class AssetService {
   public selectedAssetMarker;
   private checkNetworkConnectivity;
 
+  private static BOUNDS_INDIA = new google.maps.LatLngBounds(new google.maps.LatLng(23.63936, 68.14712), new google.maps.LatLng(28.20453, 97.34466));
+
   constructor(
     private httpService: HttpService
   ) {}
@@ -151,17 +153,21 @@ export class AssetService {
   }
 
   async initMap(element) {
+    let india = {lat: 20.5937, lng: 78.9629};
     this.map = await new google.maps.Map(element.nativeElement, {
+      center: india,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
-    this.setShowAllAssetsControl();
-    this.addMapAssets();
+    // this.setShowAllAssetsControl();
+    if (this.assets.length < 61) {
+      this.addMapAssets();
+    }
   }
 
   addMapAssets() {
     this.markers.forEach((marker) => {
       marker.setMap(this.map);
-    })
+    });
   }
 
   generateAssetMarkers() {
@@ -174,7 +180,7 @@ export class AssetService {
 
       const marker = new google.maps.Marker({
         position: { lat: asset.LatestGPSInfo.Latitude, lng: asset.LatestGPSInfo.Longitude },
-        map: this.map,
+        map: null,
         icon: icon,
         title: asset.VehicleNumber,
         visible: true
@@ -202,6 +208,7 @@ export class AssetService {
           anchor: new google.maps.Point(30, 30)
         };
         marker.setIcon(icon);
+        marker.setPosition({ lat: asset.LatestGPSInfo.Latitude, lng: asset.LatestGPSInfo.Longitude });
 
         // const latOffset = (asset.LatestGPSInfo.Latitude - marker.getPosition().lat()) / 100;
         // const lngOffset = (asset.LatestGPSInfo.Longitude - marker.getPosition().lng()) / 100;
@@ -275,14 +282,15 @@ export class AssetService {
   stopTrackingAssets() {
     this.deselectAssets();
     this.markers.forEach((marker) => {
-      if (!marker.getMap()) {
-        marker.setMap(this.map);
+      if (marker.getMap()) {
+        marker.setMap(null);
       }
     });
   }
 
   trackAsset(assetNumber) {
     this.selectedAssetMarker = this.markers.find((marker) => {
+      marker.setMap(this.map);
       return marker.title == assetNumber;
     });
     // google.maps.event.addListener(this.selectedAssetMarker, 'position_changed', () => {
@@ -292,7 +300,13 @@ export class AssetService {
 
   stopTrackingAsset() {
     // google.maps.event.clearListeners(this.selectedAssetMarker, 'position_changed');
-    this.selectedAssetMarker = null;
+    this.markers.find((marker) => {
+      if (marker.title == this.selectedAssetMarker) {
+        marker.setMap(this.map);
+        this.selectedAssetMarker = null;
+        return true;
+      }
+    });
   }
 
   fitMapBounds(position?) {
@@ -307,37 +321,41 @@ export class AssetService {
         }
       });
     }
-    this.map.fitBounds(mapBounds);
+    if(mapBounds) {
+      this.map.fitBounds(mapBounds);
+    } else {
+      this.map.fitBounds(AssetService.BOUNDS_INDIA);
+    }
   }
 
-  setShowAllAssetsControl() {
-    let controlUI = document.createElement('div');
-    controlUI.style.backgroundColor = '#fff';
-    controlUI.style.border = '2px solid #fff';
-    controlUI.style.borderRadius = '3px';
-    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-    controlUI.style.cursor = 'pointer';
-    controlUI.style.margin = '10px';
-    controlUI.style.textAlign = 'center';
-    controlUI.title = 'Reset map view';
+  // setShowAllAssetsControl() {
+  //   let controlUI = document.createElement('div');
+  //   controlUI.style.backgroundColor = '#fff';
+  //   controlUI.style.border = '2px solid #fff';
+  //   controlUI.style.borderRadius = '3px';
+  //   controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+  //   controlUI.style.cursor = 'pointer';
+  //   controlUI.style.margin = '10px';
+  //   controlUI.style.textAlign = 'center';
+  //   controlUI.title = 'Reset map view';
 
-    let controlDiv = document.createElement('div')
-    controlDiv.appendChild(controlUI);
+  //   let controlDiv = document.createElement('div')
+  //   controlDiv.appendChild(controlUI);
 
-    let controlText = document.createElement('div');
-    controlText.style.color = 'rgb(25,25,25)';
-    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-    controlText.style.fontSize = '16px';
-    controlText.style.lineHeight = '38px';
-    controlText.style.paddingLeft = '5px';
-    controlText.style.paddingRight = '5px';
-    controlText.innerHTML = 'Show All Vehicles';
-    controlUI.appendChild(controlText);
+  //   let controlText = document.createElement('div');
+  //   controlText.style.color = 'rgb(25,25,25)';
+  //   controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+  //   controlText.style.fontSize = '16px';
+  //   controlText.style.lineHeight = '38px';
+  //   controlText.style.paddingLeft = '5px';
+  //   controlText.style.paddingRight = '5px';
+  //   controlText.innerHTML = 'Show All Vehicles';
+  //   controlUI.appendChild(controlText);
 
-    this.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
-    controlUI.addEventListener('click', () => {
-      this.fitMapBounds();
-    });
-  }
+  //   this.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+  //   controlUI.addEventListener('click', () => {
+  //     this.fitMapBounds();
+  //   });
+  // }
 
 }
